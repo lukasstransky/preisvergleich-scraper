@@ -9,21 +9,20 @@ def main():
 
     results = scrape_billa()
 
+    all_products = []
     total = 0
-    example = None
 
     for category, products in results.items():
         count = len(products)
         total += count
+        all_products.extend(products)
         print(f"{category}: {count} products")
-        if example is None and products:
-            example = products[0]
 
     print(f"\nTotal: {total} products")
 
-    if example:
-        print("\nExample product:")
-        print(json.dumps(example, indent=2, ensure_ascii=False))
+    with open("output.json", "w", encoding="utf-8") as f:
+        json.dump(all_products, f, ensure_ascii=False, indent=2)
+    print(f"Saved {len(all_products)} products to output.json")
 
     elapsed = time.time() - start_time
     if elapsed < 60:

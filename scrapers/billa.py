@@ -32,15 +32,22 @@ DELAY = 0.5
 def _parse_product(product):
     """Parse a single product dict. Returns None if required fields are missing."""
     try:
-        price_data = product["price"]["regular"]
+        price_info = product["price"]
+        price_data = price_info["regular"]
+        sku = product.get("sku")
+        crossed = price_info.get("crossed")
+        per_qty = price_data.get("perStandardizedQuantity")
         return {
+            "id": f"billa_{sku}",
             "name": product.get("name"),
             "price": price_data["value"] / 100,
-            "unitPrice": price_data.get("perStandardizedQuantity", 0) / 100 if price_data.get("perStandardizedQuantity") is not None else None,
-            "unitLabel": product.get("price", {}).get("baseUnitShort"),
+            "originalPrice": crossed / 100 if crossed is not None else None,
+            "promotionText": price_data.get("promotionText", None),
+            "unitPrice": per_qty / 100 if per_qty is not None else None,
+            "unitLabel": price_info.get("baseUnitShort"),
             "category": product.get("category"),
             "brand": product.get("brand", {}).get("name") if product.get("brand") else None,
-            "sku": product.get("sku"),
+            "sku": sku,
             "inPromotion": product.get("inPromotion", False),
             "imageUrl": product["images"][0] if product.get("images") else None,
             "supermarket": "billa",
