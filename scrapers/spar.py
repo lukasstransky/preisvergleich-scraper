@@ -1,6 +1,9 @@
+import os
 import re
 import time
 from playwright.sync_api import sync_playwright
+
+SCREENSHOT_DIR = "screenshots"
 
 BASE_URL = "https://www.spar.at/produktwelt/{category}?page={page}"
 
@@ -99,6 +102,17 @@ def _parse_tile(tile, category):
     }
 
 
+def _take_screenshot(page_obj, category, page_num, label):
+    """Save a screenshot to SCREENSHOT_DIR for debugging CI failures."""
+    os.makedirs(SCREENSHOT_DIR, exist_ok=True)
+    filename = os.path.join(SCREENSHOT_DIR, f"spar_{category}_p{page_num}_{label}.png")
+    try:
+        page_obj.screenshot(path=filename, full_page=True)
+        print(f"Screenshot saved: {filename}")
+    except Exception as e:
+        print(f"Failed to save screenshot: {e}")
+
+
 def _get_total_pages(page):
     """Extract total pages from 'div.pagination__text' e.g. '1 von 11' → 11."""
     pagination = page.query_selector("div.pagination__text")
@@ -140,6 +154,7 @@ def _scrape_category(browser, category):
                             print(f"  Retry {attempt + 1}/{max_retries} for page {page_num} (waiting {wait_time}s)...")
                             time.sleep(wait_time)
                         else:
+                            _take_screenshot(page_obj, category, page_num, "retry_exhausted")
                             raise
 
             tiles = page_obj.query_selector_all("article.product-tile")
@@ -152,6 +167,9 @@ def _scrape_category(browser, category):
             if page_num < total_pages:
                 page_obj.wait_for_timeout(2000)
 
+    except Exception:
+        _take_screenshot(page_obj, category, 0, "failure")
+        raise
     finally:
         context.close()
 
