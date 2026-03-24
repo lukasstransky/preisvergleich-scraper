@@ -1,11 +1,14 @@
+import json
 import os
 import re
 import time
+from datetime import date
 from playwright.sync_api import sync_playwright
 
 SCREENSHOT_DIR = "screenshots"
 
 BASE_URL = "https://www.hofer.at/de/sortiment/produktsortiment/{category}.html"
+OFFERS_URL = "https://www.hofer.at/de/angebote.html"
 
 CATEGORIES = [
     "brot-und-backwaren",
@@ -106,7 +109,7 @@ def _parse_tile(tile, category):
 
     price = None
     if price_el:
-        price_text = price_el.inner_text().strip().replace("€", "").replace(",", ".").strip()
+        price_text = price_el.inner_text().strip().replace("€", "").replace(".", "").replace(",", ".").strip()
         try:
             price = float(re.sub(r"[^\d.]", "", price_text))
         except ValueError:
@@ -114,7 +117,7 @@ def _parse_tile(tile, category):
 
     original_price = None
     if original_price_el:
-        op_text = original_price_el.inner_text().strip().replace("€", "").replace(",", ".").strip()
+        op_text = original_price_el.inner_text().strip().replace("€", "").replace(".", "").replace(",", ".").strip()
         try:
             original_price = float(re.sub(r"[^\d.]", "", op_text))
         except ValueError:
@@ -227,6 +230,97 @@ def _scrape_category(browser, category):
     return products
 
 
+def _get_offer_date_links(page_obj):
+    """Extract date-based offer links from the offers page, filtered to today or earlier."""
+    today = date.today()
+    links = page_obj.query_selector_all("a[href*='/de/angebote/d.']")
+    valid_urls = []
+    seen = set()
+
+    for link in links:
+        href = link.get_attribute("href") or ""
+        # Extract date from URL pattern like /de/angebote/d.23-03-2026.html
+        match = re.search(r"/d\.(\d{2})-(\d{2})-(\d{4})\.html", href)
+        if not match:
+            continue
+
+        day, month, year = int(match.group(1)), int(match.group(2)), int(match.group(3))
+        offer_date = date(year, month, day)
+
+        if offer_date <= today and href not in seen:
+            full_url = href if href.startswith("http") else f"https://www.hofer.at{href}"
+            valid_urls.append((offer_date, full_url))
+            seen.add(href)
+
+    # Sort by date descending (newest first)
+    valid_urls.sort(key=lambda x: x[0], reverse=True)
+    print(f"  Found {len(valid_urls)} current/past offer dates (skipped future)")
+    for d, url in valid_urls:
+        print(f"    {d.strftime('%d.%m.%Y')}: {url}")
+    return valid_urls
+
+
+def _scrape_offer_page(browser, offer_date, url):
+    """Scrape all products from a single offer date page."""
+    context = browser.new_context(user_agent=USER_AGENT)
+    page_obj = context.new_page()
+    products = []
+
+    try:
+        page_obj.goto(url, wait_until="domcontentloaded", timeout=30000)
+        page_obj.wait_for_selector("div.plp_product[data-productid]", timeout=30000)
+
+        _dismiss_cookie_banner(page_obj)
+        _click_show_more(page_obj)
+
+        tiles = page_obj.query_selector_all("div.plp_product[data-productid]")
+        date_label = offer_date.strftime("%d.%m.%Y")
+        for tile in tiles:
+            product = _parse_tile(tile, "angebote")
+            product["inPromotion"] = True
+            product["promotionText"] = f"ab {date_label}"
+            products.append(product)
+
+        print(f"hofer offers {date_label}: {len(products)} products")
+
+    except Exception as e:
+        label = offer_date.strftime("%Y%m%d")
+        _take_screenshot(page_obj, f"offers_{label}", "failure")
+        print(f"Error scraping offers for {offer_date}: {e}")
+    finally:
+        context.close()
+
+    return products
+
+
+def _scrape_offers(browser):
+    """Scrape all current offer date pages and return a flat list of product dicts."""
+    context = browser.new_context(user_agent=USER_AGENT)
+    page_obj = context.new_page()
+    offer_links = []
+
+    try:
+        page_obj.goto(OFFERS_URL, wait_until="domcontentloaded", timeout=30000)
+        page_obj.wait_for_timeout(2000)
+        _dismiss_cookie_banner(page_obj)
+        offer_links = _get_offer_date_links(page_obj)
+    except Exception as e:
+        print(f"Error loading offers page: {e}")
+    finally:
+        context.close()
+
+    all_offer_products = []
+    for idx, (offer_date, url) in enumerate(offer_links):
+        products = _scrape_offer_page(browser, offer_date, url)
+        all_offer_products.extend(products)
+
+        if idx < len(offer_links) - 1:
+            print("Waiting 3s before next offer page...")
+            time.sleep(3)
+
+    return all_offer_products
+
+
 def scrape_hofer():
     """Scrape all categories and return a flat list of product dicts."""
     all_products = []
@@ -244,6 +338,15 @@ def scrape_hofer():
                         time.sleep(3)
                 except Exception as e:
                     print(f"Error scraping category '{category}': {e}")
+
+            # Scrape offers (date-based promotion pages)
+            print("\nScraping Hofer offers...")
+            try:
+                offer_products = _scrape_offers(browser)
+                all_products.extend(offer_products)
+                print(f"hofer offers total: {len(offer_products)} products")
+            except Exception as e:
+                print(f"Error scraping offers: {e}")
         finally:
             browser.close()
 
@@ -259,4 +362,9 @@ def scrape_hofer():
         unique_products.append(product)
 
     print(f"hofer total: {len(unique_products)} products ({len(all_products) - len(unique_products)} duplicates removed)")
+    
+    with open("hofer.json", "w", encoding="utf-8") as f:
+        json.dump(unique_products, f, ensure_ascii=False, indent=2)
+    print(f"Saved {len(unique_products)} products to hofer.json")
+    
     return unique_products

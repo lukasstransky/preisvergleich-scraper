@@ -1,3 +1,4 @@
+import json
 import requests
 import time
 
@@ -94,15 +95,21 @@ def _scrape_category(category):
 
 
 def scrape_billa():
-    """Scrape all categories and return a dict mapping category → list of products."""
-    results = {}
+    """Scrape all categories and write products to billa.json."""
+    all_products = []
 
     for category in CATEGORIES:
         try:
             products = _scrape_category(category)
-            results[category] = products
+            all_products.extend(products)
+            print(f"billa {category}: {len(products)} products")
         except Exception as e:
             print(f"Error scraping category '{category}': {e}")
-            results[category] = []
 
-    return results
+    print(f"billa total: {len(all_products)} products")
+    
+    with open("billa.json", "w", encoding="utf-8") as f:
+        json.dump(all_products, f, ensure_ascii=False, indent=2)
+    print(f"Saved {len(all_products)} products to billa.json")
+
+    return all_products

@@ -1,3 +1,4 @@
+import json
 import os
 import re
 import time
@@ -133,8 +134,8 @@ def _scrape_category(browser, category):
 
     try:
         url = BASE_URL.format(category=category, page=1)
-        page_obj.goto(url, wait_until="domcontentloaded", timeout=30000)
-        page_obj.wait_for_selector("div.spar-plp__grid", timeout=30000)
+        page_obj.goto(url, wait_until="domcontentloaded", timeout=20000)
+        page_obj.wait_for_selector("div.spar-plp__grid", timeout=15000)
 
         total_pages = _get_total_pages(page_obj)
 
@@ -142,15 +143,15 @@ def _scrape_category(browser, category):
             if page_num > 1:
                 url = BASE_URL.format(category=category, page=page_num)
                 
-                max_retries = 3
+                max_retries = 2
                 for attempt in range(max_retries):
                     try:
-                        page_obj.goto(url, wait_until="domcontentloaded", timeout=30000)
-                        page_obj.wait_for_selector("div.spar-plp__grid", timeout=30000)
+                        page_obj.goto(url, wait_until="domcontentloaded", timeout=20000)
+                        page_obj.wait_for_selector("div.spar-plp__grid", timeout=15000)
                         break
                     except Exception as e:
                         if attempt < max_retries - 1:
-                            wait_time = (attempt + 1) * 2
+                            wait_time = 1
                             print(f"  Retry {attempt + 1}/{max_retries} for page {page_num} (waiting {wait_time}s)...")
                             time.sleep(wait_time)
                         else:
@@ -164,9 +165,6 @@ def _scrape_category(browser, category):
 
             print(f"spar {category} page {page_num}/{total_pages}: {len(tiles)} products")
 
-            if page_num < total_pages:
-                page_obj.wait_for_timeout(2000)
-
     except Exception:
         _take_screenshot(page_obj, category, 0, "failure")
         raise
@@ -178,7 +176,7 @@ def _scrape_category(browser, category):
 
 
 def scrape_spar():
-    """Scrape all categories and return a flat list of product dicts."""
+    """Scrape all categories and write products to spar.json."""
     all_products = []
 
     with sync_playwright() as p:
@@ -190,11 +188,15 @@ def scrape_spar():
                     all_products.extend(products)
                     
                     if idx < len(CATEGORIES) - 1:
-                        print("Waiting 3s before next category...")
-                        time.sleep(3)
+                        print("Waiting 1s before next category...")
+                        time.sleep(1)
                 except Exception as e:
                     print(f"Error scraping category '{category}': {e}")
         finally:
             browser.close()
+
+    with open("spar.json", "w", encoding="utf-8") as f:
+        json.dump(all_products, f, ensure_ascii=False, indent=2)
+    print(f"Saved {len(all_products)} products to spar.json")
 
     return all_products
