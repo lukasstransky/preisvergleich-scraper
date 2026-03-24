@@ -2,6 +2,7 @@ import json
 import time
 from scrapers.billa import scrape_billa
 from scrapers.spar import scrape_spar
+from scrapers.hofer import scrape_hofer
 
 
 def main():
@@ -18,10 +19,15 @@ def main():
     #     print(f"{category}: {count} products")
     # print(f"Billa total: {billa_total} products\n")
 
-    print("Starting Spar scraper...")
-    spar_products = scrape_spar()
-    all_products.extend(spar_products)
-    print(f"Spar total: {len(spar_products)} products\n")
+    # print("Starting Spar scraper...")
+    # spar_products = scrape_spar()
+    # all_products.extend(spar_products)
+    # print(f"Spar total: {len(spar_products)} products\n")
+
+    print("Starting Hofer scraper...")
+    hofer_products = scrape_hofer()
+    all_products.extend(hofer_products)
+    print(f"Hofer total: {len(hofer_products)} products\n")
 
     print(f"Combined total: {len(all_products)} products")
 
