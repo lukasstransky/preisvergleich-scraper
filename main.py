@@ -3,13 +3,14 @@ import time
 from scrapers.billa import scrape_billa
 from scrapers.spar import scrape_spar
 from scrapers.hofer import scrape_hofer
+from scrapers.penny import scrape_penny
 
 
 def main():
     start_time = time.time()
 
     print("Starting Billa scraper...")
-    #scrape_billa()
+    scrape_billa()
     print()
 
     print("Starting Spar scraper...")
@@ -17,7 +18,11 @@ def main():
     print()
 
     print("Starting Hofer scraper...")
-    #scrape_hofer()
+    scrape_hofer()
+    print()
+
+    print("Starting Penny scraper...")
+    scrape_penny()
     print()
 
     elapsed = time.time() - start_time
