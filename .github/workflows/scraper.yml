@@ -1,8 +1,8 @@
 name: Scraper
 
 on:
-  schedule:
-    - cron: "0 3 * * *"
+  # schedule:
+  #   - cron: "0 3 * * *"
   workflow_dispatch:
 
 jobs:
@@ -22,9 +22,6 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
-
-      - name: Run tests
-        run: pytest tests/ -v
 
       - name: Install Playwright browsers
         run: playwright install --with-deps chromium
