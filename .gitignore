@@ -39,3 +39,4 @@ Thumbs.db
 # Project specific
 screenshots/
 *.json
+firebase-key.json

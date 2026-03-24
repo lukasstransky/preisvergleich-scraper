@@ -1,6 +1,7 @@
 name: Scraper
 
 on:
+  # doesn't work for scraping in the CI
   # schedule:
   #   - cron: "0 3 * * *"
   workflow_dispatch:
