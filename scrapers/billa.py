@@ -27,7 +27,7 @@ HEADERS = {
 }
 
 PAGE_SIZE = 500
-DELAY = 0.5
+DELAY = 0
 
 
 def _parse_product(product):

@@ -16,7 +16,7 @@ CATEGORIES = [
     "getraenke",
     "kuehlung",
     "vorratsschrank",
-    "drogerie",
+    #"drogerie",
 ]
 
 USER_AGENT = (
@@ -174,19 +174,17 @@ def _click_show_more(page_obj):
         try:
             btn.scroll_into_view_if_needed()
             btn.click()
-            page_obj.wait_for_timeout(2000)
+            page_obj.wait_for_timeout(1000)
         except Exception:
             break
 
         after_count = len(page_obj.query_selector_all("div.plp_product[data-productid]"))
         if after_count <= before_count:
             # Give it one more chance
-            page_obj.wait_for_timeout(2000)
+            page_obj.wait_for_timeout(1000)
             after_count = len(page_obj.query_selector_all("div.plp_product[data-productid]"))
             if after_count <= before_count:
                 break
-
-        print(f"  Loaded more products: {after_count} total")
 
 
 def _take_screenshot(page_obj, category, label):
@@ -314,9 +312,6 @@ def _scrape_offers(browser):
         products = _scrape_offer_page(browser, offer_date, url)
         all_offer_products.extend(products)
 
-        if idx < len(offer_links) - 1:
-            print("Waiting 3s before next offer page...")
-            time.sleep(3)
 
     return all_offer_products
 
@@ -328,14 +323,11 @@ def scrape_hofer():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         try:
-            for idx, category in enumerate(CATEGORIES):
+            for category in CATEGORIES:
                 try:
                     products = _scrape_category(browser, category)
                     all_products.extend(products)
 
-                    if idx < len(CATEGORIES) - 1:
-                        print("Waiting 3s before next category...")
-                        time.sleep(3)
                 except Exception as e:
                     print(f"Error scraping category '{category}': {e}")
 

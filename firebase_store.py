@@ -1,12 +1,21 @@
+"""Firebase Firestore integration.
+
+Uses diff-based sync (see ``firestore_sync.py``) with per-supermarket
+collections to minimise daily read/write quota usage.
+"""
+
 import json
 import os
 
 import firebase_admin
 from firebase_admin import credentials, firestore
-from google.cloud.firestore_v1.base_query import FieldFilter
 
-PRODUCTS_COLLECTION = "products"
-BATCH_SIZE = 500
+from firestore_sync import sync_products
+
+
+def _collection_name(supermarket: str) -> str:
+    """Map supermarket key to its Firestore collection name."""
+    return f"{supermarket}_products"
 
 
 def init_firebase():
@@ -35,73 +44,21 @@ def init_firebase():
     return firestore.client()
 
 
-def _delete_collection(db, supermarket):
-    """Delete all documents for a given supermarket from the products collection."""
-    docs = (
-        db.collection(PRODUCTS_COLLECTION)
-        .where(filter=FieldFilter("supermarket", "==", supermarket))
-        .stream()
-    )
-
-    batch = db.batch()
-    count = 0
-
-    for doc in docs:
-        batch.delete(doc.reference)
-        count += 1
-        if count % BATCH_SIZE == 0:
-            batch.commit()
-            batch = db.batch()
-
-    if count % BATCH_SIZE != 0:
-        batch.commit()
-
-    return count
-
-
 def upload_products(db, products, supermarket):
-    """Upload a list of product dicts to Firestore.
+    """Sync a list of product dicts to Firestore using diff-based updates.
 
-    1. Deletes all existing documents for the supermarket.
-    2. Writes all new products in batches.
+    Only writes new/changed products and deletes removed ones.
+    Each supermarket has its own collection (e.g. ``penny_products``).
     """
     if not db:
         return
 
-    if not products:
-        print(f"  No products to upload for {supermarket}")
-        return
-
-    # Delete stale products
-    deleted = _delete_collection(db, supermarket)
-    print(f"  Deleted {deleted} old {supermarket} documents")
-
-    # Batch write new products
-    batch = db.batch()
-    count = 0
-
-    for product in products:
-        doc_id = product.get("id")
-        if not doc_id:
-            continue
-
-        doc_ref = db.collection(PRODUCTS_COLLECTION).document(doc_id)
-        batch.set(doc_ref, product)
-        count += 1
-
-        if count % BATCH_SIZE == 0:
-            batch.commit()
-            batch = db.batch()
-            print(f"  Committed {count}/{len(products)} {supermarket} products...")
-
-    if count % BATCH_SIZE != 0:
-        batch.commit()
-
-    print(f"  Uploaded {count} {supermarket} products to Firestore")
+    collection = _collection_name(supermarket)
+    sync_products(db, products, collection)
 
 
 def upload_all(products_by_supermarket):
-    """Initialize Firebase and upload products for all supermarkets.
+    """Initialize Firebase and sync products for all supermarkets.
 
     Args:
         products_by_supermarket: dict mapping supermarket name to product list,
@@ -111,8 +68,10 @@ def upload_all(products_by_supermarket):
     if not db:
         return
 
+    total_ops = 0
     for supermarket, products in products_by_supermarket.items():
-        print(f"Uploading {supermarket} ({len(products)} products)...")
+        print(f"Syncing {supermarket} ({len(products)} products)…")
         upload_products(db, products, supermarket)
+        print()
 
-    print("Firebase upload complete.")
+    print("Firebase sync complete.")

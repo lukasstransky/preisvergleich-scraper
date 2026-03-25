@@ -1,8 +1,8 @@
+import asyncio
 import json
 import os
 import re
-import time
-from playwright.sync_api import sync_playwright
+from playwright.async_api import async_playwright
 
 SCREENSHOT_DIR = "screenshots"
 
@@ -18,11 +18,14 @@ CATEGORIES = [
     "backen-fruehstueck",
     "suesses-salziges",
     "schnelle-kueche-to-go",
-    "babynahrung",
+    #"babynahrung",
     "alkoholfreie-getraenke",
     "kaffee-tee-kakao",
     "alkoholische-getraenke",
 ]
+
+MAX_CONCURRENT = 2
+PAGE_RETRY_LIMIT = 5
 
 USER_AGENT = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
@@ -56,32 +59,32 @@ def _parse_unit_price_text(text):
     return price, unit
 
 
-def _parse_tile(tile, category):
+async def _parse_tile(tile, category):
     """Parse a single product-tile element into a product dict."""
-    brand_el = tile.query_selector("div.product-tile__name1")
-    name_el = tile.query_selector("div.product-tile__name2")
-    amount_el = tile.query_selector("div.product-tile__name3")
-    price_el = tile.query_selector("span.product-price__price")
-    unit_el = tile.query_selector('span[data-tosca="product-price-comparison-price"]')
-    img_el = tile.query_selector("img.adaptive-image__img")
+    brand_el = await tile.query_selector("div.product-tile__name1")
+    name_el = await tile.query_selector("div.product-tile__name2")
+    amount_el = await tile.query_selector("div.product-tile__name3")
+    price_el = await tile.query_selector("span.product-price__price")
+    unit_el = await tile.query_selector('span[data-tosca="product-price-comparison-price"]')
+    img_el = await tile.query_selector("img.adaptive-image__img")
 
-    brand = brand_el.inner_text().strip() if brand_el else ""
-    name = name_el.inner_text().strip() if name_el else ""
-    amount = amount_el.inner_text().strip() if amount_el else ""
+    brand = (await brand_el.inner_text()).strip() if brand_el else ""
+    name = (await name_el.inner_text()).strip() if name_el else ""
+    amount = (await amount_el.inner_text()).strip() if amount_el else ""
 
     price = None
     if price_el:
-        price_text = price_el.inner_text().strip().replace(",", ".")
+        price_text = (await price_el.inner_text()).strip().replace(",", ".")
         try:
             price = float(re.sub(r"[^\d.]", "", price_text))
         except ValueError:
             price = None
 
     unit_price, unit_label = _parse_unit_price_text(
-        unit_el.inner_text().strip() if unit_el else None
+        (await unit_el.inner_text()).strip() if unit_el else None
     )
 
-    image_url = img_el.get_attribute("src") if img_el else None
+    image_url = await img_el.get_attribute("src") if img_el else None
     sku = _extract_sku(image_url)
     product_id = f"spar_{sku}" if sku else None
 
@@ -103,100 +106,140 @@ def _parse_tile(tile, category):
     }
 
 
-def _take_screenshot(page_obj, category, page_num, label):
+async def _dismiss_cookie_banner(page_obj):
+    """Try to dismiss consentmanager cookie banner (renders in Shadow DOM)."""
+    try:
+        btn = page_obj.locator("a.cmpboxbtnyes").first
+        await btn.wait_for(state="visible", timeout=5000)
+        await btn.click()
+        await page_obj.wait_for_timeout(500)
+    except Exception:
+        pass
+
+
+async def _take_screenshot(page_obj, category, page_num, label):
     """Save a screenshot to SCREENSHOT_DIR for debugging CI failures."""
     os.makedirs(SCREENSHOT_DIR, exist_ok=True)
     filename = os.path.join(SCREENSHOT_DIR, f"spar_{category}_p{page_num}_{label}.png")
     try:
-        page_obj.screenshot(path=filename, full_page=True)
+        await page_obj.screenshot(path=filename, full_page=True)
         print(f"Screenshot saved: {filename}")
     except Exception as e:
         print(f"Failed to save screenshot: {e}")
 
 
-def _get_total_pages(page):
+async def _get_total_pages(page):
     """Extract total pages from 'div.pagination__text' e.g. '1 von 11' → 11."""
-    pagination = page.query_selector("div.pagination__text")
+    pagination = await page.query_selector("div.pagination__text")
     if not pagination:
         return 1
-    text = pagination.inner_text().strip()
+    text = (await pagination.inner_text()).strip()
     match = re.search(r"(\d+)\s+von\s+(\d+)", text)
     if not match:
         return 1
     return int(match.group(2))
 
 
-def _scrape_category(browser, category):
-    """Scrape all pages for a single category."""
-    context = browser.new_context(user_agent=USER_AGENT)
-    page_obj = context.new_page()
-    products = []
-
+async def _is_search_broken(page_obj):
+    """Return True if the page shows the 'Leider funktioniert unsere Suche' error."""
     try:
-        url = BASE_URL.format(category=category, page=1)
-        page_obj.goto(url, wait_until="domcontentloaded", timeout=20000)
-        page_obj.wait_for_selector("div.spar-plp__grid", timeout=15000)
-
-        total_pages = _get_total_pages(page_obj)
-
-        for page_num in range(1, total_pages + 1):
-            if page_num > 1:
-                url = BASE_URL.format(category=category, page=page_num)
-                
-                max_retries = 2
-                for attempt in range(max_retries):
-                    try:
-                        page_obj.goto(url, wait_until="domcontentloaded", timeout=20000)
-                        page_obj.wait_for_selector("div.spar-plp__grid", timeout=15000)
-                        break
-                    except Exception as e:
-                        if attempt < max_retries - 1:
-                            wait_time = 1
-                            print(f"  Retry {attempt + 1}/{max_retries} for page {page_num} (waiting {wait_time}s)...")
-                            time.sleep(wait_time)
-                        else:
-                            _take_screenshot(page_obj, category, page_num, "retry_exhausted")
-                            raise
-
-            tiles = page_obj.query_selector_all("article.product-tile")
-            for tile in tiles:
-                product = _parse_tile(tile, category)
-                products.append(product)
-
-            print(f"spar {category} page {page_num}/{total_pages}: {len(tiles)} products")
-
+        tiles = await page_obj.query_selector_all("article.product-tile")
+        if tiles:
+            return False
+        body_text = await page_obj.inner_text("body")
+        return "Leider funktioniert unsere Suche" in body_text or "0 Ergebnisse" in body_text
     except Exception:
-        _take_screenshot(page_obj, category, 0, "failure")
-        raise
-    finally:
-        context.close()
-
-    print(f"spar {category} total: {len(products)} products")
-    return products
+        return False
 
 
-def scrape_spar():
-    """Scrape all categories and write products to spar.json."""
-    all_products = []
+async def _load_page(page_obj, url, category, page_num):
+    """Navigate to a URL, dismiss cookies, wait for the grid, and retry on search errors."""
+    for attempt in range(PAGE_RETRY_LIMIT):
+        await page_obj.goto(url, wait_until="domcontentloaded", timeout=30000)
+        await _dismiss_cookie_banner(page_obj)
 
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
         try:
-            for idx, category in enumerate(CATEGORIES):
-                try:
-                    products = _scrape_category(browser, category)
-                    all_products.extend(products)
-                    
-                    if idx < len(CATEGORIES) - 1:
-                        print("Waiting 1s before next category...")
-                        time.sleep(1)
-                except Exception as e:
-                    print(f"Error scraping category '{category}': {e}")
+            await page_obj.wait_for_selector("div.spar-plp__grid", timeout=15000)
+        except Exception:
+            pass
+
+        if not await _is_search_broken(page_obj):
+            return
+
+        if attempt < PAGE_RETRY_LIMIT - 1:
+            wait = 3 * (attempt + 1)
+            print(f"  Search broken for {category} p{page_num}, retry {attempt + 1}/{PAGE_RETRY_LIMIT} in {wait}s...")
+            await asyncio.sleep(wait)
+        else:
+            await _take_screenshot(page_obj, category, page_num, "search_broken")
+            raise RuntimeError(f"Spar search broken for {category} page {page_num} after {PAGE_RETRY_LIMIT} retries")
+
+
+async def _scrape_category(browser, category, semaphore):
+    """Scrape all pages for a single category."""
+    async with semaphore:
+        context = await browser.new_context(user_agent=USER_AGENT)
+        page_obj = await context.new_page()
+        products = []
+
+        try:
+            url = BASE_URL.format(category=category, page=1)
+            await _load_page(page_obj, url, category, 1)
+
+            total_pages = await _get_total_pages(page_obj)
+
+            for page_num in range(1, total_pages + 1):
+                if page_num > 1:
+                    url = BASE_URL.format(category=category, page=page_num)
+                    await asyncio.sleep(0.5)
+                    await _load_page(page_obj, url, category, page_num)
+
+                tiles = await page_obj.query_selector_all("article.product-tile")
+                for tile in tiles:
+                    product = await _parse_tile(tile, category)
+                    products.append(product)
+
+                print(f"spar {category} page {page_num}/{total_pages}: {len(tiles)} products")
+
+        except Exception:
+            await _take_screenshot(page_obj, category, 0, "failure")
+            raise
         finally:
-            browser.close()
+            await context.close()
+
+        print(f"spar {category} total: {len(products)} products")
+        return products
+
+
+async def _scrape_spar_async():
+    """Scrape all categories concurrently and write products to spar.json."""
+    all_products = []
+    semaphore = asyncio.Semaphore(MAX_CONCURRENT)
+
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        try:
+            tasks = [
+                _scrape_category(browser, category, semaphore)
+                for category in CATEGORIES
+            ]
+            results = await asyncio.gather(*tasks, return_exceptions=True)
+
+            for category, result in zip(CATEGORIES, results):
+                if isinstance(result, Exception):
+                    print(f"Error scraping category '{category}': {result}")
+                else:
+                    all_products.extend(result)
+        finally:
+            await browser.close()
 
     with open("spar.json", "w", encoding="utf-8") as f:
         json.dump(all_products, f, ensure_ascii=False, indent=2)
     print(f"Saved {len(all_products)} products to spar.json")
 
     return all_products
+
+
+def scrape_spar():
+    """Scrape all categories and write products to spar.json."""
+    return asyncio.run(_scrape_spar_async())

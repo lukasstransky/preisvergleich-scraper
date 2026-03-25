@@ -37,6 +37,6 @@ ENV/
 Thumbs.db
 
 # Project specific
-screenshots/
+#screenshots/
 *.json
 firebase-key.json
