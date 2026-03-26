@@ -1,4 +1,5 @@
 import asyncio
+import hashlib
 import json
 import os
 import re
@@ -34,11 +35,21 @@ USER_AGENT = (
 )
 
 
-def _extract_sku(image_url):
-    """Extract SKU from image URL like '.../at/2020005521308/HB_500px.jpg'."""
-    if not image_url:
+def _extract_sku(url):
+    """Extract SKU (long digit sequence) from a URL.
+
+    Works with image URLs like '.../at/2020005521308/HB_500px.jpg'
+    and product-page URLs like '/produkte/spar-premium-xyz-2020005521308/'.
+    """
+    if not url:
         return None
-    match = re.search(r"/at/(\d+)/", image_url)
+    # Try the /at/<digits>/ pattern first (image URLs)
+    match = re.search(r"/at/(\d{7,})/", url)
+    if match:
+        return match.group(1)
+    # Try a long digit sequence at the end of a URL path segment (product links).
+    # Handles both '-<digits>' and '-p<digits>' suffixes (e.g. '-p2020003543821').
+    match = re.search(r"[/-]p?(\d{7,})(?:[/?#]|$)", url)
     return match.group(1) if match else None
 
 
@@ -67,6 +78,7 @@ async def _parse_tile(tile, category):
     price_el = await tile.query_selector("span.product-price__price")
     unit_el = await tile.query_selector('span[data-tosca="product-price-comparison-price"]')
     img_el = await tile.query_selector("img.adaptive-image__img")
+    link_el = await tile.query_selector('a[href*="/produktwelt/"]') or await tile.query_selector("a[href]")
 
     brand = (await brand_el.inner_text()).strip() if brand_el else ""
     name = (await name_el.inner_text()).strip() if name_el else ""
@@ -84,9 +96,27 @@ async def _parse_tile(tile, category):
         (await unit_el.inner_text()).strip() if unit_el else None
     )
 
-    image_url = await img_el.get_attribute("src") if img_el else None
-    sku = _extract_sku(image_url)
-    product_id = f"spar_{sku}" if sku else None
+    # Resolve image URL: prefer src, fall back to data-src / srcset for lazy-loaded images
+    image_url = None
+    if img_el:
+        image_url = await img_el.get_attribute("src")
+        if not _extract_sku(image_url):
+            data_src = await img_el.get_attribute("data-src")
+            srcset_parts = (await img_el.get_attribute("srcset") or "").split()
+            image_url = data_src or (srcset_parts[0] if srcset_parts else None) or image_url
+
+    link_href = await link_el.get_attribute("href") if link_el else None
+
+    # Prefer link href (always in initial HTML, never lazy-loaded) over image URL
+    sku = _extract_sku(link_href) or _extract_sku(image_url)
+
+    # Fallback: generate a stable ID from name + brand + category when SKU is missing
+    if sku:
+        product_id = f"spar_{sku}"
+    else:
+        hash_input = f"{brand}|{name}|{category}".lower()
+        fallback_hash = hashlib.md5(hash_input.encode()).hexdigest()[:12]
+        product_id = f"spar_hash_{fallback_hash}"
 
     return {
         "id": product_id,
@@ -207,7 +237,8 @@ async def _scrape_category(browser, category, semaphore):
         finally:
             await context.close()
 
-        print(f"spar {category} total: {len(products)} products")
+        null_skus = sum(1 for p in products if p["sku"] is None)
+        print(f"spar {category} total: {len(products)} products ({null_skus} with null SKU)")
         return products
 
 
@@ -235,7 +266,8 @@ async def _scrape_spar_async():
 
     with open("spar.json", "w", encoding="utf-8") as f:
         json.dump(all_products, f, ensure_ascii=False, indent=2)
-    print(f"Saved {len(all_products)} products to spar.json")
+    null_skus = sum(1 for p in all_products if p["sku"] is None)
+    print(f"Saved {len(all_products)} products to spar.json ({null_skus} with null SKU)")
 
     return all_products
 
