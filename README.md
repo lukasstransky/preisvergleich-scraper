@@ -159,9 +159,37 @@ This approach means that if product data hasn't changed between runs, **zero pro
 
 ## Running Tests
 
+The project has two complementary test layers, both run with `pytest`:
+
+### Unit tests
+
+Isolate individual functions (parsers, hash logic, Firestore diff algorithm, CLI helpers). All external I/O is mocked.
+
 ```bash
 pytest tests/ -v
 ```
+
+### Integration tests
+
+Exercise multi-component flows end-to-end with transport-level mocks (no real HTTP, browsers, or Firebase):
+
+| File | What it covers |
+|------|----------------|
+| `tests/integration/test_schema_consistency.py` | All 4 scrapers produce products with consistent keys & types |
+| `tests/integration/test_scraper_json_roundtrip.py` | Scraper function → JSON file written to disk → read back & validated |
+| `tests/integration/test_main_flow.py` | `main()` normal mode, `--no-upload`, and error propagation |
+| `tests/integration/test_upload_only.py` | `--upload-only` with real files, missing files, and empty files |
+| `tests/integration/test_firebase_pipeline.py` | Products flow through `firebase_store` → `firestore_sync` → in-memory Firestore fake |
+
+```bash
+# Integration tests only
+pytest tests/integration/ -v
+
+# All tests
+pytest tests/ -v
+```
+
+> **Note:** `pytest-asyncio` is required for the async Spar scraper tests. Install it with `pip install -r requirements.txt`.
 
 ## Dependencies
 

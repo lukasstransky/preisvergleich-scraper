@@ -1,4 +1,5 @@
 requests
 playwright
 pytest
+pytest-asyncio
 firebase-admin
