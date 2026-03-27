@@ -103,7 +103,8 @@ class TestMainUploadOnly:
     @patch("main.os.path.exists", return_value=True)
     @patch("main._load_from_json", return_value=FAKE_PRODUCTS)
     def test_loads_all_scrapers_from_json(self, mock_load, mock_exists, mock_upload):
-        with patch("sys.argv", ["main.py", "--upload-only"]):
+        scrapers = _fresh_scrapers()
+        with patch("main.SCRAPERS", scrapers), patch("sys.argv", ["main.py", "--upload-only"]):
             main()
 
         assert mock_load.call_count == 4  # billa, spar, hofer, penny
@@ -112,7 +113,8 @@ class TestMainUploadOnly:
     @patch("main.os.path.exists", return_value=True)
     @patch("main._load_from_json", return_value=FAKE_PRODUCTS)
     def test_calls_upload_all_with_all_products(self, mock_load, mock_exists, mock_upload):
-        with patch("sys.argv", ["main.py", "--upload-only"]):
+        scrapers = _fresh_scrapers()
+        with patch("main.SCRAPERS", scrapers), patch("sys.argv", ["main.py", "--upload-only"]):
             main()
 
         mock_upload.assert_called_once()

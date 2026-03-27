@@ -12,7 +12,7 @@ BASE_URL = "https://www.spar.at/produktwelt/{category}"
 
 CATEGORIES = [
     "obst-gemuese",
-    #"brot-gebaeck",
+    "brot-gebaeck",
     #"milchprodukte-alternativen",
     #"tiefkuehlprodukte",
     #"wurst-fleisch-eier-fisch",

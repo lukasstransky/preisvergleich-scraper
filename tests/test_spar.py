@@ -20,8 +20,19 @@ from scrapers.spar import (
 # Helpers for async tests
 # ---------------------------------------------------------------------------
 
-def _make_product(category="obst-gemuese", sku="2020005521308", name="Bio Apfel"):
-    """Return a minimal product dict matching _parse_tile output."""
+_product_counter = 0
+
+
+def _make_product(category="obst-gemuese", sku=None, name="Bio Apfel"):
+    """Return a minimal product dict matching _parse_tile output.
+
+    Each call returns a product with a unique SKU/ID so that deduplication
+    in the scraper does not collapse multiple tiles into one.
+    """
+    global _product_counter
+    _product_counter += 1
+    if sku is None:
+        sku = f"20200055{_product_counter:05d}"
     return {
         "id": f"spar_{sku}" if sku else f"spar_hash_abc123",
         "name": name,
@@ -46,6 +57,11 @@ def _make_mock_browser(tiles_per_call=None, pagination_text="1 von 1"):
     tiles_per_call: list of ints — number of tiles to return for each
                     successive call to query_selector_all.
                     If None, defaults to [3] (single page with 3 tiles).
+
+    The mock page also supports button-click pagination:
+    - ``page.locator(...)`` returns a mock next-page button that is visible and enabled
+    - ``page.query_selector('div.pagination__text')`` updates its text after each
+      "click" so that ``_get_current_page_num`` returns the expected page number.
     """
     if tiles_per_call is None:
         tiles_per_call = [3]
@@ -64,9 +80,21 @@ def _make_mock_browser(tiles_per_call=None, pagination_text="1 von 1"):
     mock_page = AsyncMock()
     mock_page.query_selector_all = mock_query_selector_all
 
-    # Pagination mock
+    # Track current page number for pagination text updates
+    page_state = {"current": 1}
+
+    # Parse total pages from the initial text
+    import re as _re
+    _m = _re.search(r"(\d+)\s+von\s+(\d+)", pagination_text)
+    total_pages = int(_m.group(2)) if _m else 1
+
+    # Pagination text mock – returns text reflecting current page
     pagination_el = AsyncMock()
-    pagination_el.inner_text = AsyncMock(return_value=pagination_text)
+
+    async def _pagination_inner_text():
+        return f"{page_state['current']} von {total_pages}"
+
+    pagination_el.inner_text = _pagination_inner_text
 
     async def mock_query_selector(selector):
         if "pagination__text" in selector:
@@ -74,6 +102,26 @@ def _make_mock_browser(tiles_per_call=None, pagination_text="1 von 1"):
         return None
 
     mock_page.query_selector = mock_query_selector
+
+    # Next-page button mock for _click_next_page
+    mock_next_btn = AsyncMock()
+    mock_next_btn.wait_for = AsyncMock()  # visible
+    mock_next_btn.is_disabled = AsyncMock(return_value=False)
+
+    async def _mock_click():
+        page_state["current"] += 1
+
+    mock_next_btn.click = _mock_click
+
+    def mock_locator(selector):
+        if "plp-pagination-next-btn" in selector:
+            return mock_next_btn
+        return AsyncMock()
+
+    mock_page.locator = mock_locator
+    mock_page.wait_for_function = AsyncMock()
+    mock_page.wait_for_selector = AsyncMock()
+    mock_page.wait_for_timeout = AsyncMock()
 
     mock_context = AsyncMock()
     mock_context.new_page = AsyncMock(return_value=mock_page)
@@ -236,8 +284,7 @@ class TestScrapeCategoryPage1Empty:
     @patch("scrapers.spar._load_page", new_callable=AsyncMock)
     async def test_retries_on_empty_page1_then_succeeds(self, mock_load, mock_parse, mock_sleep):
         """Category retried when first attempt has 0 tiles, second attempt succeeds."""
-        product = _make_product()
-        mock_parse.return_value = product
+        mock_parse.side_effect = lambda tile, cat: _make_product(category=cat)
 
         # First call: page with 0 tiles; second call: page with 2 tiles
         browser, _, _ = _make_mock_browser(tiles_per_call=[0, 2], pagination_text="1 von 1")
@@ -287,8 +334,7 @@ class TestScrapeCategoryPage1LoadError:
     @patch("scrapers.spar._load_page", new_callable=AsyncMock)
     async def test_page1_error_then_succeeds(self, mock_load, mock_parse, mock_sleep):
         """First load_page call fails, second succeeds."""
-        product = _make_product()
-        mock_parse.return_value = product
+        mock_parse.side_effect = lambda tile, cat: _make_product(category=cat)
 
         call_count = 0
 
@@ -335,65 +381,61 @@ class TestScrapeCategoryPage1LoadError:
 # ---------------------------------------------------------------------------
 
 class TestScrapeCategorySkipBrokenPage:
-    """When _load_page raises RuntimeError on page N > 1, that page is skipped."""
+    """When _click_next_page raises an exception, pagination stops and an error is logged."""
 
     @pytest.mark.asyncio
     @patch("scrapers.spar.asyncio.sleep", new_callable=AsyncMock)
     @patch("scrapers.spar._parse_tile", new_callable=AsyncMock)
     @patch("scrapers.spar._load_page", new_callable=AsyncMock)
-    async def test_broken_mid_page_skipped(self, mock_load, mock_parse, mock_sleep):
-        """Page 2 of 3 is broken → skipped; pages 1 and 3 scraped normally."""
-        product = _make_product()
-        mock_parse.return_value = product
+    @patch("scrapers.spar._click_next_page", new_callable=AsyncMock)
+    async def test_broken_mid_page_skipped(self, mock_click, mock_load, mock_parse, mock_sleep):
+        """Page 2 click fails → pagination stops; page 1 products are kept."""
+        mock_parse.side_effect = lambda tile, cat: _make_product(category=cat)
 
-        async def load_page_side_effect(page_obj, url, category, page_num):
-            if page_num == 2:
-                raise RuntimeError(f"Spar search broken for {category} page 2 after 5 retries")
+        async def click_side_effect(page_obj, expected_page):
+            if expected_page == 2:
+                raise RuntimeError("click failed on page 2")
+            return True
 
-        mock_load.side_effect = load_page_side_effect
+        mock_click.side_effect = click_side_effect
 
-        # Page 1: 3 tiles, page 2: skipped (no tiles call), page 3: 3 tiles
-        browser, _, _ = _make_mock_browser(tiles_per_call=[3, 3], pagination_text="1 von 3")
+        browser, _, _ = _make_mock_browser(tiles_per_call=[3], pagination_text="1 von 3")
         semaphore = asyncio.Semaphore(2)
         error_log = []
 
         result = await _scrape_category(browser, "obst-gemuese", semaphore, error_log)
 
-        assert len(result) == 6  # 3 from page 1 + 3 from page 3
+        assert len(result) == 3  # Only page 1 products
         skip_errors = [e for e in error_log if e["type"] == "page_skip"]
         assert len(skip_errors) == 1
         assert skip_errors[0]["page"] == 2
-        # Summary should also be logged
-        summaries = [e for e in error_log if e["type"] == "pages_skipped_summary"]
-        assert len(summaries) == 1
-        assert summaries[0]["skipped_pages"] == [2]
 
     @pytest.mark.asyncio
     @patch("scrapers.spar.asyncio.sleep", new_callable=AsyncMock)
     @patch("scrapers.spar._parse_tile", new_callable=AsyncMock)
     @patch("scrapers.spar._load_page", new_callable=AsyncMock)
-    async def test_multiple_pages_skipped(self, mock_load, mock_parse, mock_sleep):
-        """Multiple broken pages are all skipped, others proceed normally."""
-        product = _make_product()
-        mock_parse.return_value = product
+    @patch("scrapers.spar._click_next_page", new_callable=AsyncMock)
+    async def test_multiple_pages_skipped(self, mock_click, mock_load, mock_parse, mock_sleep):
+        """Click failure stops pagination early, logging the error."""
+        mock_parse.side_effect = lambda tile, cat: _make_product(category=cat)
 
-        async def load_page_side_effect(page_obj, url, category, page_num):
-            if page_num in (2, 4):
-                raise RuntimeError(f"Broken page {page_num}")
+        async def click_side_effect(page_obj, expected_page):
+            if expected_page == 2:
+                raise RuntimeError(f"Broken page {expected_page}")
+            return True
 
-        mock_load.side_effect = load_page_side_effect
+        mock_click.side_effect = click_side_effect
 
-        # Pages: 1(ok, 2 tiles), 2(skip), 3(ok, 2 tiles), 4(skip), 5(ok, 2 tiles)
-        browser, _, _ = _make_mock_browser(tiles_per_call=[2, 2, 2], pagination_text="1 von 5")
+        browser, _, _ = _make_mock_browser(tiles_per_call=[2], pagination_text="1 von 5")
         semaphore = asyncio.Semaphore(2)
         error_log = []
 
         result = await _scrape_category(browser, "obst-gemuese", semaphore, error_log)
 
-        assert len(result) == 6  # 2 * 3 successful pages
-        summaries = [e for e in error_log if e["type"] == "pages_skipped_summary"]
-        assert summaries[0]["skipped_pages"] == [2, 4]
-        assert summaries[0]["count"] == 2
+        assert len(result) == 2  # Only page 1 products
+        skip_errors = [e for e in error_log if e["type"] == "page_skip"]
+        assert len(skip_errors) == 1
+        assert skip_errors[0]["page"] == 2
 
 
 # ---------------------------------------------------------------------------
@@ -408,8 +450,7 @@ class TestScrapeCategoryNormal:
     @patch("scrapers.spar._parse_tile", new_callable=AsyncMock)
     @patch("scrapers.spar._load_page", new_callable=AsyncMock)
     async def test_single_page(self, mock_load, mock_parse, mock_sleep):
-        product = _make_product()
-        mock_parse.return_value = product
+        mock_parse.side_effect = lambda tile, cat: _make_product(category=cat)
 
         browser, _, _ = _make_mock_browser(tiles_per_call=[5], pagination_text="1 von 1")
         semaphore = asyncio.Semaphore(2)
@@ -425,8 +466,7 @@ class TestScrapeCategoryNormal:
     @patch("scrapers.spar._parse_tile", new_callable=AsyncMock)
     @patch("scrapers.spar._load_page", new_callable=AsyncMock)
     async def test_multi_page(self, mock_load, mock_parse, mock_sleep):
-        product = _make_product()
-        mock_parse.return_value = product
+        mock_parse.side_effect = lambda tile, cat: _make_product(category=cat)
 
         browser, _, _ = _make_mock_browser(tiles_per_call=[3, 3, 2], pagination_text="1 von 3")
         semaphore = asyncio.Semaphore(2)
@@ -443,7 +483,7 @@ class TestScrapeCategoryNormal:
     @patch("scrapers.spar._load_page", new_callable=AsyncMock)
     async def test_no_skipped_pages_no_summary(self, mock_load, mock_parse, mock_sleep):
         """No pages_skipped_summary should be logged when all pages succeed."""
-        mock_parse.return_value = _make_product()
+        mock_parse.side_effect = lambda tile, cat: _make_product(category=cat)
         browser, _, _ = _make_mock_browser(tiles_per_call=[3, 3], pagination_text="1 von 2")
         error_log = []
 
@@ -464,15 +504,17 @@ class TestScrapeCategoryErrorLog:
     @patch("scrapers.spar.asyncio.sleep", new_callable=AsyncMock)
     @patch("scrapers.spar._parse_tile", new_callable=AsyncMock)
     @patch("scrapers.spar._load_page", new_callable=AsyncMock)
-    async def test_page_skip_entry_shape(self, mock_load, mock_parse, mock_sleep):
-        mock_parse.return_value = _make_product()
+    @patch("scrapers.spar._click_next_page", new_callable=AsyncMock)
+    async def test_page_skip_entry_shape(self, mock_click, mock_load, mock_parse, mock_sleep):
+        mock_parse.side_effect = lambda tile, cat: _make_product(category=cat)
 
-        async def fail_page2(page_obj, url, category, page_num):
-            if page_num == 2:
+        async def click_fail_page2(page_obj, expected_page):
+            if expected_page == 2:
                 raise RuntimeError("broken")
+            return True
 
-        mock_load.side_effect = fail_page2
-        browser, _, _ = _make_mock_browser(tiles_per_call=[2, 2], pagination_text="1 von 3")
+        mock_click.side_effect = click_fail_page2
+        browser, _, _ = _make_mock_browser(tiles_per_call=[2], pagination_text="1 von 3")
         error_log = []
 
         await _scrape_category(browser, "obst-gemuese", asyncio.Semaphore(2), error_log)
@@ -488,7 +530,7 @@ class TestScrapeCategoryErrorLog:
     @patch("scrapers.spar._parse_tile", new_callable=AsyncMock)
     @patch("scrapers.spar._load_page", new_callable=AsyncMock)
     async def test_empty_page1_retry_entry_shape(self, mock_load, mock_parse, mock_sleep):
-        mock_parse.return_value = _make_product()
+        mock_parse.side_effect = lambda tile, cat: _make_product(category=cat)
         browser, _, _ = _make_mock_browser(
             tiles_per_call=[0, 4],
             pagination_text="1 von 1",
