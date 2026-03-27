@@ -2,6 +2,7 @@ import asyncio
 import hashlib
 import json
 import os
+import random
 import re
 from datetime import datetime, timezone
 from playwright.async_api import async_playwright
@@ -13,22 +14,28 @@ BASE_URL = "https://www.spar.at/produktwelt/{category}"
 CATEGORIES = [
     "obst-gemuese",
     "brot-gebaeck",
-    #"milchprodukte-alternativen",
-    #"tiefkuehlprodukte",
-    #"wurst-fleisch-eier-fisch",
-    #"beilagen-essig-oel-gewuerze",
-    #"backen-fruehstueck",
-    #"suesses-salziges",
-    #"schnelle-kueche-to-go",
-    #"babynahrung",
-    #"alkoholfreie-getraenke",
-    #"kaffee-tee-kakao",
-    #"alkoholische-getraenke",
+    "milchprodukte-alternativen",
+    "tiefkuehlprodukte",
+    "wurst-fleisch-eier-fisch",
+    "beilagen-essig-oel-gewuerze",
+    "backen-fruehstueck",
+    "suesses-salziges",
+    "schnelle-kueche-to-go",
+    "babynahrung",
+    "alkoholfreie-getraenke",
+    "kaffee-tee-kakao",
+    "alkoholische-getraenke",
 ]
 
 MAX_CONCURRENT = 2
 PAGE_RETRY_LIMIT = 5
 CATEGORY_RETRY_LIMIT = 3
+
+# Throttle: random delay range (seconds) between page navigations.
+THROTTLE_MIN = 1.5
+THROTTLE_MAX = 3.0
+# Cooldown (seconds) when the server signals rate-limiting.
+COOLDOWN_SECONDS = 30
 
 ERROR_LOG_FILE = "spar_errors.json"
 
@@ -37,6 +44,19 @@ USER_AGENT = (
     "AppleWebKit/537.36 (KHTML, like Gecko) "
     "Chrome/131.0.0.0 Safari/537.36"
 )
+
+# Resource types to block – skipping these cuts page-load time significantly.
+# NOTE: "stylesheet" must NOT be blocked – the Spar SPA needs CSS to render
+# its product grid; without it the page shows 0 tiles / "search broken".
+BLOCKED_RESOURCE_TYPES = {"image", "media", "font"}
+
+
+async def _block_unnecessary_resources(route):
+    """Abort requests for non-essential resources to speed up page loading."""
+    if route.request.resource_type in BLOCKED_RESOURCE_TYPES:
+        await route.abort()
+    else:
+        await route.continue_()
 
 
 def _extract_sku(url):
@@ -75,46 +95,66 @@ def _parse_unit_price_text(text):
 
 
 async def _parse_tile(tile, category):
-    """Parse a single product-tile element into a product dict."""
-    brand_el = await tile.query_selector("div.product-tile__name1")
-    name_el = await tile.query_selector("div.product-tile__name2")
-    amount_el = await tile.query_selector("div.product-tile__name3")
-    price_el = await tile.query_selector("span.product-price__price")
-    unit_el = await tile.query_selector('span[data-tosca="product-price-comparison-price"]')
-    img_el = await tile.query_selector("img.adaptive-image__img")
-    link_el = await tile.query_selector('a[href*="/produktwelt/"]') or await tile.query_selector("a[href]")
+    """Parse a single product-tile element into a product dict.
 
-    brand = (await brand_el.inner_text()).strip() if brand_el else ""
-    name = (await name_el.inner_text()).strip() if name_el else ""
-    amount = (await amount_el.inner_text()).strip() if amount_el else ""
+    DOM queries and text/attribute extractions are batched with
+    asyncio.gather to minimise IPC round-trips to the browser.
+    """
+    # --- Stage 1: query all child elements in parallel ---
+    brand_el, name_el, amount_el, price_el, unit_el, img_el, link_el = (
+        await asyncio.gather(
+            tile.query_selector("div.product-tile__name1"),
+            tile.query_selector("div.product-tile__name2"),
+            tile.query_selector("div.product-tile__name3"),
+            tile.query_selector("span.product-price__price"),
+            tile.query_selector('span[data-tosca="product-price-comparison-price"]'),
+            tile.query_selector("img.adaptive-image__img"),
+            tile.query_selector('a[href*="/produktwelt/"]'),
+        )
+    )
+    if not link_el:
+        link_el = await tile.query_selector("a[href]")
 
+    # --- Stage 2: extract texts & attributes in parallel ---
+    async def _text(el):
+        return (await el.inner_text()).strip() if el else ""
+
+    async def _attr(el, name):
+        return await el.get_attribute(name) if el else None
+
+    (
+        brand, name, amount, price_text, unit_text,
+        img_src, img_data_src, img_srcset, link_href,
+    ) = await asyncio.gather(
+        _text(brand_el),
+        _text(name_el),
+        _text(amount_el),
+        _text(price_el),
+        _text(unit_el),
+        _attr(img_el, "src"),
+        _attr(img_el, "data-src"),
+        _attr(img_el, "srcset"),
+        _attr(link_el, "href"),
+    )
+
+    # --- Stage 3: pure-Python post-processing (no awaits) ---
     price = None
-    if price_el:
-        price_text = (await price_el.inner_text()).strip().replace(",", ".")
+    if price_text:
         try:
-            price = float(re.sub(r"[^\d.]", "", price_text))
+            price = float(re.sub(r"[^\d.]", "", price_text.replace(",", ".")))
         except ValueError:
             price = None
 
-    unit_price, unit_label = _parse_unit_price_text(
-        (await unit_el.inner_text()).strip() if unit_el else None
-    )
+    unit_price, unit_label = _parse_unit_price_text(unit_text or None)
 
-    # Resolve image URL: prefer src, fall back to data-src / srcset for lazy-loaded images
-    image_url = None
-    if img_el:
-        image_url = await img_el.get_attribute("src")
-        if not _extract_sku(image_url):
-            data_src = await img_el.get_attribute("data-src")
-            srcset_parts = (await img_el.get_attribute("srcset") or "").split()
-            image_url = data_src or (srcset_parts[0] if srcset_parts else None) or image_url
+    # Resolve image URL: prefer src, fall back to data-src / srcset
+    image_url = img_src
+    if img_el and not _extract_sku(image_url):
+        srcset_parts = (img_srcset or "").split()
+        image_url = img_data_src or (srcset_parts[0] if srcset_parts else None) or image_url
 
-    link_href = await link_el.get_attribute("href") if link_el else None
-
-    # Prefer link href (always in initial HTML, never lazy-loaded) over image URL
     sku = _extract_sku(link_href) or _extract_sku(image_url)
 
-    # Fallback: generate a stable ID from name + brand + category when SKU is missing
     if sku:
         product_id = f"spar_{sku}"
     else:
@@ -196,8 +236,12 @@ async def _get_current_page_num(page_obj):
     return int(match.group(1)) if match else 1
 
 
-async def _load_page(page_obj, url, category, page_num):
-    """Navigate to a URL, dismiss cookies, wait for the grid, and retry on search errors."""
+async def _load_page(page_obj, url, category, page_num, cooldown_lock=None):
+    """Navigate to a URL, dismiss cookies, wait for the grid, and retry on search errors.
+
+    When *cooldown_lock* is provided, a detected rate-limit triggers a global
+    cooldown so that all concurrent categories pause together.
+    """
     for attempt in range(PAGE_RETRY_LIMIT):
         await page_obj.goto(url, wait_until="domcontentloaded", timeout=30000)
         await _dismiss_cookie_banner(page_obj)
@@ -211,9 +255,17 @@ async def _load_page(page_obj, url, category, page_num):
             return
 
         if attempt < PAGE_RETRY_LIMIT - 1:
-            wait = 3 * (attempt + 1)
+            # Exponential backoff: 5s, 10s, 20s, 40s …
+            wait = min(5 * 2 ** attempt, 40)
             print(f"  Search broken for {category} p{page_num}, retry {attempt + 1}/{PAGE_RETRY_LIMIT} in {wait}s...")
-            await asyncio.sleep(wait)
+            # If a shared lock is available, hold it during the cooldown so
+            # the other concurrent category also pauses instead of hammering.
+            if cooldown_lock is not None:
+                async with cooldown_lock:
+                    print(f"  Global cooldown active ({wait}s) — all categories paused")
+                    await asyncio.sleep(wait)
+            else:
+                await asyncio.sleep(wait)
         else:
             await _take_screenshot(page_obj, category, page_num, "search_broken")
             raise RuntimeError(f"Spar search broken for {category} page {page_num} after {PAGE_RETRY_LIMIT} retries")
@@ -255,12 +307,14 @@ async def _click_next_page(page_obj, expected_page_num):
     return True
 
 
-async def _scrape_category(browser, category, semaphore, error_log):
+async def _scrape_category(browser, category, semaphore, error_log, cooldown_lock=None):
     """Scrape all pages for a single category, with retry and skip logic."""
     async with semaphore:
         for cat_attempt in range(CATEGORY_RETRY_LIMIT):
             context = await browser.new_context(user_agent=USER_AGENT)
             page_obj = await context.new_page()
+            # Block images, fonts, CSS, media to speed up page loads.
+            await page_obj.route("**/*", _block_unnecessary_resources)
             products = []
             seen_ids = set()
             skipped_pages = []
@@ -268,7 +322,7 @@ async def _scrape_category(browser, category, semaphore, error_log):
             try:
                 url = BASE_URL.format(category=category)
                 try:
-                    await _load_page(page_obj, url, category, 1)
+                    await _load_page(page_obj, url, category, 1, cooldown_lock)
                 except RuntimeError as e:
                     msg = f"Page 1 load failed for {category}: {e}"
                     print(f"  {msg}")
@@ -277,9 +331,14 @@ async def _scrape_category(browser, category, semaphore, error_log):
                     # Page 1 broken means we can't get total_pages — retry the whole category
                     await context.close()
                     if cat_attempt < CATEGORY_RETRY_LIMIT - 1:
-                        wait = 5 * (cat_attempt + 1)
+                        # Exponential back-off: 10s, 20s …
+                        wait = min(10 * 2 ** cat_attempt, 60)
                         print(f"  Retrying category {category} (attempt {cat_attempt + 2}/{CATEGORY_RETRY_LIMIT}) in {wait}s...")
-                        await asyncio.sleep(wait)
+                        if cooldown_lock is not None:
+                            async with cooldown_lock:
+                                await asyncio.sleep(wait)
+                        else:
+                            await asyncio.sleep(wait)
                         continue
                     else:
                         error_log.append({"type": "category_fail", "category": category, "error": f"Page 1 broken after {CATEGORY_RETRY_LIMIT} category retries"})
@@ -295,18 +354,22 @@ async def _scrape_category(browser, category, semaphore, error_log):
                     error_log.append({"type": "empty_page1_retry", "category": category, "attempt": cat_attempt + 1})
                     await context.close()
                     if cat_attempt < CATEGORY_RETRY_LIMIT - 1:
-                        wait = 5 * (cat_attempt + 1)
+                        wait = min(10 * 2 ** cat_attempt, 60)
                         print(f"  Retrying category {category} (attempt {cat_attempt + 2}/{CATEGORY_RETRY_LIMIT}) in {wait}s...")
-                        await asyncio.sleep(wait)
+                        if cooldown_lock is not None:
+                            async with cooldown_lock:
+                                await asyncio.sleep(wait)
+                        else:
+                            await asyncio.sleep(wait)
                         continue
                     else:
                         error_log.append({"type": "category_fail", "category": category, "error": f"Page 1 still empty after {CATEGORY_RETRY_LIMIT} category retries"})
                         return []
 
-                # Page 1 had products — parse them
+                # Page 1 had products — parse them in parallel
+                parsed = await asyncio.gather(*[_parse_tile(t, category) for t in tiles])
                 new_count = 0
-                for tile in tiles:
-                    product = await _parse_tile(tile, category)
+                for product in parsed:
                     if product["id"] not in seen_ids:
                         seen_ids.add(product["id"])
                         products.append(product)
@@ -315,6 +378,8 @@ async def _scrape_category(browser, category, semaphore, error_log):
 
                 # Scrape remaining pages by clicking the "next page" button
                 for page_num in range(2, total_pages + 1):
+                    # Throttle between page navigations to avoid rate-limiting
+                    await asyncio.sleep(random.uniform(THROTTLE_MIN, THROTTLE_MAX))
                     try:
                         navigated = await _click_next_page(page_obj, page_num)
                         if not navigated:
@@ -334,9 +399,9 @@ async def _scrape_category(browser, category, semaphore, error_log):
                         break
 
                     tiles = await page_obj.query_selector_all("article.product-tile")
+                    parsed = await asyncio.gather(*[_parse_tile(t, category) for t in tiles])
                     new_count = 0
-                    for tile in tiles:
-                        product = await _parse_tile(tile, category)
+                    for product in parsed:
                         if product["id"] not in seen_ids:
                             seen_ids.add(product["id"])
                             products.append(product)
@@ -372,11 +437,13 @@ async def _scrape_spar_async():
     error_log = []
     semaphore = asyncio.Semaphore(MAX_CONCURRENT)
 
+    cooldown_lock = asyncio.Lock()
+
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         try:
             tasks = [
-                _scrape_category(browser, category, semaphore, error_log)
+                _scrape_category(browser, category, semaphore, error_log, cooldown_lock)
                 for category in CATEGORIES
             ]
             results = await asyncio.gather(*tasks, return_exceptions=True)

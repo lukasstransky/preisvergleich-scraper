@@ -338,7 +338,7 @@ class TestScrapeCategoryPage1LoadError:
 
         call_count = 0
 
-        async def load_page_side_effect(page_obj, url, category, page_num):
+        async def load_page_side_effect(page_obj, url, category, page_num, cooldown_lock=None):
             nonlocal call_count
             call_count += 1
             if call_count == 1:
@@ -615,7 +615,7 @@ class TestScrapeSparAsyncErrorLog:
         mock_parse.return_value = _make_product()
 
         # Make load_page always raise for one specific category
-        async def selective_fail(page_obj, url, category, page_num):
+        async def selective_fail(page_obj, url, category, page_num, cooldown_lock=None):
             if category == "obst-gemuese":
                 raise ValueError("Unexpected error in obst-gemuese")
 
