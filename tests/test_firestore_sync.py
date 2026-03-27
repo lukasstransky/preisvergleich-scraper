@@ -10,9 +10,17 @@ from firestore_sync import (
     _product_hash,
     _commit_with_retry,
     sync_products,
+    reset_request_counters,
+    get_request_counts,
     FIRESTORE_BATCH_LIMIT,
     META_COLLECTION,
 )
+
+
+@pytest.fixture(autouse=True)
+def _reset_counters():
+    """Reset Firestore request counters before every test."""
+    reset_request_counters()
 
 
 # ---------------------------------------------------------------------------
@@ -450,3 +458,88 @@ class TestSyncProductsOutput:
 
         output = capsys.readouterr().out
         assert "Nothing changed" in output
+
+
+# ---------------------------------------------------------------------------
+# Request counters
+# ---------------------------------------------------------------------------
+
+class TestRequestCounters:
+    def test_counters_start_at_zero(self):
+        counts = get_request_counts()
+        assert counts == {"reads": 0, "writes": 0, "deletes": 0}
+
+    @patch("firestore_sync.time.sleep")
+    def test_first_run_counts(self, mock_sleep):
+        products = [_make_product("p1"), _make_product("p2")]
+        db, meta_ref, col_ref, batches = _make_firestore_db(existing_hashes=None)
+
+        sync_products(db, products, "test_products")
+
+        counts = get_request_counts()
+        assert counts["reads"] == 1   # 1 metadata read
+        assert counts["writes"] == 3  # 2 products + 1 metadata
+        assert counts["deletes"] == 0
+
+    @patch("firestore_sync.time.sleep")
+    def test_nothing_changed_counts(self, mock_sleep):
+        p1 = _make_product("p1")
+        existing = {"p1": _expected_hash(p1)}
+        db, meta_ref, col_ref, batches = _make_firestore_db(existing_hashes=existing)
+
+        sync_products(db, [p1], "test_products")
+
+        counts = get_request_counts()
+        assert counts["reads"] == 1   # 1 metadata read
+        assert counts["writes"] == 1  # 1 metadata write only
+        assert counts["deletes"] == 0
+
+    @patch("firestore_sync.time.sleep")
+    def test_mixed_operations_counts(self, mock_sleep):
+        p_unchanged = _make_product("p1", "Apple", 1.0)
+        p_changed_new = _make_product("p2", "Banana", 2.50)
+        p_changed_old = _make_product("p2", "Banana", 2.0)
+
+        existing = {
+            "p1": _expected_hash(p_unchanged),
+            "p2": _expected_hash(p_changed_old),
+            "p3": "will_be_deleted",
+        }
+        db, meta_ref, col_ref, batches = _make_firestore_db(existing_hashes=existing)
+
+        sync_products(db, [p_unchanged, p_changed_new], "test_products")
+
+        counts = get_request_counts()
+        assert counts["reads"] == 1   # 1 metadata read
+        assert counts["writes"] == 2  # 1 changed product + 1 metadata
+        assert counts["deletes"] == 1 # p3 removed
+
+    @patch("firestore_sync.time.sleep")
+    def test_accumulates_across_calls(self, mock_sleep):
+        p1 = _make_product("p1")
+        p2 = _make_product("p2")
+        db1, _, _, _ = _make_firestore_db(existing_hashes=None)
+        db2, _, _, _ = _make_firestore_db(existing_hashes=None)
+
+        sync_products(db1, [p1], "col_a")
+        sync_products(db2, [p2], "col_b")
+
+        counts = get_request_counts()
+        assert counts["reads"] == 2   # 1 per call
+        assert counts["writes"] == 4  # (1 product + 1 meta) × 2
+
+    def test_reset_clears_counters(self):
+        from firestore_sync import _request_counts
+        _request_counts["reads"] = 10
+        _request_counts["writes"] = 20
+        _request_counts["deletes"] = 5
+
+        reset_request_counters()
+
+        counts = get_request_counts()
+        assert counts == {"reads": 0, "writes": 0, "deletes": 0}
+
+    def test_get_returns_copy(self):
+        counts = get_request_counts()
+        counts["reads"] = 999
+        assert get_request_counts()["reads"] == 0

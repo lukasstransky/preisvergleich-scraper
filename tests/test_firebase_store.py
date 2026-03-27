@@ -176,3 +176,17 @@ class TestUploadAll:
         mock_upload.assert_not_called()
         output = capsys.readouterr().out
         assert "Firebase sync complete" in output
+
+    @patch("firebase_store.upload_products")
+    @patch("firebase_store.init_firebase")
+    def test_prints_request_summary(self, mock_init, mock_upload, capsys):
+        mock_init.return_value = MagicMock()
+
+        upload_all({"penny": [{"id": "p1"}]})
+
+        output = capsys.readouterr().out
+        assert "Firestore request summary" in output
+        assert "Reads" in output
+        assert "Writes" in output
+        assert "Deletes" in output
+        assert "Total" in output

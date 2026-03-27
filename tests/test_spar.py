@@ -1,8 +1,88 @@
+import asyncio
 import hashlib
+import json
 
 import pytest
+from unittest.mock import AsyncMock, MagicMock, patch, mock_open
 
-from scrapers.spar import _extract_sku, _parse_unit_price_text
+from scrapers.spar import (
+    _extract_sku,
+    _parse_unit_price_text,
+    _scrape_category,
+    _scrape_spar_async,
+    CATEGORY_RETRY_LIMIT,
+    PAGE_RETRY_LIMIT,
+    ERROR_LOG_FILE,
+)
+
+
+# ---------------------------------------------------------------------------
+# Helpers for async tests
+# ---------------------------------------------------------------------------
+
+def _make_product(category="obst-gemuese", sku="2020005521308", name="Bio Apfel"):
+    """Return a minimal product dict matching _parse_tile output."""
+    return {
+        "id": f"spar_{sku}" if sku else f"spar_hash_abc123",
+        "name": name,
+        "price": 1.99,
+        "originalPrice": None,
+        "promotionText": None,
+        "unitPrice": None,
+        "unitLabel": None,
+        "category": category,
+        "brand": "SPAR",
+        "amount": "1 kg",
+        "sku": sku,
+        "inPromotion": False,
+        "imageUrl": None,
+        "supermarket": "spar",
+    }
+
+
+def _make_mock_browser(tiles_per_call=None, pagination_text="1 von 1"):
+    """Create a mock browser with configurable tile counts per query_selector_all call.
+
+    tiles_per_call: list of ints — number of tiles to return for each
+                    successive call to query_selector_all.
+                    If None, defaults to [3] (single page with 3 tiles).
+    """
+    if tiles_per_call is None:
+        tiles_per_call = [3]
+
+    tile_iter = iter(tiles_per_call)
+
+    async def mock_query_selector_all(selector):
+        if "product-tile" in selector:
+            try:
+                count = next(tile_iter)
+            except StopIteration:
+                count = 0
+            return [MagicMock() for _ in range(count)]
+        return []
+
+    mock_page = AsyncMock()
+    mock_page.query_selector_all = mock_query_selector_all
+
+    # Pagination mock
+    pagination_el = AsyncMock()
+    pagination_el.inner_text = AsyncMock(return_value=pagination_text)
+
+    async def mock_query_selector(selector):
+        if "pagination__text" in selector:
+            return pagination_el
+        return None
+
+    mock_page.query_selector = mock_query_selector
+
+    mock_context = AsyncMock()
+    mock_context.new_page = AsyncMock(return_value=mock_page)
+    mock_context.close = AsyncMock()
+
+    mock_browser = AsyncMock()
+    mock_browser.new_context = AsyncMock(return_value=mock_context)
+
+    return mock_browser, mock_context, mock_page
 
 
 # ---------------------------------------------------------------------------
@@ -141,3 +221,404 @@ class TestFallbackHashId:
         fid = self._make_hash_id("SPAR", "Bio Äpfel", "obst-gemuese")
         assert fid.startswith("spar_hash_")
         assert len(fid) == len("spar_hash_") + 12
+
+
+# ---------------------------------------------------------------------------
+# _scrape_category – retry on page 1 empty
+# ---------------------------------------------------------------------------
+
+class TestScrapeCategoryPage1Empty:
+    """When page 1 returns 0 product tiles, the category should be retried."""
+
+    @pytest.mark.asyncio
+    @patch("scrapers.spar.asyncio.sleep", new_callable=AsyncMock)
+    @patch("scrapers.spar._parse_tile", new_callable=AsyncMock)
+    @patch("scrapers.spar._load_page", new_callable=AsyncMock)
+    async def test_retries_on_empty_page1_then_succeeds(self, mock_load, mock_parse, mock_sleep):
+        """Category retried when first attempt has 0 tiles, second attempt succeeds."""
+        product = _make_product()
+        mock_parse.return_value = product
+
+        # First call: page with 0 tiles; second call: page with 2 tiles
+        browser, _, _ = _make_mock_browser(tiles_per_call=[0, 2], pagination_text="1 von 1")
+        semaphore = asyncio.Semaphore(2)
+        error_log = []
+
+        result = await _scrape_category(browser, "obst-gemuese", semaphore, error_log)
+
+        assert len(result) == 2
+        # Should have logged the empty_page1_retry
+        retry_errors = [e for e in error_log if e["type"] == "empty_page1_retry"]
+        assert len(retry_errors) == 1
+        assert retry_errors[0]["attempt"] == 1
+
+    @pytest.mark.asyncio
+    @patch("scrapers.spar.asyncio.sleep", new_callable=AsyncMock)
+    @patch("scrapers.spar._parse_tile", new_callable=AsyncMock)
+    @patch("scrapers.spar._load_page", new_callable=AsyncMock)
+    async def test_all_retries_fail_returns_empty(self, mock_load, mock_parse, mock_sleep):
+        """All category retry attempts return 0 tiles → returns [] and logs failure."""
+        # All attempts return 0 tiles
+        browser, _, _ = _make_mock_browser(
+            tiles_per_call=[0] * CATEGORY_RETRY_LIMIT,
+            pagination_text="1 von 1",
+        )
+        semaphore = asyncio.Semaphore(2)
+        error_log = []
+
+        result = await _scrape_category(browser, "obst-gemuese", semaphore, error_log)
+
+        assert result == []
+        fail_errors = [e for e in error_log if e["type"] == "category_fail"]
+        assert len(fail_errors) == 1
+        assert "empty" in fail_errors[0]["error"].lower()
+
+
+# ---------------------------------------------------------------------------
+# _scrape_category – retry on page 1 load error
+# ---------------------------------------------------------------------------
+
+class TestScrapeCategoryPage1LoadError:
+    """When _load_page raises RuntimeError on page 1, the category is retried."""
+
+    @pytest.mark.asyncio
+    @patch("scrapers.spar.asyncio.sleep", new_callable=AsyncMock)
+    @patch("scrapers.spar._parse_tile", new_callable=AsyncMock)
+    @patch("scrapers.spar._load_page", new_callable=AsyncMock)
+    async def test_page1_error_then_succeeds(self, mock_load, mock_parse, mock_sleep):
+        """First load_page call fails, second succeeds."""
+        product = _make_product()
+        mock_parse.return_value = product
+
+        call_count = 0
+
+        async def load_page_side_effect(page_obj, url, category, page_num):
+            nonlocal call_count
+            call_count += 1
+            if call_count == 1:
+                raise RuntimeError("Spar search broken for obst-gemuese page 1 after 5 retries")
+
+        mock_load.side_effect = load_page_side_effect
+
+        browser, _, _ = _make_mock_browser(tiles_per_call=[3], pagination_text="1 von 1")
+        semaphore = asyncio.Semaphore(2)
+        error_log = []
+
+        result = await _scrape_category(browser, "obst-gemuese", semaphore, error_log)
+
+        assert len(result) == 3
+        skip_errors = [e for e in error_log if e["type"] == "page_skip" and e["page"] == 1]
+        assert len(skip_errors) == 1
+
+    @pytest.mark.asyncio
+    @patch("scrapers.spar.asyncio.sleep", new_callable=AsyncMock)
+    @patch("scrapers.spar._parse_tile", new_callable=AsyncMock)
+    @patch("scrapers.spar._load_page", new_callable=AsyncMock)
+    async def test_page1_error_all_retries_fail(self, mock_load, mock_parse, mock_sleep):
+        """All category retries fail on page 1 → returns [] and logs category_fail."""
+        mock_load.side_effect = RuntimeError("Spar search broken")
+
+        browser, _, _ = _make_mock_browser(tiles_per_call=[])
+        semaphore = asyncio.Semaphore(2)
+        error_log = []
+
+        result = await _scrape_category(browser, "obst-gemuese", semaphore, error_log)
+
+        assert result == []
+        fail_errors = [e for e in error_log if e["type"] == "category_fail"]
+        assert len(fail_errors) == 1
+        assert "broken" in fail_errors[0]["error"].lower()
+
+
+# ---------------------------------------------------------------------------
+# _scrape_category – skip broken pages (page > 1)
+# ---------------------------------------------------------------------------
+
+class TestScrapeCategorySkipBrokenPage:
+    """When _load_page raises RuntimeError on page N > 1, that page is skipped."""
+
+    @pytest.mark.asyncio
+    @patch("scrapers.spar.asyncio.sleep", new_callable=AsyncMock)
+    @patch("scrapers.spar._parse_tile", new_callable=AsyncMock)
+    @patch("scrapers.spar._load_page", new_callable=AsyncMock)
+    async def test_broken_mid_page_skipped(self, mock_load, mock_parse, mock_sleep):
+        """Page 2 of 3 is broken → skipped; pages 1 and 3 scraped normally."""
+        product = _make_product()
+        mock_parse.return_value = product
+
+        async def load_page_side_effect(page_obj, url, category, page_num):
+            if page_num == 2:
+                raise RuntimeError(f"Spar search broken for {category} page 2 after 5 retries")
+
+        mock_load.side_effect = load_page_side_effect
+
+        # Page 1: 3 tiles, page 2: skipped (no tiles call), page 3: 3 tiles
+        browser, _, _ = _make_mock_browser(tiles_per_call=[3, 3], pagination_text="1 von 3")
+        semaphore = asyncio.Semaphore(2)
+        error_log = []
+
+        result = await _scrape_category(browser, "obst-gemuese", semaphore, error_log)
+
+        assert len(result) == 6  # 3 from page 1 + 3 from page 3
+        skip_errors = [e for e in error_log if e["type"] == "page_skip"]
+        assert len(skip_errors) == 1
+        assert skip_errors[0]["page"] == 2
+        # Summary should also be logged
+        summaries = [e for e in error_log if e["type"] == "pages_skipped_summary"]
+        assert len(summaries) == 1
+        assert summaries[0]["skipped_pages"] == [2]
+
+    @pytest.mark.asyncio
+    @patch("scrapers.spar.asyncio.sleep", new_callable=AsyncMock)
+    @patch("scrapers.spar._parse_tile", new_callable=AsyncMock)
+    @patch("scrapers.spar._load_page", new_callable=AsyncMock)
+    async def test_multiple_pages_skipped(self, mock_load, mock_parse, mock_sleep):
+        """Multiple broken pages are all skipped, others proceed normally."""
+        product = _make_product()
+        mock_parse.return_value = product
+
+        async def load_page_side_effect(page_obj, url, category, page_num):
+            if page_num in (2, 4):
+                raise RuntimeError(f"Broken page {page_num}")
+
+        mock_load.side_effect = load_page_side_effect
+
+        # Pages: 1(ok, 2 tiles), 2(skip), 3(ok, 2 tiles), 4(skip), 5(ok, 2 tiles)
+        browser, _, _ = _make_mock_browser(tiles_per_call=[2, 2, 2], pagination_text="1 von 5")
+        semaphore = asyncio.Semaphore(2)
+        error_log = []
+
+        result = await _scrape_category(browser, "obst-gemuese", semaphore, error_log)
+
+        assert len(result) == 6  # 2 * 3 successful pages
+        summaries = [e for e in error_log if e["type"] == "pages_skipped_summary"]
+        assert summaries[0]["skipped_pages"] == [2, 4]
+        assert summaries[0]["count"] == 2
+
+
+# ---------------------------------------------------------------------------
+# _scrape_category – normal operation (no errors)
+# ---------------------------------------------------------------------------
+
+class TestScrapeCategoryNormal:
+    """Verify the happy path still works correctly."""
+
+    @pytest.mark.asyncio
+    @patch("scrapers.spar.asyncio.sleep", new_callable=AsyncMock)
+    @patch("scrapers.spar._parse_tile", new_callable=AsyncMock)
+    @patch("scrapers.spar._load_page", new_callable=AsyncMock)
+    async def test_single_page(self, mock_load, mock_parse, mock_sleep):
+        product = _make_product()
+        mock_parse.return_value = product
+
+        browser, _, _ = _make_mock_browser(tiles_per_call=[5], pagination_text="1 von 1")
+        semaphore = asyncio.Semaphore(2)
+        error_log = []
+
+        result = await _scrape_category(browser, "obst-gemuese", semaphore, error_log)
+
+        assert len(result) == 5
+        assert error_log == []
+
+    @pytest.mark.asyncio
+    @patch("scrapers.spar.asyncio.sleep", new_callable=AsyncMock)
+    @patch("scrapers.spar._parse_tile", new_callable=AsyncMock)
+    @patch("scrapers.spar._load_page", new_callable=AsyncMock)
+    async def test_multi_page(self, mock_load, mock_parse, mock_sleep):
+        product = _make_product()
+        mock_parse.return_value = product
+
+        browser, _, _ = _make_mock_browser(tiles_per_call=[3, 3, 2], pagination_text="1 von 3")
+        semaphore = asyncio.Semaphore(2)
+        error_log = []
+
+        result = await _scrape_category(browser, "obst-gemuese", semaphore, error_log)
+
+        assert len(result) == 8
+        assert error_log == []
+
+    @pytest.mark.asyncio
+    @patch("scrapers.spar.asyncio.sleep", new_callable=AsyncMock)
+    @patch("scrapers.spar._parse_tile", new_callable=AsyncMock)
+    @patch("scrapers.spar._load_page", new_callable=AsyncMock)
+    async def test_no_skipped_pages_no_summary(self, mock_load, mock_parse, mock_sleep):
+        """No pages_skipped_summary should be logged when all pages succeed."""
+        mock_parse.return_value = _make_product()
+        browser, _, _ = _make_mock_browser(tiles_per_call=[3, 3], pagination_text="1 von 2")
+        error_log = []
+
+        result = await _scrape_category(browser, "obst-gemuese", asyncio.Semaphore(2), error_log)
+
+        summaries = [e for e in error_log if e["type"] == "pages_skipped_summary"]
+        assert summaries == []
+
+
+# ---------------------------------------------------------------------------
+# _scrape_category – error_log is populated correctly
+# ---------------------------------------------------------------------------
+
+class TestScrapeCategoryErrorLog:
+    """Verify that error_log entries have the expected shape."""
+
+    @pytest.mark.asyncio
+    @patch("scrapers.spar.asyncio.sleep", new_callable=AsyncMock)
+    @patch("scrapers.spar._parse_tile", new_callable=AsyncMock)
+    @patch("scrapers.spar._load_page", new_callable=AsyncMock)
+    async def test_page_skip_entry_shape(self, mock_load, mock_parse, mock_sleep):
+        mock_parse.return_value = _make_product()
+
+        async def fail_page2(page_obj, url, category, page_num):
+            if page_num == 2:
+                raise RuntimeError("broken")
+
+        mock_load.side_effect = fail_page2
+        browser, _, _ = _make_mock_browser(tiles_per_call=[2, 2], pagination_text="1 von 3")
+        error_log = []
+
+        await _scrape_category(browser, "obst-gemuese", asyncio.Semaphore(2), error_log)
+
+        skip = [e for e in error_log if e["type"] == "page_skip"][0]
+        assert "category" in skip
+        assert "page" in skip
+        assert "error" in skip
+        assert skip["page"] == 2
+
+    @pytest.mark.asyncio
+    @patch("scrapers.spar.asyncio.sleep", new_callable=AsyncMock)
+    @patch("scrapers.spar._parse_tile", new_callable=AsyncMock)
+    @patch("scrapers.spar._load_page", new_callable=AsyncMock)
+    async def test_empty_page1_retry_entry_shape(self, mock_load, mock_parse, mock_sleep):
+        mock_parse.return_value = _make_product()
+        browser, _, _ = _make_mock_browser(
+            tiles_per_call=[0, 4],
+            pagination_text="1 von 1",
+        )
+        error_log = []
+
+        await _scrape_category(browser, "brot-gebaeck", asyncio.Semaphore(2), error_log)
+
+        retry = [e for e in error_log if e["type"] == "empty_page1_retry"][0]
+        assert retry["category"] == "brot-gebaeck"
+        assert retry["attempt"] == 1
+
+
+# ---------------------------------------------------------------------------
+# _scrape_spar_async – error log JSON written
+# ---------------------------------------------------------------------------
+
+class TestScrapeSparAsyncErrorLog:
+    """Verify spar_errors.json is written with the expected structure."""
+
+    @pytest.mark.asyncio
+    @patch("scrapers.spar.asyncio.sleep", new_callable=AsyncMock)
+    @patch("scrapers.spar._parse_tile", new_callable=AsyncMock)
+    @patch("scrapers.spar._load_page", new_callable=AsyncMock)
+    @patch("scrapers.spar.async_playwright")
+    async def test_error_log_json_written(self, mock_pw, mock_load, mock_parse, mock_sleep):
+        """Error log JSON is written even when there are no errors."""
+        mock_parse.return_value = _make_product()
+
+        # Build a browser mock that returns pages with tiles
+        mock_page = AsyncMock()
+        mock_page.query_selector_all = AsyncMock(return_value=[MagicMock()])
+        pagination = AsyncMock()
+        pagination.inner_text = AsyncMock(return_value="1 von 1")
+        mock_page.query_selector = AsyncMock(return_value=pagination)
+
+        mock_context = AsyncMock()
+        mock_context.new_page = AsyncMock(return_value=mock_page)
+
+        mock_browser = AsyncMock()
+        mock_browser.new_context = AsyncMock(return_value=mock_context)
+
+        mock_pw_instance = AsyncMock()
+        mock_pw_instance.chromium.launch = AsyncMock(return_value=mock_browser)
+        mock_pw.return_value.__aenter__ = AsyncMock(return_value=mock_pw_instance)
+        mock_pw.return_value.__aexit__ = AsyncMock(return_value=False)
+
+        written_data = {}
+
+        original_open = open
+
+        def capturing_open(path, mode="r", **kwargs):
+            if path == ERROR_LOG_FILE and "w" in mode:
+                m = mock_open()()
+                written_parts = []
+                m.write = lambda s: written_parts.append(s)
+                written_data["parts"] = written_parts
+                return m
+            elif "spar.json" in str(path) and "w" in mode:
+                return mock_open()()
+            return original_open(path, mode, **kwargs)
+
+        with patch("builtins.open", side_effect=capturing_open):
+            await _scrape_spar_async()
+
+        # Verify error log was written
+        assert "parts" in written_data
+        content = "".join(written_data["parts"])
+        error_summary = json.loads(content)
+        assert "timestamp" in error_summary
+        assert "total_errors" in error_summary
+        assert "errors" in error_summary
+        assert isinstance(error_summary["errors"], list)
+
+    @pytest.mark.asyncio
+    @patch("scrapers.spar.asyncio.sleep", new_callable=AsyncMock)
+    @patch("scrapers.spar._parse_tile", new_callable=AsyncMock)
+    @patch("scrapers.spar._load_page", new_callable=AsyncMock)
+    @patch("scrapers.spar.async_playwright")
+    async def test_category_exception_logged(self, mock_pw, mock_load, mock_parse, mock_sleep):
+        """When gather returns an exception for a category, it's in the error log."""
+        mock_parse.return_value = _make_product()
+
+        # Make load_page always raise for one specific category
+        async def selective_fail(page_obj, url, category, page_num):
+            if category == "obst-gemuese":
+                raise ValueError("Unexpected error in obst-gemuese")
+
+        mock_load.side_effect = selective_fail
+
+        # Mock page that returns tiles for non-failing categories
+        mock_page = AsyncMock()
+        mock_page.query_selector_all = AsyncMock(return_value=[MagicMock()])
+        pagination = AsyncMock()
+        pagination.inner_text = AsyncMock(return_value="1 von 1")
+        mock_page.query_selector = AsyncMock(return_value=pagination)
+
+        mock_context = AsyncMock()
+        mock_context.new_page = AsyncMock(return_value=mock_page)
+
+        mock_browser = AsyncMock()
+        mock_browser.new_context = AsyncMock(return_value=mock_context)
+
+        mock_pw_instance = AsyncMock()
+        mock_pw_instance.chromium.launch = AsyncMock(return_value=mock_browser)
+        mock_pw.return_value.__aenter__ = AsyncMock(return_value=mock_pw_instance)
+        mock_pw.return_value.__aexit__ = AsyncMock(return_value=False)
+
+        written_data = {}
+        original_open = open
+
+        def capturing_open(path, mode="r", **kwargs):
+            if path == ERROR_LOG_FILE and "w" in mode:
+                m = mock_open()()
+                written_parts = []
+                m.write = lambda s: written_parts.append(s)
+                written_data["parts"] = written_parts
+                return m
+            elif "spar.json" in str(path) and "w" in mode:
+                return mock_open()()
+            return original_open(path, mode, **kwargs)
+
+        with (
+            patch("builtins.open", side_effect=capturing_open),
+            patch("scrapers.spar._take_screenshot", new_callable=AsyncMock),
+        ):
+            await _scrape_spar_async()
+
+        content = "".join(written_data["parts"])
+        error_summary = json.loads(content)
+        assert error_summary["total_errors"] > 0
+        error_types = [e["type"] for e in error_summary["errors"]]
+        assert "category_exception" in error_types

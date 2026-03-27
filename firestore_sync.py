@@ -17,6 +17,21 @@ BATCH_COOLDOWN = 1.5
 FIRESTORE_BATCH_LIMIT = 500  # Firestore maximum ops per batch
 META_COLLECTION = "_sync_metadata"
 
+# Firestore request counters – reset via reset_request_counters()
+_request_counts: dict[str, int] = {"reads": 0, "writes": 0, "deletes": 0}
+
+
+def reset_request_counters():
+    """Reset all Firestore request counters to zero."""
+    _request_counts["reads"] = 0
+    _request_counts["writes"] = 0
+    _request_counts["deletes"] = 0
+
+
+def get_request_counts() -> dict[str, int]:
+    """Return a copy of the current Firestore request counters."""
+    return dict(_request_counts)
+
 
 def _product_hash(product: dict) -> str:
     """Deterministic MD5 hash of a product dict for change detection."""
@@ -63,6 +78,7 @@ def sync_products(db, products: list[dict], collection: str):
     # ── 1. Read existing hashes from the single metadata document ────────
     meta_ref = db.collection(META_COLLECTION).document(collection)
     meta_doc = meta_ref.get()
+    _request_counts["reads"] += 1
     existing_hashes: dict[str, str] = (
         meta_doc.to_dict().get("hashes", {}) if meta_doc.exists else {}
     )
@@ -93,6 +109,7 @@ def sync_products(db, products: list[dict], collection: str):
         print("  Nothing changed – skipping Firestore writes.")
         # Still update metadata in case the doc doesn't exist yet
         meta_ref.set({"hashes": new_hashes})
+        _request_counts["writes"] += 1
         return 1  # 1 metadata write
 
     # ── 4. Batch-write new / changed products ────────────────────────────
@@ -102,6 +119,7 @@ def sync_products(db, products: list[dict], collection: str):
         for pid in chunk:
             batch.set(col_ref.document(pid), products_by_id[pid])
         _commit_with_retry(batch, f"write {collection} batch {i // FIRESTORE_BATCH_LIMIT + 1}")
+        _request_counts["writes"] += len(chunk)
         print(f"  Written batch {i // FIRESTORE_BATCH_LIMIT + 1}  ({len(chunk)} docs)")
 
     # ── 5. Batch-delete removed products ─────────────────────────────────
@@ -111,10 +129,12 @@ def sync_products(db, products: list[dict], collection: str):
         for pid in chunk:
             batch.delete(col_ref.document(pid))
         _commit_with_retry(batch, f"delete {collection} batch {i // FIRESTORE_BATCH_LIMIT + 1}")
+        _request_counts["deletes"] += len(chunk)
         print(f"  Deleted batch {i // FIRESTORE_BATCH_LIMIT + 1}  ({len(chunk)} docs)")
 
     # ── 6. Persist new hashes (1 write) ──────────────────────────────────
     meta_ref.set({"hashes": new_hashes})
+    _request_counts["writes"] += 1
 
     total_ops = len(ids_to_write) + len(ids_to_delete) + 1
     print(f"  Firestore operations: {total_ops}")

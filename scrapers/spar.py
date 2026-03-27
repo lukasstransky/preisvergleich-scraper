@@ -3,6 +3,7 @@ import hashlib
 import json
 import os
 import re
+from datetime import datetime, timezone
 from playwright.async_api import async_playwright
 
 SCREENSHOT_DIR = "screenshots"
@@ -27,6 +28,9 @@ CATEGORIES = [
 
 MAX_CONCURRENT = 2
 PAGE_RETRY_LIMIT = 5
+CATEGORY_RETRY_LIMIT = 3
+
+ERROR_LOG_FILE = "spar_errors.json"
 
 USER_AGENT = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
@@ -205,60 +209,121 @@ async def _load_page(page_obj, url, category, page_num):
             raise RuntimeError(f"Spar search broken for {category} page {page_num} after {PAGE_RETRY_LIMIT} retries")
 
 
-async def _scrape_category(browser, category, semaphore):
-    """Scrape all pages for a single category."""
+async def _scrape_category(browser, category, semaphore, error_log):
+    """Scrape all pages for a single category, with retry and skip logic."""
     async with semaphore:
-        context = await browser.new_context(user_agent=USER_AGENT)
-        page_obj = await context.new_page()
-        products = []
+        for cat_attempt in range(CATEGORY_RETRY_LIMIT):
+            context = await browser.new_context(user_agent=USER_AGENT)
+            page_obj = await context.new_page()
+            products = []
+            skipped_pages = []
 
-        try:
-            url = BASE_URL.format(category=category, page=1)
-            await _load_page(page_obj, url, category, 1)
+            try:
+                url = BASE_URL.format(category=category, page=1)
+                try:
+                    await _load_page(page_obj, url, category, 1)
+                except RuntimeError as e:
+                    msg = f"Page 1 load failed for {category}: {e}"
+                    print(f"  {msg}")
+                    error_log.append({"type": "page_skip", "category": category, "page": 1, "error": str(e)})
+                    skipped_pages.append(1)
+                    # Page 1 broken means we can't get total_pages — retry the whole category
+                    await context.close()
+                    if cat_attempt < CATEGORY_RETRY_LIMIT - 1:
+                        wait = 5 * (cat_attempt + 1)
+                        print(f"  Retrying category {category} (attempt {cat_attempt + 2}/{CATEGORY_RETRY_LIMIT}) in {wait}s...")
+                        await asyncio.sleep(wait)
+                        continue
+                    else:
+                        error_log.append({"type": "category_fail", "category": category, "error": f"Page 1 broken after {CATEGORY_RETRY_LIMIT} category retries"})
+                        return []
 
-            total_pages = await _get_total_pages(page_obj)
+                total_pages = await _get_total_pages(page_obj)
 
-            for page_num in range(1, total_pages + 1):
-                if page_num > 1:
-                    url = BASE_URL.format(category=category, page=page_num)
-                    await asyncio.sleep(0.5)
-                    await _load_page(page_obj, url, category, page_num)
-
+                # Check if page 1 returned 0 products — retry the category
                 tiles = await page_obj.query_selector_all("article.product-tile")
+                if len(tiles) == 0:
+                    msg = f"Page 1 returned 0 products for {category}"
+                    print(f"  {msg}")
+                    error_log.append({"type": "empty_page1_retry", "category": category, "attempt": cat_attempt + 1})
+                    await context.close()
+                    if cat_attempt < CATEGORY_RETRY_LIMIT - 1:
+                        wait = 5 * (cat_attempt + 1)
+                        print(f"  Retrying category {category} (attempt {cat_attempt + 2}/{CATEGORY_RETRY_LIMIT}) in {wait}s...")
+                        await asyncio.sleep(wait)
+                        continue
+                    else:
+                        error_log.append({"type": "category_fail", "category": category, "error": f"Page 1 still empty after {CATEGORY_RETRY_LIMIT} category retries"})
+                        return []
+
+                # Page 1 had products — parse them
                 for tile in tiles:
                     product = await _parse_tile(tile, category)
                     products.append(product)
+                print(f"spar {category} page 1/{total_pages}: {len(tiles)} products")
 
-                print(f"spar {category} page {page_num}/{total_pages}: {len(tiles)} products")
+                # Scrape remaining pages
+                for page_num in range(2, total_pages + 1):
+                    url = BASE_URL.format(category=category, page=page_num)
+                    await asyncio.sleep(0.5)
+                    try:
+                        await _load_page(page_obj, url, category, page_num)
+                    except RuntimeError as e:
+                        msg = f"Skipping {category} page {page_num}: {e}"
+                        print(f"  {msg}")
+                        error_log.append({"type": "page_skip", "category": category, "page": page_num, "error": str(e)})
+                        skipped_pages.append(page_num)
+                        continue
 
-        except Exception:
-            await _take_screenshot(page_obj, category, 0, "failure")
-            raise
-        finally:
-            await context.close()
+                    tiles = await page_obj.query_selector_all("article.product-tile")
+                    for tile in tiles:
+                        product = await _parse_tile(tile, category)
+                        products.append(product)
 
-        null_skus = sum(1 for p in products if p["sku"] is None)
-        print(f"spar {category} total: {len(products)} products ({null_skus} with null SKU)")
-        return products
+                    print(f"spar {category} page {page_num}/{total_pages}: {len(tiles)} products")
+
+            except Exception as e:
+                await _take_screenshot(page_obj, category, 0, "failure")
+                error_log.append({"type": "category_exception", "category": category, "error": str(e)})
+                await context.close()
+                raise
+            finally:
+                try:
+                    await context.close()
+                except Exception:
+                    pass
+
+            if skipped_pages:
+                error_log.append({"type": "pages_skipped_summary", "category": category, "skipped_pages": skipped_pages, "count": len(skipped_pages)})
+
+            null_skus = sum(1 for p in products if p["sku"] is None)
+            print(f"spar {category} total: {len(products)} products ({null_skus} with null SKU)")
+            return products
+
+        # Should not reach here, but just in case
+        return []
 
 
 async def _scrape_spar_async():
     """Scrape all categories concurrently and write products to spar.json."""
     all_products = []
+    error_log = []
     semaphore = asyncio.Semaphore(MAX_CONCURRENT)
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         try:
             tasks = [
-                _scrape_category(browser, category, semaphore)
+                _scrape_category(browser, category, semaphore, error_log)
                 for category in CATEGORIES
             ]
             results = await asyncio.gather(*tasks, return_exceptions=True)
 
             for category, result in zip(CATEGORIES, results):
                 if isinstance(result, Exception):
-                    print(f"Error scraping category '{category}': {result}")
+                    msg = f"Error scraping category '{category}': {result}"
+                    print(msg)
+                    error_log.append({"type": "category_exception", "category": category, "error": str(result)})
                 else:
                     all_products.extend(result)
         finally:
@@ -268,6 +333,19 @@ async def _scrape_spar_async():
         json.dump(all_products, f, ensure_ascii=False, indent=2)
     null_skus = sum(1 for p in all_products if p["sku"] is None)
     print(f"Saved {len(all_products)} products to spar.json ({null_skus} with null SKU)")
+
+    # Write error log
+    error_summary = {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "total_errors": len(error_log),
+        "errors": error_log,
+    }
+    with open(ERROR_LOG_FILE, "w", encoding="utf-8") as f:
+        json.dump(error_summary, f, ensure_ascii=False, indent=2)
+    if error_log:
+        print(f"Wrote {len(error_log)} error(s) to {ERROR_LOG_FILE}")
+    else:
+        print(f"No errors encountered (wrote empty log to {ERROR_LOG_FILE})")
 
     return all_products
 

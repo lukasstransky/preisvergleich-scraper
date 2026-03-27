@@ -10,7 +10,7 @@ import os
 import firebase_admin
 from firebase_admin import credentials, firestore
 
-from firestore_sync import sync_products
+from firestore_sync import sync_products, reset_request_counters, get_request_counts
 
 
 def _collection_name(supermarket: str) -> str:
@@ -68,10 +68,18 @@ def upload_all(products_by_supermarket):
     if not db:
         return
 
-    total_ops = 0
+    reset_request_counters()
+
     for supermarket, products in products_by_supermarket.items():
         print(f"Syncing {supermarket} ({len(products)} products)…")
         upload_products(db, products, supermarket)
         print()
 
+    counts = get_request_counts()
+    total = counts["reads"] + counts["writes"] + counts["deletes"]
     print("Firebase sync complete.")
+    print(f"  Firestore request summary:")
+    print(f"    Reads  : {counts['reads']}")
+    print(f"    Writes : {counts['writes']}")
+    print(f"    Deletes: {counts['deletes']}")
+    print(f"    Total  : {total}")
