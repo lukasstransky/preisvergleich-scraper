@@ -288,22 +288,6 @@
     "supermarket": "hofer"
   },
   {
-    "id": "hofer_000000000000555607",
-    "name": "Käsestangerl",
-    "price": 0.99,
-    "originalPrice": null,
-    "promotionText": null,
-    "unitPrice": null,
-    "unitLabel": null,
-    "category": "brot-und-backwaren",
-    "brand": "BACKBOX",
-    "amount": "per Stück",
-    "sku": "000000000000555607",
-    "inPromotion": false,
-    "imageUrl": "https://s7g10.scene7.com/is/image/aldi/202402060293",
-    "supermarket": "hofer"
-  },
-  {
     "id": "hofer_000000000000733166",
     "name": "Käsestangerl",
     "price": 0.99,
@@ -317,6 +301,22 @@
     "sku": "000000000000733166",
     "inPromotion": false,
     "imageUrl": "https://s7g10.scene7.com/is/image/aldi/202602170002",
+    "supermarket": "hofer"
+  },
+  {
+    "id": "hofer_000000000000555607",
+    "name": "Käsestangerl",
+    "price": 0.99,
+    "originalPrice": null,
+    "promotionText": null,
+    "unitPrice": null,
+    "unitLabel": null,
+    "category": "brot-und-backwaren",
+    "brand": "BACKBOX",
+    "amount": "per Stück",
+    "sku": "000000000000555607",
+    "inPromotion": false,
+    "imageUrl": "https://s7g10.scene7.com/is/image/aldi/202402060293",
     "supermarket": "hofer"
   },
   {
@@ -498,10 +498,10 @@
   {
     "id": "hofer_000000000000712760",
     "name": "Rustikales Landbaguette",
-    "price": 0.99,
+    "price": 0.69,
     "originalPrice": null,
     "promotionText": null,
-    "unitPrice": 3.96,
+    "unitPrice": 2.76,
     "unitLabel": "kg",
     "category": "brot-und-backwaren",
     "brand": "BACKBOX",
@@ -930,10 +930,10 @@
   {
     "id": "hofer_000000000000721905",
     "name": "/ BACKBOX Bio-Lavanttaler Brot",
-    "price": 1.89,
+    "price": 2.49,
     "originalPrice": null,
     "promotionText": null,
-    "unitPrice": 3.78,
+    "unitPrice": 4.98,
     "unitLabel": "kg",
     "category": "brot-und-backwaren",
     "brand": "ZURÜCK ZUM URSPRUNG",
@@ -1058,10 +1058,10 @@
   {
     "id": "hofer_000000000000101062",
     "name": "Schulmaus 6er",
-    "price": 2.49,
+    "price": 3.39,
     "originalPrice": null,
     "promotionText": null,
-    "unitPrice": 10.38,
+    "unitPrice": 14.13,
     "unitLabel": "kg",
     "category": "brot-und-backwaren",
     "brand": "ÖLZ",
@@ -2096,22 +2096,6 @@
     "supermarket": "hofer"
   },
   {
-    "id": "hofer_000000000000106958",
-    "name": "100% AUS ÖSTERREICH Faschiertes gemischt",
-    "price": 4.99,
-    "originalPrice": null,
-    "promotionText": null,
-    "unitPrice": 9.98,
-    "unitLabel": "kg",
-    "category": "fleisch-und-fisch",
-    "brand": "GENUSS",
-    "amount": "per Packung",
-    "sku": "000000000000106958",
-    "inPromotion": false,
-    "imageUrl": "https://s7g10.scene7.com/is/image/aldi/202510140223",
-    "supermarket": "hofer"
-  },
-  {
     "id": "hofer_000000000000174748",
     "name": "100% AUS ÖSTERREICH Faschiertes gemischt",
     "price": 7.99,
@@ -2125,6 +2109,22 @@
     "sku": "000000000000174748",
     "inPromotion": false,
     "imageUrl": "https://s7g10.scene7.com/is/image/aldi/202512020907",
+    "supermarket": "hofer"
+  },
+  {
+    "id": "hofer_000000000000106958",
+    "name": "100% AUS ÖSTERREICH Faschiertes gemischt",
+    "price": 4.99,
+    "originalPrice": null,
+    "promotionText": null,
+    "unitPrice": 9.98,
+    "unitLabel": "kg",
+    "category": "fleisch-und-fisch",
+    "brand": "GENUSS",
+    "amount": "per Packung",
+    "sku": "000000000000106958",
+    "inPromotion": false,
+    "imageUrl": "https://s7g10.scene7.com/is/image/aldi/202510140223",
     "supermarket": "hofer"
   },
   {
@@ -2402,10 +2402,10 @@
   {
     "id": "hofer_000000000000107113",
     "name": "100% AUS ÖSTERREICH Karreesteaks",
-    "price": 10.29,
+    "price": 7.49,
     "originalPrice": null,
     "promotionText": null,
-    "unitPrice": 10.29,
+    "unitPrice": 7.49,
     "unitLabel": "kg",
     "category": "fleisch-und-fisch",
     "brand": "GENUSS",
@@ -2546,10 +2546,10 @@
   {
     "id": "hofer_000000000000107083",
     "name": "100% AUS ÖSTERREICH Mageres Faschiertes",
-    "price": 3.99,
+    "price": 5.49,
     "originalPrice": null,
     "promotionText": null,
-    "unitPrice": 7.98,
+    "unitPrice": 10.98,
     "unitLabel": "kg",
     "category": "fleisch-und-fisch",
     "brand": "GENUSS",
@@ -6786,10 +6786,10 @@
   {
     "id": "hofer_000000000470199003",
     "name": "Kräuter",
-    "price": 1.29,
+    "price": 2.59,
     "originalPrice": null,
     "promotionText": null,
-    "unitPrice": 0.7,
+    "unitPrice": 1.4,
     "unitLabel": "Gramm",
     "category": "kuehlung",
     "brand": "BRUNCH",
@@ -6802,10 +6802,10 @@
   {
     "id": "hofer_000000000470199004",
     "name": "Mango Curry",
-    "price": 1.29,
+    "price": 2.59,
     "originalPrice": null,
     "promotionText": null,
-    "unitPrice": 0.7,
+    "unitPrice": 1.4,
     "unitLabel": "Gramm",
     "category": "kuehlung",
     "brand": "BRUNCH",
@@ -6818,10 +6818,10 @@
   {
     "id": "hofer_000000000470199002",
     "name": "Original",
-    "price": 1.29,
+    "price": 2.59,
     "originalPrice": null,
     "promotionText": null,
-    "unitPrice": 0.7,
+    "unitPrice": 1.4,
     "unitLabel": "Gramm",
     "category": "kuehlung",
     "brand": "BRUNCH",
@@ -6834,10 +6834,10 @@
   {
     "id": "hofer_000000000470199001",
     "name": "Paprika",
-    "price": 1.29,
+    "price": 2.59,
     "originalPrice": null,
     "promotionText": null,
-    "unitPrice": 0.7,
+    "unitPrice": 1.4,
     "unitLabel": "Gramm",
     "category": "kuehlung",
     "brand": "BRUNCH",
@@ -7728,22 +7728,6 @@
     "supermarket": "hofer"
   },
   {
-    "id": "hofer_000000000110596001",
-    "name": "Fruchtjoghurt, Erdbeere",
-    "price": 1.25,
-    "originalPrice": null,
-    "promotionText": null,
-    "unitPrice": 2.5,
-    "unitLabel": "kg",
-    "category": "kuehlung",
-    "brand": "MILFINA",
-    "amount": "per Stück",
-    "sku": "000000000110596001",
-    "inPromotion": false,
-    "imageUrl": "https://s7g10.scene7.com/is/image/aldi/202501100395",
-    "supermarket": "hofer"
-  },
-  {
     "id": "hofer_000000000110628001",
     "name": "Fruchtjoghurt, Erdbeere",
     "price": 0.55,
@@ -7757,6 +7741,22 @@
     "sku": "000000000110628001",
     "inPromotion": false,
     "imageUrl": "https://s7g10.scene7.com/is/image/aldi/202503050117",
+    "supermarket": "hofer"
+  },
+  {
+    "id": "hofer_000000000110596001",
+    "name": "Fruchtjoghurt, Erdbeere",
+    "price": 1.25,
+    "originalPrice": null,
+    "promotionText": null,
+    "unitPrice": 2.5,
+    "unitLabel": "kg",
+    "category": "kuehlung",
+    "brand": "MILFINA",
+    "amount": "per Stück",
+    "sku": "000000000110596001",
+    "inPromotion": false,
+    "imageUrl": "https://s7g10.scene7.com/is/image/aldi/202501100395",
     "supermarket": "hofer"
   },
   {
@@ -7824,22 +7824,6 @@
     "supermarket": "hofer"
   },
   {
-    "id": "hofer_000000000110596007",
-    "name": "Fruchtjoghurt, Vanille",
-    "price": 1.25,
-    "originalPrice": null,
-    "promotionText": null,
-    "unitPrice": 2.5,
-    "unitLabel": "kg",
-    "category": "kuehlung",
-    "brand": "MILFINA",
-    "amount": "per Stück",
-    "sku": "000000000110596007",
-    "inPromotion": false,
-    "imageUrl": "https://s7g10.scene7.com/is/image/aldi/202501100387",
-    "supermarket": "hofer"
-  },
-  {
     "id": "hofer_000000000110628003",
     "name": "Fruchtjoghurt, Vanille",
     "price": 0.55,
@@ -7853,6 +7837,22 @@
     "sku": "000000000110628003",
     "inPromotion": false,
     "imageUrl": "https://s7g10.scene7.com/is/image/aldi/202501100356",
+    "supermarket": "hofer"
+  },
+  {
+    "id": "hofer_000000000110596007",
+    "name": "Fruchtjoghurt, Vanille",
+    "price": 1.25,
+    "originalPrice": null,
+    "promotionText": null,
+    "unitPrice": 2.5,
+    "unitLabel": "kg",
+    "category": "kuehlung",
+    "brand": "MILFINA",
+    "amount": "per Stück",
+    "sku": "000000000110596007",
+    "inPromotion": false,
+    "imageUrl": "https://s7g10.scene7.com/is/image/aldi/202501100387",
     "supermarket": "hofer"
   },
   {
@@ -9744,22 +9744,6 @@
     "supermarket": "hofer"
   },
   {
-    "id": "hofer_000000000157761001",
-    "name": "Rapsöl",
-    "price": 1.99,
-    "originalPrice": null,
-    "promotionText": null,
-    "unitPrice": null,
-    "unitLabel": null,
-    "category": "vorratsschrank",
-    "brand": "BELLASAN",
-    "amount": "per Flasche",
-    "sku": "000000000157761001",
-    "inPromotion": false,
-    "imageUrl": "https://s7g10.scene7.com/is/image/aldi/202504030256",
-    "supermarket": "hofer"
-  },
-  {
     "id": "hofer_000000000000171132",
     "name": "Rapsöl",
     "price": 1.89,
@@ -9776,9 +9760,9 @@
     "supermarket": "hofer"
   },
   {
-    "id": "hofer_000000000000170631",
-    "name": "Sonnenblumenöl",
-    "price": 3.79,
+    "id": "hofer_000000000157761001",
+    "name": "Rapsöl",
+    "price": 1.99,
     "originalPrice": null,
     "promotionText": null,
     "unitPrice": null,
@@ -9786,9 +9770,9 @@
     "category": "vorratsschrank",
     "brand": "BELLASAN",
     "amount": "per Flasche",
-    "sku": "000000000000170631",
+    "sku": "000000000157761001",
     "inPromotion": false,
-    "imageUrl": "https://s7g10.scene7.com/is/image/aldi/202407080266",
+    "imageUrl": "https://s7g10.scene7.com/is/image/aldi/202504030256",
     "supermarket": "hofer"
   },
   {
@@ -9805,6 +9789,22 @@
     "sku": "000000000157761002",
     "inPromotion": false,
     "imageUrl": "https://s7g10.scene7.com/is/image/aldi/202504030255",
+    "supermarket": "hofer"
+  },
+  {
+    "id": "hofer_000000000000170631",
+    "name": "Sonnenblumenöl",
+    "price": 3.79,
+    "originalPrice": null,
+    "promotionText": null,
+    "unitPrice": null,
+    "unitLabel": null,
+    "category": "vorratsschrank",
+    "brand": "BELLASAN",
+    "amount": "per Flasche",
+    "sku": "000000000000170631",
+    "inPromotion": false,
+    "imageUrl": "https://s7g10.scene7.com/is/image/aldi/202407080266",
     "supermarket": "hofer"
   },
   {
@@ -10306,10 +10306,10 @@
   {
     "id": "hofer_000000000510437001",
     "name": "Ketchup, Mild",
-    "price": 2.99,
+    "price": 3.99,
     "originalPrice": null,
     "promotionText": null,
-    "unitPrice": 2.99,
+    "unitPrice": 3.99,
     "unitLabel": "kg",
     "category": "vorratsschrank",
     "brand": "FELIX",
@@ -10322,10 +10322,10 @@
   {
     "id": "hofer_000000000510437002",
     "name": "Ketchup, ohne Zuckerzusatz",
-    "price": 2.99,
+    "price": 3.99,
     "originalPrice": null,
     "promotionText": null,
-    "unitPrice": 3.11,
+    "unitPrice": 4.16,
     "unitLabel": "kg",
     "category": "vorratsschrank",
     "brand": "FELIX",
@@ -13808,22 +13808,6 @@
     "supermarket": "hofer"
   },
   {
-    "id": "hofer_000000000000739172",
-    "name": "Wasserenthärter",
-    "price": 14.99,
-    "originalPrice": null,
-    "promotionText": "ab 23.03.2026",
-    "unitPrice": null,
-    "unitLabel": null,
-    "category": "angebote",
-    "brand": "CALGON",
-    "amount": "per Stück",
-    "sku": "000000000000739172",
-    "inPromotion": true,
-    "imageUrl": "https://s7g10.scene7.com/is/image/aldi/202603230174",
-    "supermarket": "hofer"
-  },
-  {
     "id": "hofer_000000000000739206",
     "name": "Wasserenthärter",
     "price": 14.99,
@@ -13837,6 +13821,22 @@
     "sku": "000000000000739206",
     "inPromotion": true,
     "imageUrl": "https://s7g10.scene7.com/is/image/aldi/202603160100",
+    "supermarket": "hofer"
+  },
+  {
+    "id": "hofer_000000000000739172",
+    "name": "Wasserenthärter",
+    "price": 14.99,
+    "originalPrice": null,
+    "promotionText": "ab 23.03.2026",
+    "unitPrice": null,
+    "unitLabel": null,
+    "category": "angebote",
+    "brand": "CALGON",
+    "amount": "per Stück",
+    "sku": "000000000000739172",
+    "inPromotion": true,
+    "imageUrl": "https://s7g10.scene7.com/is/image/aldi/202603230174",
     "supermarket": "hofer"
   },
   {

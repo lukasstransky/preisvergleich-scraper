@@ -8,22 +8,22 @@ from playwright.async_api import async_playwright
 
 SCREENSHOT_DIR = "screenshots"
 
-BASE_URL = "https://www.spar.at/produktwelt/{category}?page={page}"
+BASE_URL = "https://www.spar.at/produktwelt/{category}"
 
 CATEGORIES = [
     "obst-gemuese",
-    "brot-gebaeck",
-    "milchprodukte-alternativen",
-    "tiefkuehlprodukte",
-    "wurst-fleisch-eier-fisch",
-    "beilagen-essig-oel-gewuerze",
-    "backen-fruehstueck",
-    "suesses-salziges",
-    "schnelle-kueche-to-go",
+    #"brot-gebaeck",
+    #"milchprodukte-alternativen",
+    #"tiefkuehlprodukte",
+    #"wurst-fleisch-eier-fisch",
+    #"beilagen-essig-oel-gewuerze",
+    #"backen-fruehstueck",
+    #"suesses-salziges",
+    #"schnelle-kueche-to-go",
     #"babynahrung",
-    "alkoholfreie-getraenke",
-    "kaffee-tee-kakao",
-    "alkoholische-getraenke",
+    #"alkoholfreie-getraenke",
+    #"kaffee-tee-kakao",
+    #"alkoholische-getraenke",
 ]
 
 MAX_CONCURRENT = 2
@@ -186,6 +186,16 @@ async def _is_search_broken(page_obj):
         return False
 
 
+async def _get_current_page_num(page_obj):
+    """Extract current page number from pagination text, e.g. '3 von 11' → 3."""
+    pagination = await page_obj.query_selector("div.pagination__text")
+    if not pagination:
+        return 1
+    text = (await pagination.inner_text()).strip()
+    match = re.search(r"(\d+)\s+von\s+\d+", text)
+    return int(match.group(1)) if match else 1
+
+
 async def _load_page(page_obj, url, category, page_num):
     """Navigate to a URL, dismiss cookies, wait for the grid, and retry on search errors."""
     for attempt in range(PAGE_RETRY_LIMIT):
@@ -209,6 +219,42 @@ async def _load_page(page_obj, url, category, page_num):
             raise RuntimeError(f"Spar search broken for {category} page {page_num} after {PAGE_RETRY_LIMIT} retries")
 
 
+async def _click_next_page(page_obj, expected_page_num):
+    """Click the 'next page' button and wait for the pagination text to update.
+
+    Returns True if navigation succeeded, False if there is no next button.
+    """
+    next_btn = page_obj.locator('button[data-tosca="plp-pagination-next-btn"]')
+    try:
+        await next_btn.wait_for(state="visible", timeout=5000)
+    except Exception:
+        return False
+
+    if await next_btn.is_disabled():
+        return False
+
+    await next_btn.click()
+
+    # Wait for the pagination text to reflect the new page number
+    try:
+        await page_obj.wait_for_function(
+            f"document.querySelector('div.pagination__text')?.innerText.trim().startsWith('{expected_page_num} ')",
+            timeout=15000,
+        )
+    except Exception:
+        pass
+
+    # Also wait for the product grid to be present
+    try:
+        await page_obj.wait_for_selector("div.spar-plp__grid", timeout=10000)
+    except Exception:
+        pass
+
+    # Small extra settle time for DOM rendering
+    await page_obj.wait_for_timeout(500)
+    return True
+
+
 async def _scrape_category(browser, category, semaphore, error_log):
     """Scrape all pages for a single category, with retry and skip logic."""
     async with semaphore:
@@ -216,10 +262,11 @@ async def _scrape_category(browser, category, semaphore, error_log):
             context = await browser.new_context(user_agent=USER_AGENT)
             page_obj = await context.new_page()
             products = []
+            seen_ids = set()
             skipped_pages = []
 
             try:
-                url = BASE_URL.format(category=category, page=1)
+                url = BASE_URL.format(category=category)
                 try:
                     await _load_page(page_obj, url, category, 1)
                 except RuntimeError as e:
@@ -257,30 +304,45 @@ async def _scrape_category(browser, category, semaphore, error_log):
                         return []
 
                 # Page 1 had products — parse them
+                new_count = 0
                 for tile in tiles:
                     product = await _parse_tile(tile, category)
-                    products.append(product)
-                print(f"spar {category} page 1/{total_pages}: {len(tiles)} products")
+                    if product["id"] not in seen_ids:
+                        seen_ids.add(product["id"])
+                        products.append(product)
+                        new_count += 1
+                print(f"spar {category} page 1/{total_pages}: {len(tiles)} products ({new_count} new)")
 
-                # Scrape remaining pages
+                # Scrape remaining pages by clicking the "next page" button
                 for page_num in range(2, total_pages + 1):
-                    url = BASE_URL.format(category=category, page=page_num)
-                    await asyncio.sleep(0.5)
                     try:
-                        await _load_page(page_obj, url, category, page_num)
-                    except RuntimeError as e:
+                        navigated = await _click_next_page(page_obj, page_num)
+                        if not navigated:
+                            print(f"  No next-page button on page {page_num - 1}, stopping pagination for {category}")
+                            break
+                    except Exception as e:
                         msg = f"Skipping {category} page {page_num}: {e}"
                         print(f"  {msg}")
                         error_log.append({"type": "page_skip", "category": category, "page": page_num, "error": str(e)})
                         skipped_pages.append(page_num)
-                        continue
+                        break
+
+                    # Verify we actually moved to the expected page
+                    actual_page = await _get_current_page_num(page_obj)
+                    if actual_page != page_num:
+                        print(f"  Expected page {page_num} but got {actual_page}, stopping pagination for {category}")
+                        break
 
                     tiles = await page_obj.query_selector_all("article.product-tile")
+                    new_count = 0
                     for tile in tiles:
                         product = await _parse_tile(tile, category)
-                        products.append(product)
+                        if product["id"] not in seen_ids:
+                            seen_ids.add(product["id"])
+                            products.append(product)
+                            new_count += 1
 
-                    print(f"spar {category} page {page_num}/{total_pages}: {len(tiles)} products")
+                    print(f"spar {category} page {page_num}/{total_pages}: {len(tiles)} products ({new_count} new)")
 
             except Exception as e:
                 await _take_screenshot(page_obj, category, 0, "failure")
