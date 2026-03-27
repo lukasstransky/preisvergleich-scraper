@@ -112,6 +112,10 @@ def sync_products(db, products: list[dict], collection: str):
         _request_counts["writes"] += 1
         return 1  # 1 metadata write
 
+    # committed_hashes tracks what Firestore metadata reflects after each
+    # successful batch so that a re-run skips already-written products.
+    committed_hashes: dict[str, str] = dict(existing_hashes)
+
     # ── 4. Batch-write new / changed products ────────────────────────────
     for i in range(0, len(ids_to_write), FIRESTORE_BATCH_LIMIT):
         batch = db.batch()
@@ -120,6 +124,12 @@ def sync_products(db, products: list[dict], collection: str):
             batch.set(col_ref.document(pid), products_by_id[pid])
         _commit_with_retry(batch, f"write {collection} batch {i // FIRESTORE_BATCH_LIMIT + 1}")
         _request_counts["writes"] += len(chunk)
+        # Persist the updated hashes for this chunk immediately so a re-run
+        # won't re-write products that were already successfully committed.
+        for pid in chunk:
+            committed_hashes[pid] = new_hashes[pid]
+        meta_ref.set({"hashes": committed_hashes})
+        _request_counts["writes"] += 1
         print(f"  Written batch {i // FIRESTORE_BATCH_LIMIT + 1}  ({len(chunk)} docs)")
 
     # ── 5. Batch-delete removed products ─────────────────────────────────
@@ -130,9 +140,14 @@ def sync_products(db, products: list[dict], collection: str):
             batch.delete(col_ref.document(pid))
         _commit_with_retry(batch, f"delete {collection} batch {i // FIRESTORE_BATCH_LIMIT + 1}")
         _request_counts["deletes"] += len(chunk)
+        # Remove deleted IDs from metadata so they aren't re-deleted next run.
+        for pid in chunk:
+            committed_hashes.pop(pid, None)
+        meta_ref.set({"hashes": committed_hashes})
+        _request_counts["writes"] += 1
         print(f"  Deleted batch {i // FIRESTORE_BATCH_LIMIT + 1}  ({len(chunk)} docs)")
 
-    # ── 6. Persist new hashes (1 write) ──────────────────────────────────
+    # ── 6. Persist final hashes (ensures metadata is fully up to date) ───
     meta_ref.set({"hashes": new_hashes})
     _request_counts["writes"] += 1
 

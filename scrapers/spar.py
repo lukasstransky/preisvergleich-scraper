@@ -138,6 +138,13 @@ async def _parse_tile(tile, category):
     )
 
     # --- Stage 3: pure-Python post-processing (no awaits) ---
+
+    # When the tile has no separate brand line, Spar places the product name
+    # in name1 (the brand slot) and leaves name2 empty.  Fall back accordingly.
+    if not name and brand:
+        name = brand
+        brand = ""
+
     price = None
     if price_text:
         try:

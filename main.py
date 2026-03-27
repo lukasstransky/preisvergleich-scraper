@@ -9,10 +9,10 @@ from scrapers.penny import scrape_penny
 from firebase_store import upload_all
 
 SCRAPERS = {
-    #"billa": ("billa.json", scrape_billa),
+    "billa": ("billa.json", scrape_billa),
     "spar":  ("spar.json",  scrape_spar),
-    #"hofer": ("hofer.json", scrape_hofer),
-    #"penny": ("penny.json", scrape_penny),
+    "hofer": ("hofer.json", scrape_hofer),
+    "penny": ("penny.json", scrape_penny),
 }
 
 
