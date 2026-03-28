@@ -55,13 +55,17 @@ def _commit_with_retry(batch, label=""):
                 raise
 
 
-def sync_products(db, products: list[dict], collection: str):
+def sync_products(db, products: list[dict], collection: str, meta_key: str | None = None):
     """Sync a list of products into *collection* using diff-based updates.
 
     Args:
         db: Firestore client.
         products: List of product dicts (each must have an ``"id"`` key).
-        collection: Firestore collection name, e.g. ``"penny_products"``.
+        collection: Firestore collection name, e.g. ``"products"``.
+        meta_key: Key for the metadata document in the ``_sync_metadata``
+            collection.  Defaults to *collection* when not provided.  Use a
+            supermarket-specific key (e.g. ``"billa"``) when multiple
+            supermarkets share the same collection.
 
     Returns:
         Total number of Firestore write/delete operations performed.
@@ -69,14 +73,17 @@ def sync_products(db, products: list[dict], collection: str):
     if not db:
         return 0
 
+    if meta_key is None:
+        meta_key = collection
+
     if not products:
-        print(f"  No products to sync for {collection}")
+        print(f"  No products to sync for {meta_key}")
         return 0
 
     col_ref = db.collection(collection)
 
     # ── 1. Read existing hashes from the single metadata document ────────
-    meta_ref = db.collection(META_COLLECTION).document(collection)
+    meta_ref = db.collection(META_COLLECTION).document(meta_key)
     meta_doc = meta_ref.get()
     _request_counts["reads"] += 1
     existing_hashes: dict[str, str] = (

@@ -1,4 +1,4 @@
-"""Tests for firebase_store.py – Firebase init and per-supermarket sync."""
+"""Tests for firebase_store.py – Firebase init and flat products collection sync."""
 
 import json
 import os
@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch, call
 import pytest
 
 from firebase_store import (
-    _collection_name,
+    PRODUCTS_COLLECTION,
     init_firebase,
     upload_products,
     upload_all,
@@ -15,21 +15,12 @@ from firebase_store import (
 
 
 # ---------------------------------------------------------------------------
-# _collection_name
+# PRODUCTS_COLLECTION
 # ---------------------------------------------------------------------------
 
-class TestCollectionName:
-    def test_penny(self):
-        assert _collection_name("penny") == "penny_products"
-
-    def test_billa(self):
-        assert _collection_name("billa") == "billa_products"
-
-    def test_hofer(self):
-        assert _collection_name("hofer") == "hofer_products"
-
-    def test_spar(self):
-        assert _collection_name("spar") == "spar_products"
+class TestProductsCollection:
+    def test_collection_name_is_products(self):
+        assert PRODUCTS_COLLECTION == "products"
 
 
 # ---------------------------------------------------------------------------
@@ -103,7 +94,7 @@ class TestUploadProducts:
 
         upload_products(db, products, "penny")
 
-        mock_sync.assert_called_once_with(db, products, "penny_products")
+        mock_sync.assert_called_once_with(db, products, "products", meta_key="penny")
 
     @patch("firebase_store.sync_products")
     def test_skips_when_db_is_none(self, mock_sync):
@@ -111,19 +102,16 @@ class TestUploadProducts:
         mock_sync.assert_not_called()
 
     @patch("firebase_store.sync_products")
-    def test_each_supermarket_gets_own_collection(self, mock_sync):
+    def test_all_supermarkets_use_same_collection(self, mock_sync):
         db = MagicMock()
         for sm in ["billa", "spar", "hofer", "penny"]:
             upload_products(db, [{"id": f"{sm}_1"}], sm)
 
         calls = mock_sync.call_args_list
         collections_used = [c.args[2] for c in calls]
-        assert collections_used == [
-            "billa_products",
-            "spar_products",
-            "hofer_products",
-            "penny_products",
-        ]
+        meta_keys_used = [c.kwargs["meta_key"] for c in calls]
+        assert collections_used == ["products", "products", "products", "products"]
+        assert meta_keys_used == ["billa", "spar", "hofer", "penny"]
 
 
 # ---------------------------------------------------------------------------

@@ -44,17 +44,17 @@ class TestFullSyncPipeline:
 
         upload_products(db, products, "billa")
 
-        # All 5 products are in the collection
-        docs = db.get_all_docs("billa_products")
+        # All 5 products are in the flat products collection
+        docs = db.get_all_docs("products")
         assert len(docs) == 5
         for p in products:
             assert p["id"] in docs
             assert docs[p["id"]] == p
 
-        # Metadata contains hashes for all 5 products
+        # Metadata uses supermarket name as key
         meta = db.get_all_docs("_sync_metadata")
-        assert "billa_products" in meta
-        hashes = meta["billa_products"]["hashes"]
+        assert "billa" in meta
+        hashes = meta["billa"]["hashes"]
         assert len(hashes) == 5
         for p in products:
             assert hashes[p["id"]] == _product_hash(p)
@@ -76,7 +76,7 @@ class TestFullSyncPipeline:
         upload_products(db, products, "billa")
 
         # Still 3 documents
-        docs = db.get_all_docs("billa_products")
+        docs = db.get_all_docs("products")
         assert len(docs) == 3
 
         # Only 1 read (metadata) + 1 write (metadata update) — no product writes
@@ -104,7 +104,7 @@ class TestFullSyncPipeline:
 
         upload_products(db, updated, "spar")
 
-        docs = db.get_all_docs("spar_products")
+        docs = db.get_all_docs("products")
         assert len(docs) == 5
 
         # Product 0 was deleted
@@ -151,16 +151,15 @@ class TestUploadAll:
 
         upload_all({"billa": billa_products, "spar": spar_products})
 
-        # Both collections populated
-        assert len(db.get_all_docs("billa_products")) == 3
-        assert len(db.get_all_docs("spar_products")) == 2
+        # Both supermarkets share the same products collection
+        assert len(db.get_all_docs("products")) == 5  # 3 billa + 2 spar
 
-        # Metadata for both
+        # Metadata keyed by supermarket name
         meta = db.get_all_docs("_sync_metadata")
-        assert "billa_products" in meta
-        assert "spar_products" in meta
-        assert len(meta["billa_products"]["hashes"]) == 3
-        assert len(meta["spar_products"]["hashes"]) == 2
+        assert "billa" in meta
+        assert "spar" in meta
+        assert len(meta["billa"]["hashes"]) == 3
+        assert len(meta["spar"]["hashes"]) == 2
 
     @patch("firebase_store.init_firebase")
     def test_upload_all_no_firebase_is_noop(self, mock_init):
@@ -190,9 +189,9 @@ class TestUploadAll:
         products = _make_products("billa", 3)
 
         upload_all({"billa": products})
-        first_docs = dict(db.get_all_docs("billa_products"))
+        first_docs = dict(db.get_all_docs("products"))
 
         upload_all({"billa": products})
-        second_docs = db.get_all_docs("billa_products")
+        second_docs = db.get_all_docs("products")
 
         assert first_docs == second_docs

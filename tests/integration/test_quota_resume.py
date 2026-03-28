@@ -78,7 +78,7 @@ class TestResumeAfterQuotaHit:
         products = _products("billa", 5)
 
         # Simulate Day-1 partial upload: products written, metadata missing.
-        _write_products_without_metadata(db, products, "billa_products")
+        _write_products_without_metadata(db, products, "products")
 
         reset_request_counters()
 
@@ -86,13 +86,13 @@ class TestResumeAfterQuotaHit:
         upload_products(db, products, "billa")
 
         # All 5 products still present
-        docs = db.get_all_docs("billa_products")
+        docs = db.get_all_docs("products")
         assert len(docs) == 5
 
-        # Metadata was saved this time
+        # Metadata was saved this time (keyed by supermarket)
         meta = db.get_all_docs(META_COLLECTION)
-        assert "billa_products" in meta
-        hashes = meta["billa_products"]["hashes"]
+        assert "billa" in meta
+        hashes = meta["billa"]["hashes"]
         assert len(hashes) == 5
         for p in products:
             assert hashes[p["id"]] == _product_hash(p)
@@ -113,7 +113,7 @@ class TestResumeAfterQuotaHit:
         products = _products("spar", 4)
 
         # Day-1 partial upload (no metadata)
-        _write_products_without_metadata(db, products, "spar_products")
+        _write_products_without_metadata(db, products, "products")
 
         # Day-2 full sync (saves metadata)
         upload_products(db, products, "spar")
@@ -149,7 +149,7 @@ class TestResumeAfterQuotaHit:
         # Day-2: all 5 products (same run, just the full list)
         upload_products(db, all_products, "hofer")
 
-        docs = db.get_all_docs("hofer_products")
+        docs = db.get_all_docs("products")
         assert len(docs) == 5, "All 5 products must be in the collection"
 
         # The 2 previously-missing products must now exist
@@ -158,7 +158,7 @@ class TestResumeAfterQuotaHit:
 
         # Metadata updated with all 5 hashes
         meta = db.get_all_docs(META_COLLECTION)
-        hashes = meta["hofer_products"]["hashes"]
+        hashes = meta["hofer"]["hashes"]
         assert len(hashes) == 5
 
         # Only the 2 new products + metadata were written (3 unchanged)
@@ -199,7 +199,7 @@ class TestMixedCompleteAndIncompleteCollections:
         upload_products(db, penny_products, "penny")
 
         # Day-1 state for billa: products written but metadata missing
-        _write_products_without_metadata(db, billa_products, "billa_products")
+        _write_products_without_metadata(db, billa_products, "products")
 
         reset_request_counters()
 
@@ -211,18 +211,18 @@ class TestMixedCompleteAndIncompleteCollections:
 
         # penny: 1 read + 1 metadata write only (no product writes)
         # billa: 1 read + 4 product writes + 1 metadata write
-        assert counts["reads"] == 2            # 1 per collection
+        assert counts["reads"] == 2            # 1 per supermarket
         assert counts["writes"] == 6           # 0 penny products + 4 billa products + 2 metadata
         assert counts["deletes"] == 0
 
-        # All products present in both collections
-        assert len(db.get_all_docs("penny_products")) == 3
-        assert len(db.get_all_docs("billa_products")) == 4
+        # All products present in the single products collection
+        all_docs = db.get_all_docs("products")
+        assert len(all_docs) == 7  # 3 penny + 4 billa
 
         # Both metadata docs exist and are correct
         meta = db.get_all_docs(META_COLLECTION)
-        assert len(meta["penny_products"]["hashes"]) == 3
-        assert len(meta["billa_products"]["hashes"]) == 4
+        assert len(meta["penny"]["hashes"]) == 3
+        assert len(meta["billa"]["hashes"]) == 4
 
     def test_day3_after_successful_day2_is_full_noop(self):
         """After Day-2 completes cleanly, Day-3 with unchanged data costs only
@@ -235,7 +235,7 @@ class TestMixedCompleteAndIncompleteCollections:
 
         # Bring DB to the clean post-Day-2 state
         upload_products(db, penny_products, "penny")
-        _write_products_without_metadata(db, billa_products, "billa_products")
+        _write_products_without_metadata(db, billa_products, "products")
         upload_products(db, billa_products, "billa")   # Day-2 billa
 
         reset_request_counters()

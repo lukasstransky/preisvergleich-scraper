@@ -1,7 +1,8 @@
 """Firebase Firestore integration.
 
-Uses diff-based sync (see ``firestore_sync.py``) with per-supermarket
-collections to minimise daily read/write quota usage.
+Uses diff-based sync (see ``firestore_sync.py``) with a single flat
+``products`` collection.  Each supermarket keeps its own metadata
+document for efficient per-supermarket diffing.
 """
 
 import json
@@ -12,10 +13,7 @@ from firebase_admin import credentials, firestore
 
 from firestore_sync import sync_products, reset_request_counters, get_request_counts
 
-
-def _collection_name(supermarket: str) -> str:
-    """Map supermarket key to its Firestore collection name."""
-    return f"{supermarket}_products"
+PRODUCTS_COLLECTION = "products"
 
 
 def init_firebase():
@@ -48,13 +46,12 @@ def upload_products(db, products, supermarket):
     """Sync a list of product dicts to Firestore using diff-based updates.
 
     Only writes new/changed products and deletes removed ones.
-    Each supermarket has its own collection (e.g. ``penny_products``).
+    All supermarkets share the single ``products`` collection.
     """
     if not db:
         return
 
-    collection = _collection_name(supermarket)
-    sync_products(db, products, collection)
+    sync_products(db, products, PRODUCTS_COLLECTION, meta_key=supermarket)
 
 
 def upload_all(products_by_supermarket):

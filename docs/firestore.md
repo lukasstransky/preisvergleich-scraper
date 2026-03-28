@@ -2,28 +2,29 @@
 
 The upload pipeline is split into two modules:
 
-- **`firebase_store.py`** – initializes Firebase and dispatches per-supermarket syncs
+- **`firebase_store.py`** – initializes Firebase and dispatches per-supermarket syncs into a single `products` collection
 - **`firestore_sync.py`** – performs the diff-based sync
 
 ## Data Layout
 
-Each supermarket has its own product collection. A separate `_sync_metadata` collection holds one document per supermarket that maps every `product_id` to its MD5 hash — used to detect changes between runs.
+All supermarkets share a single flat `products` collection. A separate `_sync_metadata` collection holds one document per supermarket (keyed by supermarket name) that maps every `product_id` to its MD5 hash — used to detect changes between runs.
 
 ```
 _sync_metadata/
-  billa_products        ← { hashes: { "billa_123": "abc…", … } }
-  spar_products         ← { hashes: { "spar_456": "def…", … } }
-  hofer_products        ← { hashes: { … } }
-  penny_products        ← { hashes: { … } }
+  billa                 ← { hashes: { "billa_123": "abc…", … } }
+  spar                  ← { hashes: { "spar_456": "def…", … } }
+  hofer                 ← { hashes: { … } }
+  penny                 ← { hashes: { … } }
 
-billa_products/
-  billa_123             ← { id, name, price, … }
+products/
+  billa_123             ← { id, name, price, supermarket: "billa", … }
+  spar_456              ← { id, name, price, supermarket: "spar", … }
+  hofer_789             ← { id, name, price, supermarket: "hofer", … }
+  penny_012             ← { id, name, price, supermarket: "penny", … }
   …
-
-spar_products/          ← same structure
-hofer_products/         ← same structure
-penny_products/         ← same structure
 ```
+
+Using a single collection makes it easy to integrate with search services like Algolia (one collection path to sync) and keeps the Firestore structure simple.
 
 ## Diff-Based Sync
 
@@ -31,7 +32,7 @@ Instead of deleting all documents and re-writing them on every run, `firestore_s
 
 ### Step 1 – Read metadata (1 read per supermarket)
 
-The metadata document for the supermarket is fetched. It contains `{ product_id → MD5_hash }` for every product currently in Firestore. This costs exactly **1 read** regardless of product count.
+The metadata document for the supermarket (e.g. `_sync_metadata/billa`) is fetched. It contains `{ product_id → MD5_hash }` for every product from that supermarket currently in Firestore. This costs exactly **1 read** regardless of product count.
 
 ### Step 2 – Compute new hashes (local)
 
@@ -76,6 +77,10 @@ The metadata document is updated **after every individual batch**, not only at t
 A typical daily run where ~10% of prices change costs roughly:
 - **4 reads** (1 metadata doc per supermarket)
 - **N writes** (only new/changed products)
-- **1 metadata write per committed batch**
+- **1 metadata write per committed batch)
 
 If nothing changes between runs, **zero product documents are written**.
+
+## Migration from Per-Supermarket Collections
+
+The previous layout used separate collections (`billa_products`, `spar_products`, etc.) and metadata keys like `billa_products`. The current layout uses a single `products` collection with metadata keyed by supermarket name (`billa`, `spar`, etc.). If migrating from the old layout, delete the old collections and the old `_sync_metadata` documents, then re-run the scraper to populate the new structure.
