@@ -7,14 +7,16 @@ from scrapers.spar import scrape_spar
 from scrapers.hofer import scrape_hofer
 from scrapers.penny import scrape_penny
 from scrapers.lidl import scrape_lidl
+from scrapers.mpreis import scrape_mpreis
 from firebase_store import upload_all
 
 SCRAPERS = {
-    "billa": ("billa.json", scrape_billa),
-    "spar":  ("spar.json",  scrape_spar),
-    "hofer": ("hofer.json", scrape_hofer),
-    "penny": ("penny.json", scrape_penny),
-    "lidl":  ("lidl.json",  scrape_lidl),
+    #"billa":  ("billa.json",  scrape_billa),
+    #"spar":   ("spar.json",   scrape_spar),
+    #"hofer":  ("hofer.json",  scrape_hofer),
+    #"penny":  ("penny.json",  scrape_penny),
+    #"lidl":   ("lidl.json",   scrape_lidl),
+    "mpreis": ("mpreis.json", scrape_mpreis),
 }
 
 
