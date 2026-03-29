@@ -54,6 +54,12 @@ Each product needs a stable `id` used as the Firestore document key. The Spar sc
 
 The scraper logs the number of null-SKU products per category and in the final summary for monitoring.
 
+## Lidl (`scrapers/lidl.py`)
+
+Uses the **Lidl REST API** to fetch product data per category. It requests paginated JSON from Lidl's internal product API, mapping the response fields to the common schema. No browser automation is needed.
+
+**Flow:** category list → paginated GET requests → parse JSON → write `lidl.json`
+
 ## Hofer (`scrapers/hofer.py`)
 
 Uses **Playwright (sync)** to scrape Hofer's product pages. For regular categories, it navigates to each page and clicks the "Mehr anzeigen" (show more) button repeatedly until all products are loaded. It also scrapes **date-based offer pages**: it loads the offers page, extracts date links (e.g. `/de/angebote/d.23-03-2026.html`), filters to current/past dates, and scrapes each one. Products from offers are marked with `inPromotion: true`. SKU-based deduplication removes products that appear in multiple categories.

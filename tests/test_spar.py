@@ -683,8 +683,8 @@ class TestScrapeSparAsyncErrorLog:
 
         # Make load_page always raise for one specific category
         async def selective_fail(page_obj, url, category, page_num, cooldown_lock=None):
-            if category == "obst-gemuese":
-                raise ValueError("Unexpected error in obst-gemuese")
+            if category == "milchprodukte-alternativen":
+                raise ValueError("Unexpected error in milchprodukte-alternativen")
 
         mock_load.side_effect = selective_fail
 
