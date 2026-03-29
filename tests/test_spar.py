@@ -7,6 +7,7 @@ from unittest.mock import AsyncMock, MagicMock, patch, mock_open
 
 from scrapers.spar import (
     _extract_sku,
+    _find_product_image,
     _parse_unit_price_text,
     _scrape_category,
     _scrape_spar_async,
@@ -196,6 +197,72 @@ class TestExtractSku:
         """Only one 'p' should be stripped, not part of the SKU."""
         url = "/produktwelt/some-product-p1234567"
         assert _extract_sku(url) == "1234567"
+
+
+# ---------------------------------------------------------------------------
+# _find_product_image
+# ---------------------------------------------------------------------------
+
+class TestFindProductImage:
+    """Verify that _find_product_image picks the real product image over badges."""
+
+    def _make_img(self, src, cls=""):
+        el = AsyncMock()
+        el.get_attribute = AsyncMock(side_effect=lambda k: {"src": src, "class": cls}.get(k))
+        return el
+
+    def _make_tile(self, qs_result=None, imgs=None):
+        tile = AsyncMock()
+        tile.query_selector = AsyncMock(return_value=qs_result)
+        tile.query_selector_all = AsyncMock(return_value=imgs or [])
+        return tile
+
+    @pytest.mark.asyncio
+    async def test_prefers_tile_basic_product_class(self):
+        product_img = self._make_img("https://cdn1.interspar.at/articleImage.dam/at/123/HB_500px.jpg",
+                                     "tile-basic__image--product")
+        tile = self._make_tile(qs_result=product_img)
+        result = await _find_product_image(tile)
+        assert result is product_img
+
+    @pytest.mark.asyncio
+    async def test_skips_badge_picks_article_image(self):
+        badge = self._make_img("https://cdn1.interspar.at/graficImage.dam/at/produktweltBIO/HB_105px.png",
+                               "tile-basic__badge--top")
+        product = self._make_img("https://cdn1.interspar.at/articleImage.dam/at/123/HB_500px.jpg")
+        tile = self._make_tile(qs_result=None, imgs=[badge, product])
+        result = await _find_product_image(tile)
+        assert result is product
+
+    @pytest.mark.asyncio
+    async def test_skips_multiple_badges(self):
+        badges = [
+            self._make_img("https://cdn1.interspar.at/graficImage.dam/at/produktweltBIO/HB_105px.png",
+                           "tile-basic__badge--top"),
+            self._make_img("https://cdn1.interspar.at/graficImage.dam/at/produktweltLaktosefrei/HB_105px.png",
+                           "tile-basic__badge--top"),
+            self._make_img("https://cdn1.interspar.at/graficImage.dam/at/produktweltAMAGuetesiegel/HB_105px.png",
+                           "tile-basic__badge--top"),
+        ]
+        product = self._make_img("https://cdn1.interspar.at/articleImage.dam/at/2020005690424/HB_370px.jpeg")
+        tile = self._make_tile(qs_result=None, imgs=badges + [product])
+        result = await _find_product_image(tile)
+        assert result is product
+
+    @pytest.mark.asyncio
+    async def test_no_images_returns_none(self):
+        tile = self._make_tile(qs_result=None, imgs=[])
+        result = await _find_product_image(tile)
+        assert result is None
+
+    @pytest.mark.asyncio
+    async def test_fallback_excludes_badge_class(self):
+        """When no articleImage URL, pick the first non-badge img."""
+        badge = self._make_img("https://some-url/badge.png", "tile-basic__badge--top")
+        other = self._make_img("https://some-url/product.jpg", "some-other-class")
+        tile = self._make_tile(qs_result=None, imgs=[badge, other])
+        result = await _find_product_image(tile)
+        assert result is other
 
 
 # ---------------------------------------------------------------------------

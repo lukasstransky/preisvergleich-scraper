@@ -81,9 +81,33 @@ def _make_async_element(text="", attrs=None):
 def make_spar_tile(sku="2020005521308", brand="SPAR PREMIUM", name="Bio Apfel",
                    amount="500 G", price_text="2,99", unit_text="Per 1 kg 5,98",
                    image_url="https://cdn1.interspar.at/at/2020005521308/HB_500px.jpg",
-                   link_href="/produkte/spar-premium-bio-apfel-2020005521308/"):
-    """Return an AsyncMock mimicking an ``article.product-tile`` Playwright element."""
+                   link_href="/produkte/spar-premium-bio-apfel-2020005521308/",
+                   badge_urls=None):
+    """Return an AsyncMock mimicking an ``article.product-tile`` Playwright element.
+
+    *badge_urls*: optional list of badge image URLs (e.g. Bio, AMA icons)
+    that appear before the product image in the DOM.
+    """
     tile = AsyncMock()
+
+    # Build the list of <img> elements the tile contains.
+    # Badge images come first (matching the real DOM order).
+    img_elements = []
+    for badge_url in (badge_urls or []):
+        img_elements.append(_make_async_element(attrs={
+            "src": badge_url,
+            "class": "tile-basic__badge--top",
+            "data-src": None,
+            "srcset": "",
+        }))
+    # The actual product image
+    product_img_el = _make_async_element(attrs={
+        "src": image_url,
+        "class": "tile-basic__image tile-basic__image--product",
+        "data-src": None,
+        "srcset": "",
+    })
+    img_elements.append(product_img_el)
 
     # query_selector returns child elements
     tile.query_selector = AsyncMock(side_effect=lambda sel: {
@@ -92,14 +116,13 @@ def make_spar_tile(sku="2020005521308", brand="SPAR PREMIUM", name="Bio Apfel",
         "div.product-tile__name3": _make_async_element(amount),
         "span.product-price__price": _make_async_element(price_text),
         'span[data-tosca="product-price-comparison-price"]': _make_async_element(unit_text),
-        "img.adaptive-image__img": _make_async_element(attrs={
-            "src": image_url,
-            "data-src": None,
-            "srcset": "",
-        }),
+        "img.tile-basic__image--product": product_img_el,
         'a[href*="/produktwelt/"]': _make_async_element(attrs={"href": link_href}),
         "a[href]": _make_async_element(attrs={"href": link_href}),
     }.get(sel))
+
+    # query_selector_all for "img" returns all images (badges + product)
+    tile.query_selector_all = AsyncMock(side_effect=lambda sel: img_elements if sel == "img" else [])
 
     return tile
 

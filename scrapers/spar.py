@@ -12,19 +12,19 @@ SCREENSHOT_DIR = "screenshots"
 BASE_URL = "https://www.spar.at/produktwelt/{category}"
 
 CATEGORIES = [
-    "obst-gemuese",
-    "brot-gebaeck",
+    #"obst-gemuese",
+    #"brot-gebaeck",
     "milchprodukte-alternativen",
-    "tiefkuehlprodukte",
-    "wurst-fleisch-eier-fisch",
-    "beilagen-essig-oel-gewuerze",
-    "backen-fruehstueck",
-    "suesses-salziges",
-    "schnelle-kueche-to-go",
-    "babynahrung",
-    "alkoholfreie-getraenke",
-    "kaffee-tee-kakao",
-    "alkoholische-getraenke",
+    #"tiefkuehlprodukte",
+    #"wurst-fleisch-eier-fisch",
+    #"beilagen-essig-oel-gewuerze",
+    #"backen-fruehstueck",
+    #"suesses-salziges",
+    #"schnelle-kueche-to-go",
+    #"babynahrung",
+    #"alkoholfreie-getraenke",
+    #"kaffee-tee-kakao",
+    #"alkoholische-getraenke",
 ]
 
 MAX_CONCURRENT = 2
@@ -94,6 +94,36 @@ def _parse_unit_price_text(text):
     return price, unit
 
 
+async def _find_product_image(tile):
+    """Find the main product image element, skipping badge/seal icons.
+
+    Badge images (Bio, AMA Gütesiegel, etc.) use ``graficImage`` URLs and
+    small dimensions (105 px).  The real product photo uses ``articleImage``
+    URLs.  When the first ``<img>`` happens to be a badge, we scan all
+    images and pick the correct one.
+    """
+    # 1. Try the explicit product-image class (newer tile markup).
+    el = await tile.query_selector("img.tile-basic__image--product")
+    if el:
+        return el
+
+    # 2. Collect all images and prefer the one whose src is an article image.
+    all_imgs = await tile.query_selector_all("img")
+    for img in all_imgs:
+        src = await img.get_attribute("src") or ""
+        if "articleImage" in src:
+            return img
+
+    # 3. Exclude known badge classes and return the first remaining image.
+    for img in all_imgs:
+        cls = await img.get_attribute("class") or ""
+        if "badge" not in cls.lower():
+            return img
+
+    # 4. Ultimate fallback: first image, if any.
+    return all_imgs[0] if all_imgs else None
+
+
 async def _parse_tile(tile, category):
     """Parse a single product-tile element into a product dict.
 
@@ -101,17 +131,17 @@ async def _parse_tile(tile, category):
     asyncio.gather to minimise IPC round-trips to the browser.
     """
     # --- Stage 1: query all child elements in parallel ---
-    brand_el, name_el, amount_el, price_el, unit_el, img_el, link_el = (
+    brand_el, name_el, amount_el, price_el, unit_el, link_el = (
         await asyncio.gather(
             tile.query_selector("div.product-tile__name1"),
             tile.query_selector("div.product-tile__name2"),
             tile.query_selector("div.product-tile__name3"),
             tile.query_selector("span.product-price__price"),
             tile.query_selector('span[data-tosca="product-price-comparison-price"]'),
-            tile.query_selector("img.adaptive-image__img"),
             tile.query_selector('a[href*="/produktwelt/"]'),
         )
     )
+    img_el = await _find_product_image(tile)
     if not link_el:
         link_el = await tile.query_selector("a[href]")
 

@@ -9,6 +9,7 @@ SCREENSHOT_DIR = "screenshots"
 
 BASE_URL = "https://www.hofer.at/de/sortiment/produktsortiment/{category}.html"
 OFFERS_URL = "https://www.hofer.at/de/angebote.html"
+TIEFPREIS_URL = "https://www.hofer.at/de/angebote/aktionen.html"
 
 CATEGORIES = [
     "brot-und-backwaren",
@@ -16,6 +17,8 @@ CATEGORIES = [
     "getraenke",
     "kuehlung",
     "vorratsschrank",
+    "tiefkuehlung",
+    "suesses-und-salziges",
     #"drogerie",
 ]
 
@@ -291,6 +294,142 @@ def _scrape_offer_page(browser, offer_date, url):
     return products
 
 
+def _parse_tiefpreis_product(container):
+    """Parse a single product container from the TIEFPREIS AKTIONEN page."""
+    text = container.inner_text().strip()
+    if not text:
+        return None
+
+    # Try to get product name from heading
+    heading = container.query_selector("h3, h2, .product-title")
+    full_name = heading.inner_text().strip() if heading else ""
+    if not full_name:
+        lines = [l.strip() for l in text.split("\n") if l.strip()]
+        full_name = lines[0] if lines else ""
+    if not full_name:
+        return None
+
+    brand, name = _extract_brand(full_name)
+
+    # Extract price: "€ X,XX" pattern
+    price = None
+    price_match = re.search(r'€\s*([\d]+[.,]\d{2})', text)
+    if price_match:
+        try:
+            price = float(price_match.group(1).replace(',', '.'))
+        except ValueError:
+            pass
+
+    # Extract original price: "statt X,XX"
+    original_price = None
+    statt_match = re.search(r'statt\s*€?\s*([\d]+[.,]\d{2})', text)
+    if statt_match:
+        try:
+            original_price = float(statt_match.group(1).replace(',', '.'))
+        except ValueError:
+            pass
+
+    # Extract unit price: "X,XX/kg" etc.
+    unit_price = None
+    unit_label = None
+    unit_match = re.search(r'([\d]+[.,]\d{2})/(kg|100\s*g|Liter|100\s*ml|l)', text)
+    if unit_match:
+        try:
+            unit_price = float(unit_match.group(1).replace(',', '.'))
+        except ValueError:
+            pass
+        unit_label = unit_match.group(2).strip()
+
+    # Extract selling amount (e.g., "per Packung", "per kg", "per Netz")
+    amount = None
+    amount_match = re.search(r'(per\s+\S+)', text)
+    if amount_match:
+        amount = amount_match.group(1).strip()
+
+    # Try to get image
+    img = container.query_selector("img")
+    image_url = None
+    if img:
+        image_url = img.get_attribute("data-src") or img.get_attribute("src")
+
+    if not price:
+        return None
+
+    return {
+        "id": None,
+        "name": name if brand else full_name,
+        "price": price,
+        "originalPrice": original_price,
+        "promotionText": "Tiefpreis Aktion",
+        "unitPrice": unit_price,
+        "unitLabel": unit_label,
+        "category": "tiefpreis-aktionen",
+        "brand": brand,
+        "amount": amount,
+        "sku": None,
+        "inPromotion": True,
+        "imageUrl": image_url,
+        "supermarket": "hofer",
+    }
+
+
+def _scrape_tiefpreis_aktionen(browser):
+    """Scrape the TIEFPREIS AKTIONEN page for weekly promotional products."""
+    context = browser.new_context(user_agent=USER_AGENT)
+    page_obj = context.new_page()
+    products = []
+
+    try:
+        page_obj.goto(TIEFPREIS_URL, wait_until="domcontentloaded", timeout=30000)
+        page_obj.wait_for_timeout(3000)
+        _dismiss_cookie_banner(page_obj)
+
+        # Try standard PLP product tiles first
+        tiles = page_obj.query_selector_all("div.plp_product[data-productid]")
+        if tiles:
+            _click_show_more(page_obj)
+            tiles = page_obj.query_selector_all("div.plp_product[data-productid]")
+            for tile in tiles:
+                product = _parse_tile(tile, "tiefpreis-aktionen")
+                product["inPromotion"] = True
+                product["promotionText"] = "Tiefpreis Aktion"
+                products.append(product)
+        else:
+            # The page uses a gallery/flyer-style layout — try various selectors
+            tile_selectors = [
+                ".gallery .item",
+                ".mod-teaser-product",
+                ".product-teaser",
+                ".offer-tile",
+                ".mod-offer-tile",
+                ".promotion-item",
+                ".swiper-slide:has(h3)",
+            ]
+            for selector in tile_selectors:
+                found = page_obj.query_selector_all(selector)
+                if found:
+                    print(f"  Using selector: {selector} ({len(found)} tiles)")
+                    for el in found:
+                        product = _parse_tiefpreis_product(el)
+                        if product:
+                            products.append(product)
+                    break
+
+        if not products:
+            _take_screenshot(page_obj, "tiefpreis_aktionen", "no_products")
+            print("  Warning: No products found on TIEFPREIS AKTIONEN page (screenshot saved)")
+
+        print(f"hofer tiefpreis aktionen: {len(products)} products")
+
+    except Exception as e:
+        _take_screenshot(page_obj, "tiefpreis_aktionen", "failure")
+        print(f"Error scraping tiefpreis aktionen: {e}")
+    finally:
+        context.close()
+
+    return products
+
+
 def _scrape_offers(browser):
     """Scrape all current offer date pages and return a flat list of product dicts."""
     context = browser.new_context(user_agent=USER_AGENT)
@@ -339,6 +478,15 @@ def scrape_hofer():
                 print(f"hofer offers total: {len(offer_products)} products")
             except Exception as e:
                 print(f"Error scraping offers: {e}")
+
+            # Scrape TIEFPREIS AKTIONEN (weekly promotional deals)
+            print("\nScraping Hofer Tiefpreis Aktionen...")
+            try:
+                tiefpreis_products = _scrape_tiefpreis_aktionen(browser)
+                all_products.extend(tiefpreis_products)
+                print(f"hofer tiefpreis total: {len(tiefpreis_products)} products")
+            except Exception as e:
+                print(f"Error scraping tiefpreis aktionen: {e}")
         finally:
             browser.close()
 
