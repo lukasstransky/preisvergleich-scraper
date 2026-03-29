@@ -4,6 +4,9 @@ import requests
 import time
 from datetime import date
 
+from scrapers.tokenizer import tokenize_name
+from scrapers.categories import normalize_category
+
 BASE_URL = "https://www.penny.at/api/product-discovery/categories/{category}/products"
 
 OFFERS_URL = "https://www.penny.at/angebote"
@@ -39,6 +42,9 @@ def _parse_product(product):
             "inPromotion": product.get("inPromotion", False),
             "imageUrl": product["images"][0] if product.get("images") else None,
             "supermarket": "penny",
+            "nameTokens": tokenize_name(product.get("name")),
+            "normalizedCategory": normalize_category(product.get("category")),
+            "nameLength": len(product.get("name", "") or ""),
         }
     except (KeyError, TypeError):
         return None

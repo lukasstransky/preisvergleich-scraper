@@ -3,6 +3,9 @@ import os
 import re
 from playwright.sync_api import sync_playwright
 
+from scrapers.tokenizer import tokenize_name
+from scrapers.categories import normalize_category
+
 SCREENSHOT_DIR = "screenshots"
 
 PAGES = [
@@ -195,6 +198,9 @@ def _parse_tile(tile, category):
         "inPromotion": in_promotion,
         "imageUrl": image_url,
         "supermarket": "mpreis",
+        "nameTokens": tokenize_name(name),
+        "normalizedCategory": normalize_category(category),
+        "nameLength": len(name or ""),
     }
 
 

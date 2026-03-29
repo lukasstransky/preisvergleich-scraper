@@ -7,24 +7,27 @@ import re
 from datetime import datetime, timezone
 from playwright.async_api import async_playwright
 
+from scrapers.tokenizer import tokenize_name
+from scrapers.categories import normalize_category
+
 SCREENSHOT_DIR = "screenshots"
 
 BASE_URL = "https://www.spar.at/produktwelt/{category}"
 
 CATEGORIES = [
-    #"obst-gemuese",
-    #"brot-gebaeck",
+    "obst-gemuese",
+    "brot-gebaeck",
     "milchprodukte-alternativen",
-    #"tiefkuehlprodukte",
-    #"wurst-fleisch-eier-fisch",
-    #"beilagen-essig-oel-gewuerze",
-    #"backen-fruehstueck",
-    #"suesses-salziges",
-    #"schnelle-kueche-to-go",
+    "tiefkuehlprodukte",
+    "wurst-fleisch-eier-fisch",
+    "beilagen-essig-oel-gewuerze",
+    "backen-fruehstueck",
+    "suesses-salziges",
+    "schnelle-kueche-to-go",
     #"babynahrung",
-    #"alkoholfreie-getraenke",
-    #"kaffee-tee-kakao",
-    #"alkoholische-getraenke",
+    "alkoholfreie-getraenke",
+    "kaffee-tee-kakao",
+    "alkoholische-getraenke",
 ]
 
 MAX_CONCURRENT = 2
@@ -214,6 +217,9 @@ async def _parse_tile(tile, category):
         "inPromotion": False,
         "imageUrl": image_url,
         "supermarket": "spar",
+        "nameTokens": tokenize_name(name),
+        "normalizedCategory": normalize_category(category),
+        "nameLength": len(name or ""),
     }
 
 

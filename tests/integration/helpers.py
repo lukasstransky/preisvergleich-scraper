@@ -311,6 +311,8 @@ def make_product(supermarket="billa", sku="00-100001", name="Bio Milch",
                  brand="Ja! Natürlich", in_promo=False,
                  image_url="https://example.com/image.jpg"):
     """Return a canonical product dict."""
+    from scrapers.tokenizer import tokenize_name
+    from scrapers.categories import normalize_category
     return {
         "id": f"{supermarket}_{sku}",
         "name": name,
@@ -325,4 +327,7 @@ def make_product(supermarket="billa", sku="00-100001", name="Bio Milch",
         "inPromotion": in_promo,
         "imageUrl": image_url,
         "supermarket": supermarket,
+        "nameTokens": tokenize_name(name),
+        "normalizedCategory": normalize_category(category),
+        "nameLength": len(name or ""),
     }

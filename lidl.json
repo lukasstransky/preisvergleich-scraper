@@ -12,7 +12,14 @@
     "sku": "10045677",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/qkIgwfl7PpwABuO8M5Su9sRrLDE_f3YuklPRSSD4o2A/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8wNTgwOEE1QTUwRkU3NDRGOEFGNjY3MDM/5MDNDNzIwN0NBREZCRDJEQkEyQTIzOTY4N0RGRTg3NkQ1MUVFODExLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "favorina",
+      "mini",
+      "ostersortiment"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 28
   },
   {
     "id": "lidl_10045678",
@@ -27,7 +34,14 @@
     "sku": "10045678",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/rREuZ7P-7qLzzUC_5EjZ8CS2sL76gAUbuhgeKlZW2A8/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS85OTY3RjRGNDA5NjMzRTgyMzEzMjUwQUM/xNzg0OEU4RjM1MTk2NUM3MEU2QjUyRkVCM0NCRkY0NjlGRUNDREVBLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "favorina",
+      "dragee",
+      "eier"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 20
   },
   {
     "id": "lidl_10045679",
@@ -42,7 +56,14 @@
     "sku": "10045679",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/pKxjFaXbFI2p3KRNkZ8VYy6N1O4-xrprL47AZ8ky-Yk/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9DODc2Mjg1MTA0NUEyOEFEM0RCNTBGMDE/1RjA4NzNDMjk3RjY0MTg1NDBGRTBFNUVDQ0ZBOTU2MTFCRjBGNDEyLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "favorina",
+      "hasenparty",
+      "fruchtgummis"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 32
   },
   {
     "id": "lidl_10045680",
@@ -57,7 +78,13 @@
     "sku": "10045680",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/IQeLhs2isZB04DSb7fU0VWrqxPRiySOkfstfHr-joaU/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8zM0MxQTA5QTIyQjUxRURENzE2NUZBRTZ/EQ0EyQ0Y3Q0M2NzU5MjgyRTM4ODJFQ0M3MTU3QzdGMkMzMTlCRTM0LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "favorina",
+      "ostermischbeutel"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 25
   },
   {
     "id": "lidl_10045681",
@@ -72,7 +99,15 @@
     "sku": "10045681",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/gjMqq-PtQ2NFIsqkKf4uPUANYuk485jqTGS5xarrLrk/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8wRDM2MkUyQTNENDZENzcwNTBGQUI2RTd/BQ0IzNEE5MERCNEJERDVEN0IyMTNEMTM0NjUzNEZEODNDMDQxM0RBLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "favorina",
+      "edelmarzipan",
+      "ei",
+      "gefüllt"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 32
   },
   {
     "id": "lidl_10045682",
@@ -87,7 +122,15 @@
     "sku": "10045682",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/3KZuM6-Yub419gBRoR9_I-zTxwAeQrMSXZjWppid1qg/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS80OUY3OTAwMjk1ODYyNDEzN0E2NzJGMDE/zOTkxQzA5RjhGRTk4QTRDNzY3RDcwNTNGNkI1OTYzMDhERjYwREY3LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "favorina",
+      "osterhase",
+      "in",
+      "alufolie"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 30
   },
   {
     "id": "lidl_10045683",
@@ -102,7 +145,15 @@
     "sku": "10045683",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/42BKKb-K-PEW52264dwek9Kd94bpUfUrWdIuC35gZqk/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS81NTYxNkM3ODhBRDMwQTMyQTJDMzA3Q0U/xNDgwRUU4Rjc3RjUzOTlDQzk1QTg4NzVBOTExQ0Q5OEU2NDRDQ0NCLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "favorina",
+      "oster",
+      "schoko",
+      "lollys"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 28
   },
   {
     "id": "lidl_10045684",
@@ -117,7 +168,16 @@
     "sku": "10045684",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/PyExsCnLKWb3uvvrsDJT8kbvrovpm2r3ZyVaQSL4FGE/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8xMDRDQUQzNEY1RjJCMkEwRENFRjk1OTI/4Rjc0REM1QTI2RDU1NUY0MzE2ODY4Qjk0MEY4MEIxOTZBM0JCMjUxLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "domäne",
+      "wachau",
+      "grüner",
+      "veltliner",
+      "smaragd"
+    ],
+    "normalizedCategory": "Alkohol",
+    "nameLength": 38
   },
   {
     "id": "lidl_10045685",
@@ -132,7 +192,15 @@
     "sku": "10045685",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/WDQXEFMJnb_VaQkobBYBPsVQRJzPRA3yzZ36ijhBRLw/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9GQ0MxMTc0MURGQjZDN0Y5MkVDRUZBNEN/ENjQzOTEzMEMzNEQ4N0VBQzA2REQ5OEQ0RDM5ODQ0M0Q3QUY2NjRCLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "müller",
+      "grüner",
+      "veltliner",
+      "himmelreich"
+    ],
+    "normalizedCategory": "Alkohol",
+    "nameLength": 35
   },
   {
     "id": "lidl_10045686",
@@ -147,7 +215,14 @@
     "sku": "10045686",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/kPnAgjXSOMTQSqg9N95QneLh_TRYfWkNqbR8yVNHtGU/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS80NTY2OTM4NzlENEJEODVEQzRFRjY2NkM/2RUU5NEIyRUNBQkIwMTdDMkM5N0NBODY2OThFOEU2QTJFNEU0RkFELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "aigner",
+      "gelber",
+      "muskateller"
+    ],
+    "normalizedCategory": "Alkohol",
+    "nameLength": 25
   },
   {
     "id": "lidl_10045687",
@@ -162,7 +237,16 @@
     "sku": "10045687",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/ERQ0rhFCIRhAvTXEM9yLD9ayBPohZ4HXnxNq7vcgvH0/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9ENkZGRTVCNUMxRTQ3ODg4NDNCNzM2MzN/DRjc0MjJENkZEMzEzNkZDQkVFOUJBRkM4MUYxNzQzMkI0MEM4N0VGLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "aigner",
+      "grüner",
+      "veltliner",
+      "ried",
+      "thalland"
+    ],
+    "normalizedCategory": "Alkohol",
+    "nameLength": 37
   },
   {
     "id": "lidl_10045688",
@@ -177,7 +261,14 @@
     "sku": "10045688",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/4qOUrmFDghlAs4MpuLdsdDeT8thjcYxjZ4iZMj32cmE/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9DNDEyRjZGN0VBRUU5OUUxNkU2QTdEMEF/FMjkxNEIwRkQ2ODdFNDZCQUVGNkZDMDFFODk5NkYzRDkwNDY4QTQ2LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "potzinger",
+      "sauvignon",
+      "blanc"
+    ],
+    "normalizedCategory": "Alkohol",
+    "nameLength": 25
   },
   {
     "id": "lidl_10045689",
@@ -192,7 +283,13 @@
     "sku": "10045689",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/_VWFNZC3Go0G3IfwS6HIs--ng0DkLdpWigkHtUkPYPc/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS80OTM2MEQ4NUU3RjFFM0UwQjc4OTEwNTQ/3QTQ2NjBFOTcyNURGNjZGNzFDMDBCMDI5QkE2QkZDMTk2NUUyMDNFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "potzinger",
+      "muskateller"
+    ],
+    "normalizedCategory": "Alkohol",
+    "nameLength": 21
   },
   {
     "id": "lidl_10045690",
@@ -207,7 +304,15 @@
     "sku": "10045690",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/tKqo6s1Dfn-xBnEgASzIl10n9z8utNuJ8Jp_83AN7qU/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9EOTU3Rjk4RDM1QzFDM0FDMDgyRTU5RDl/EMUQxOUE0MjQ4RDg5OTU1QzdFNzQ5MDFCREZFRTc5OUREOTQ2NjE4LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "walter",
+      "skoff",
+      "gelber",
+      "muskateller"
+    ],
+    "normalizedCategory": "Alkohol",
+    "nameLength": 31
   },
   {
     "id": "lidl_10045691",
@@ -222,7 +327,15 @@
     "sku": "10045691",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/Y0N7a1dAZ_7HcxJyQgB4RXEbjFpenOXmTID4oLuwbew/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS82QkRDNUVBNDk4MjI1OEYxNTY3MDZCRDV/DNzgxMTBDQjA2OUJGM0RCQ0ZEOTg5QzVEMkUxNEYxNTZBNTY0MDc5LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "walter",
+      "skoff",
+      "sauvignon",
+      "blanc"
+    ],
+    "normalizedCategory": "Alkohol",
+    "nameLength": 28
   },
   {
     "id": "lidl_10045692",
@@ -237,7 +350,14 @@
     "sku": "10045692",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/SRVtE-kgCOPB3r09ztZkseAhALXlwWR-NWLuXtwGhOs/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8wQTU3QTJBQjJDNTEzODVBMzhERTMzNkE/4NEE0NjE1OTFGOEYxMUM1NjE3OTI4MzA1REMwQUJFODc2NTM4MjMzLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "walter",
+      "skoff",
+      "chardonnay"
+    ],
+    "normalizedCategory": "Alkohol",
+    "nameLength": 23
   },
   {
     "id": "lidl_10045724",
@@ -252,7 +372,15 @@
     "sku": "10045724",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/AmYWW5_MT_X4Rt3XOMW41kZIwib6y_yAtuiVv-79Dxk/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS81Qzk5ODRFNEYyMjk4NTgxOTM4NEQ5RkQ/0NjVGMUIxODdBMDdBMDY1MjZBNjhBMTNGNUJGRDcxNjM0OTM5M0NELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "salami",
+      "spianata",
+      "rossa"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 28
   },
   {
     "id": "lidl_10045725",
@@ -267,7 +395,14 @@
     "sku": "10045725",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/QfjPj8eTu_rq1HaNMliDNVbI7g2NmUXGbzJD7jegguo/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9DOTI1M0NDNURCM0QyMzE4RThENzFDMzZ/EMEU3OTVGQ0ZGOUE2MUY5Qjc2MUNCMUY1N0Y1MTcxMDRCNzU4QzM1LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "italienische",
+      "wurstspezialitäten"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 38
   },
   {
     "id": "lidl_10045726",
@@ -282,7 +417,15 @@
     "sku": "10045726",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/XZWgPDSZ0r3Uhwp2FMjZ5uZHHP9OblKLpU8DMxr3lJQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9FQUYwNDcxQUEyRDAxMTYyQUFGQjE4Q0Z/BOTExMzlFMjExOTE3M0ZCQ0MwNjYyRUQ5NUUzMTM0MkJDODVEMThDLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "msc",
+      "vitello",
+      "tonnato"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 26
   },
   {
     "id": "lidl_10045727",
@@ -297,7 +440,16 @@
     "sku": "10045727",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/Rk8dclh0rSlneBbJ6ONBk5a7iPeja389OP0uh0-AKQg/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9ERDUxMTAyRkZCNEY4OEU2NzM3NjczQzB/BRjIwODM0NkY5Q0VGMDBFNzI2NDRBMDkwNDMxMkQyQ0I2NkIzQjQ5LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "gourmet",
+      "weichkäse",
+      "mit",
+      "füllung"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 36
   },
   {
     "id": "lidl_10045729",
@@ -312,7 +464,14 @@
     "sku": "10045729",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/q1Ghde4cXtnwJ86ji3w7ydgVT8ajOVjF0DODn4thcPc/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS84NEIxRTJBOENBRDhFNzVFMUZBRDcxMEZ/CMkY4QzgyRDE2OThFODQzMDg5QTZDODA1QkQ1M0E1NzdDRDYyNTFFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "barbarie",
+      "entenbrustfilet"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 31
   },
   {
     "id": "lidl_10045730",
@@ -327,7 +486,14 @@
     "sku": "10045730",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/YM9E7c-uFP2A3xx3MGC0UN8680cdg7eJfgPfwYrVHiM/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS83QjY2MEJDNDA3MjE2MjQwMTQ4MEM0RjM/2NEFBMkUzREMwNTgwNzUyNjdGRjA2QzI3QzI2QTJCOEJGOUY1MkYyLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "lachs",
+      "carpaccio"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 22
   },
   {
     "id": "lidl_10045731",
@@ -342,7 +508,14 @@
     "sku": "10045731",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/D5elfSQE3-Tp4yTUDQBAmxCCRjFLw1XarKkLUjQ1mls/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS82OERGRTZCRkRCQUEyRjhGOUIxNUY1QTI/xRjQ0Mzg3RDRCOTk1Q0QzRERGNjMzRDI3MDFBNkVFMTFEOTE0RjI2LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "handgefertigte",
+      "schokolade"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 32
   },
   {
     "id": "lidl_10045732",
@@ -357,7 +530,17 @@
     "sku": "10045732",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/5x7a5NW3Yi4FGyoYViE-fhMCyZJbLHYfoStih9NOXTU/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS83QTNEQkVDQTQ3RTQwODE3QjNGQTkzMTg/yMTQxM0NERTA4OTg1N0IzREQwQ0ZENEE2RTFGMkNCOEY1QUQxNUIzLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "kandierte",
+      "orangen",
+      "mit",
+      "dunkler",
+      "schokolade"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 47
   },
   {
     "id": "lidl_10045733",
@@ -372,7 +555,13 @@
     "sku": "10045733",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/eoy11-n2R6Q_ADQK7MIUd1AhKevBDxzmef_BGW9YNQE/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9FMTJGOTY1QzczRTcwMUZFMTI0QzM2ODg/1RUI0MDg0MEY5N0NEOUNEQTM5Qjk5OEM4NjA3QjYwNjUxOUIyNzVFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "trüffelpralinen"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 22
   },
   {
     "id": "lidl_10045734",
@@ -387,7 +576,15 @@
     "sku": "10045734",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/n-FTnN4fIdrT-CXLQQMQ3ZMo3t8g-UP6_I2pdZIXKF0/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS83MEZGMTdEMEE3NDc2RDZCN0RBMUIzOEZ/DMjA0MEIxN0Q0RkY0OTk5OUE2OTEwRjNEODlFMTQ3OUM4RTg0RjNCLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "cr",
+      "me",
+      "br"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 19
   },
   {
     "id": "lidl_10045770",
@@ -402,7 +599,15 @@
     "sku": "10045770",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/EciBD1zmWHQA_0NovYk9s2Ko9pHNzkzGRFxAQCEmor0/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS81RURBOEE4QTc2RURBODhFMjc5RjQ1REF/BQ0E3RjQ4MjlCNzNDM0UxNjFBRTg4MzMyM0JFQTY4MDVFNDEyNUE1LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "carpaccio",
+      "vom",
+      "rind"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 25
   },
   {
     "id": "lidl_10045771",
@@ -417,7 +622,13 @@
     "sku": "10045771",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/_KbwEpok0YHg0Noj7jkTuZEkxUm-EkTrXuziv-GJfVA/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9DOEFFQzEwM0MwRjNBRUFEOUJBRTMyRjc/5RjBBMjY2NDFBMENCMDBDMTIzRjRDQTUzOThBRUQyNTI1NzcwMzQyLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "beinschinken"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 19
   },
   {
     "id": "lidl_10045773",
@@ -432,7 +643,15 @@
     "sku": "10045773",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/8iMFJdYIRfguRRD5nmN9j5urQfOuVHRzgwObpSO0hGA/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9BNjYzMDAxMzQxNEJEMDY0M0VCNjA3NDh/DNjY3Q0I4NjE2QTY0MzBCQkI1ODdENkQ1QzA2OTJDMjNFRTcwNTBELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "dessert",
+      "im",
+      "glas"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 22
   },
   {
     "id": "lidl_10045820",
@@ -447,7 +666,16 @@
     "sku": "10045820",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/mxwIbdjaTCSnakfpPN5fDmy1vvMQjTdnqYCknXJZP3s/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9BMzU0MzkwQTkwN0IzQjVENDYzQ0FGNDM/5NDM1QUUzRDNFNTRFNzNDMzdFNERBN0FFNEE4MDdFQjdBNzRERTk0LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "cr",
+      "meux",
+      "de",
+      "normandie"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 27
   },
   {
     "id": "lidl_10045821",
@@ -462,7 +690,16 @@
     "sku": "10045821",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/-dA8-iPcbgEI56PsZ2dNszGU1UBTnEpEY2Q43o5XDVo/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9GMTdFM0U1NEFCRTc1MEI1ODk0NEQ2QkV/EMDgwNjU0QjU3M0ZFMjQ0RjdFOTU4RDg5NjczMTQwQ0M5RDNEMDA0LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "asc",
+      "white",
+      "tiger",
+      "garnelen"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 31
   },
   {
     "id": "lidl_10045822",
@@ -477,7 +714,14 @@
     "sku": "10045822",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/FMNAFdhTillQ7ThZQ1PSzRDA0kCpMJqUKMBrFH30Ttg/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9EM0Y2REFFRkU4MzUzOUUxNUExRTFFMDR/FNTgwMUM0MTI3RjE1NzY1QkY4RDk3Q0MxQzA0MjgxNzU5NTdENjJDLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "mini",
+      "eisdessert"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 22
   },
   {
     "id": "lidl_10045823",
@@ -492,7 +736,13 @@
     "sku": "10045823",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/VTe63ohj2JIZShEBWSoUX4HgJc4w66f8MTXvpwXPijI/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS83QUVDRDBFQUM3RjVDOTBEQThGNkNDNTA/3NjgyRjkxNDAzQjQwMDQ4RTE3RjVEQzRFRkE2MDdGQzE2MjlCN0Y2LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "profiteroles"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 19
   },
   {
     "id": "lidl_10045824",
@@ -507,7 +757,14 @@
     "sku": "10045824",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/23fRfy4zbNsscTlJHHgZsEPGauLjwLfe8FM6BGaSy30/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9DRThDMDJGODg3N0ZGNjFGODc0OENCNEU/4NzE1RkM4MjlBNERBRTFCNkVDM0M0MkJGMEE4RDk4NDFCQTI3MUEzLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "schottischer",
+      "räucherlachs"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 32
   },
   {
     "id": "lidl_10045825",
@@ -522,7 +779,14 @@
     "sku": "10045825",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/HjncTIPh8uIBN_KldTCWgu7bpkyNvYcguFLwosl7IAI/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9GRTZERTQzQTE5NkM0RTNENUNCRjVBQUJ/CMUQwQUJGRjkyNUREOEE2NTQ4QjczMjVEMTc1QzJGMUU4NTNDNTdFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "stremellachs",
+      "duo"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 23
   },
   {
     "id": "lidl_10045826",
@@ -537,7 +801,15 @@
     "sku": "10045826",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/u3_NAabqVwYAs8YH93k_ywuXR9oA0t1CKPUKjQMQRgQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS83OTU2QTc0MzE4QkJCRkE3RjQ3MkIyRTZ/EMEIwQTE1RDg4MDMxRDU1ODRFQUQ1Q0JFRURFOTQxM0MyRkEyNTVGLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "chef",
+      "select",
+      "sushi",
+      "osterei"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 25
   },
   {
     "id": "lidl_10045827",
@@ -552,7 +824,16 @@
     "sku": "10045827",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/RLCp_GJ49_2mZDCTDZVyApfte1Ht2nhhDSh34rpz7sM/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS81OUE1NDlFQjQwNEQwNTk5QzE5RDg0QzF/DNDlBOTU4QkVCRDUzRjEzMUVFMUZFRTQ0NkE0RTQ2MEY0RTc5REE1LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "asc",
+      "white",
+      "tiger",
+      "garnelenring"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 35
   },
   {
     "id": "lidl_10045828",
@@ -567,7 +848,15 @@
     "sku": "10045828",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/BILzzQJ1JPXEorjeqIIFEUsVFz23-zikzjBUFgZcRyU/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8xRjNBNjhERDg0NUEyMTBFOTYwMzQ0RDB/FQTYzMDc5QjE2Mzc5RTAwNzhBQkFFNTNDRjRCMDRFQjYzNTM5RTE0LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "tafelspitz",
+      "in",
+      "aspik"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 26
   },
   {
     "id": "lidl_10045829",
@@ -582,7 +871,15 @@
     "sku": "10045829",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/TjPxqKC9E7vbaNuweOrDSxihRRfE3stCzCdnWtBLv5I/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yNDJGOEYxOEIzMEQ0RDg2RDYwRjAwRTY/2MUM3ODVFMDRBNTI0RTA5NTM2QTk2NzE2MDVFNUYwMDU5QUQxNjJCLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "schinken",
+      "im",
+      "stück"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 24
   },
   {
     "id": "lidl_10045830",
@@ -597,7 +894,13 @@
     "sku": "10045830",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/EJnk_JZpFCRk2Z3GzwwUS8yrmfy-AyLxYPjLAKLmJuA/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS85OEZGQTU1M0YyNTVBMDRDNkNERTZFRTU/xRUQ5RjAzQ0M0RTk4NUY4MkJDNjdFOEVCMkJEQzk4NTk1MTkwOUQ1LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "pastetenteller"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 21
   },
   {
     "id": "lidl_10045831",
@@ -612,7 +915,14 @@
     "sku": "10045831",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/oY2Ybo6tO7Sa45qxKUBilOLrvO4RPY3FP2Lbw8QU5Nc/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8zNkZEQzE4ODBCMThERTEzQkM3RDEzRTA/wRTQyNEZFQzI5MDZEMUQ1MEQ4MDBCQTI2QkU2OTZEMzA3OTg5OTRFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "frischkäse",
+      "spezialitäten"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 31
   },
   {
     "id": "lidl_10045832",
@@ -627,7 +937,14 @@
     "sku": "10045832",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/p_7UerBCEDDHimtLeJyU4e1uy1PLHP2Nh36yi-6veUU/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9BRkU2NTc2RjI4MjMxNUQzRjg0RUNGQUM/yRTlDMzU4MDVDRUQ2MzU3MTI2RTIwQzdCNzhGQzc5NkZBMEU5NTI2LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "feine",
+      "käseplatte"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 23
   },
   {
     "id": "lidl_10045833",
@@ -642,7 +959,13 @@
     "sku": "10045833",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/2MSFm71gLr5gyabwBk5QWxeSiednM0VMQz5g87DCObc/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yMEM4OTE3NjA2QTAzRkI0RTUwNUEwMUJ/DNDRGMUQyNjAxQkJBOUJBNzhCODUyQzE0MEExMkFCMjg3MDkyMjVGLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "ziegentaler"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 18
   },
   {
     "id": "lidl_10045834",
@@ -657,7 +980,14 @@
     "sku": "10045834",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/d24rbrF1i86PQa-Au5L8OUn0hLtQgiriJzudmrPDqjs/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9DRERCNzVCMjhBOUJEMDc0Q0RDOTdDRUE/4RDdGRDAyQTYxNkU3MzY4NEI4RDVFRkQxN0ZDQ0Y5Njc0NThENjNFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "französische",
+      "käseplatte"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 30
   },
   {
     "id": "lidl_10045835",
@@ -672,7 +1002,13 @@
     "sku": "10045835",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/kbgRd7Bh8pJjGd7kz82NUMaAZk7aqxVQ9iGf3lczD9s/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8wQzFCMEM3NDY0NTBFRTNFQjIxQkJDNjA/zNzY5NTlDMDI2RTlDOTlCRjQ5QjhBMjM2NUMxMzA0QTJENTI1MDVDLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "urtyroler"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 16
   },
   {
     "id": "lidl_10045836",
@@ -687,7 +1023,14 @@
     "sku": "10045836",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/0ofHp4vsDrkKhXrqSvDuNhTV9D8YF3WlnHPjrp0Yr-I/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9BRUI1QTA5NTFFNkNGRTQ3NzVDMjY2NjJ/FODU0NkY4NTY5OEMyNTgyMzdGMTI2MTkyNTM5NTVBMDZFOUUzMjJGLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "merino",
+      "lammkeule"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 23
   },
   {
     "id": "lidl_10045837",
@@ -702,7 +1045,16 @@
     "sku": "10045837",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/DFZpoziUWzIjZeGvKM9_BlyqoHHklDala1ZsMYLJyJQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS82NzVBRUI3QjVDQzM4MkQ5RkJCOTA4RDA/5MjRENTg5QTg5QkVENTNCNjFDOTExQzAyNTBFMzlEREZFMDMwMEZGLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "frisches",
+      "schweinefilet",
+      "im",
+      "speckmantel"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 44
   },
   {
     "id": "lidl_10045838",
@@ -717,7 +1069,15 @@
     "sku": "10045838",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/Z2Vif1DejhvtL03Z5mzcsKqDluoJq7SCUnzK6bWuBUE/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS84N0IxQTAzOTJFNjIxMzI1RjQ4Q0U4RDZ/CMDFGMzQ0QjhEMTlGN0U3Mjc5ODE3NzFBRUUzNjREQkMwQTIwQkRFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "metzgerfrisch",
+      "frisches",
+      "kalbs",
+      "ossobuco"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 37
   },
   {
     "id": "lidl_10045839",
@@ -732,7 +1092,13 @@
     "sku": "10045839",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/tBk6yf6adOwgeIFykMkpP3Fv7dwu4AJJZLx-DHI5kvg/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9FQTE4RTBGMEM1MzcxRTREQzZGN0Y5QzQ/wOUMzMUYyN0VGNUZBNkIzMUZBQTM3NkE1MDY3ODBFRUJGMkM1QjA5LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "wachteleier"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 18
   },
   {
     "id": "lidl_10045840",
@@ -747,7 +1113,15 @@
     "sku": "10045840",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/h0l4v-BgKn82jg9uuJofTq1CxziyWzVGILGMgZ900dQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS81QUQ0QUZDMzdCRTZBREUyQkFBRjNGMjN/GMzdBMjVGN0FGMzlDQTE1QkJBQjg3QTdGQzZGRjE3MThCN0QzODgwLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "baresa",
+      "antipastiteller",
+      "griechischer",
+      "art"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 39
   },
   {
     "id": "lidl_10045841",
@@ -762,7 +1136,16 @@
     "sku": "10045841",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/9SqUaEDg61XsZU_0L6nP2xhM0ajnnZgLNQn4owHU_1I/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yRUMzQUE1NkZCNzU4NDZFNDVFN0JFRUI/0MUQ0MzgzNUU0MEE0RTI1RTA3MzQwQzg3MDZFOUU1NDNCQUE2QzJELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "butter",
+      "mit",
+      "camargue",
+      "meersalz"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 35
   },
   {
     "id": "lidl_10045842",
@@ -777,7 +1160,14 @@
     "sku": "10045842",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/nV8z_piPqBKFRYuyOL2-XirnocXdqpqo3goKsdlZqlc/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9FMTc5MTY4RDNCN0ZFRDNDNURCMzI4RTV/EMDdENzdBQUU1OUExM0I1QTU0OTVENkQ1MTMyNDY4RUFDNUYwMjA1LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "mini",
+      "kalbsleberstreichwurst"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 34
   },
   {
     "id": "lidl_10045847",
@@ -792,7 +1182,14 @@
     "sku": "10045847",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/tvitsMOioRvgABtfKDh_9d6qo1jjpXbY_d71kS-tQpE/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS82REI0QUVDRUY2ODI0OEZBQTY1Q0E1QTQ/4NjM1Njc1MTBCMEY1MDc5QUJFQjExMTdEM0Q1OTRGRTNGQ0E5NUFCLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "tiramis",
+      "superfresco"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 27
   },
   {
     "id": "lidl_10045861",
@@ -807,7 +1204,16 @@
     "sku": "10045861",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/R0BA73uDer5ZRt4J7rKJL6YLglg8ufsXYUms9KXwM-4/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9GMDdCNUIwQzlGNTVERDVCNUQ1QjdDNEM/zRjI5NTQxNDcyMzlGNTZCRDRGNzA2MzU5QTNERjUxNEEwRDU1RkY3LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "grana",
+      "padano",
+      "riserva",
+      "dop"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 31
   },
   {
     "id": "lidl_10046044",
@@ -822,7 +1228,13 @@
     "sku": "10046044",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/xLM1hjno_UQ5SF3bdVHbZ73vDvoWNk6dwyvEJ2izZzg/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9GMzRENEYxNUMzQjUwRTFFNThBMUQwQUF/CRDRDMDcxMTI4QjU1NzhENTIzOEI2QTBBNDFGREY3QzY1QTIwOEE4LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "grissini"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 15
   },
   {
     "id": "lidl_10046046",
@@ -837,7 +1249,13 @@
     "sku": "10046046",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/Rnq12sCWvEJ-RlnYW50K2k_p6JSPimO6tSMI4IN_L-8/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9DNkZEQUZGMTY5QzU2QzA1RDIzQjJBMDE/1QkVENTFBMjAxODk5ODlCMTcxMUE0MTJGMjYyRjk5QUYwNENFODk4LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "tartelettes"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 18
   },
   {
     "id": "lidl_10046047",
@@ -852,7 +1270,13 @@
     "sku": "10046047",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/lmhTqhFWiRiN_alWLLv8lOtJ5xvaoencNgM5ll9PlgQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8xQzUzNDQ3M0YwNzdGNjEzMkVFRjc4Q0J/DMERDMDhCODFCMUYxM0IxMDU1RkFDNzQ2Rjk0RTk2M0I3NzIxNTI4LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "fruchtroulade"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 20
   },
   {
     "id": "lidl_10046048",
@@ -867,7 +1291,13 @@
     "sku": "10046048",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/94qlBZiD_JIjdVCK8Ryy0hHL82RXfgNVMISwQG-UjeM/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9BMTFDQTVENDlFMDE0ODVBMzMzRkUzQ0E/5M0Y1NUVFQURCNzU2QjI3RUUxNjM2OTlDRjk5MDE0MjdDRDg0MjcwLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "eisdessert"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 17
   },
   {
     "id": "lidl_10046049",
@@ -882,7 +1312,14 @@
     "sku": "10046049",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/op_wDhkOzbuscqNBhF5KE6EFH-e-ax06kk-HVNMSWaU/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8zMTJFRTA0QkEyNzAwMDU1M0I3QTBCRDJ/GOTA0RUMyQUQxRTU4NDJEMjRDM0I4MDk3OEU0QUE5N0E4ODY2RDBFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "crumble",
+      "dessert"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 22
   },
   {
     "id": "lidl_10046050",
@@ -897,7 +1334,14 @@
     "sku": "10046050",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/dMzls1gAs6d0CfM-EDeqajWHwCc1bL7yOwOJCf9Dry0/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8zMDcyMzFDRDNBMjM0MUZEQzEyQjFENzB/GMDg3Njc5RDUyQTY2RkU4NDY2NDYxQ0FCMTBDRUI2Mjg3RTBBMDkwLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "mini",
+      "bavarois"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 20
   },
   {
     "id": "lidl_10046051",
@@ -912,7 +1356,13 @@
     "sku": "10046051",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/23V-OVsOnPHlAu1dvpTfH3rQS6AcBwV-wxNVaWOzKi8/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8wMEEzOTM2OEYxNjlBQjlGNkRGOTREODJ/BN0IwMzEyNDM0RjU1Mjg0NkQ3REVCQUIxRTNBRUYxNjE4NjlGOEU5LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "nussmus"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 14
   },
   {
     "id": "lidl_10046314",
@@ -927,7 +1377,16 @@
     "sku": "10046314",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/LJ__yb7XhtezC6O1ajO3pR_8DCe8Z6f8pgv7jFSCZCs/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS85NENCODUxMzI1RDMzOTcyNjY1MERDM0E/5Q0RDRTU2MzE0NTkwNkMzNDgzRjFEM0QzNTNFRDlGQTZDQ0Y3NjRFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "paccheri",
+      "oder",
+      "gewalzte",
+      "bandnudeln"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 40
   },
   {
     "id": "lidl_10046964",
@@ -942,7 +1401,14 @@
     "sku": "10046964",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/89NMadPD3leEABoQZLHBDOSSJNdKywZ6BzB3MtBbUTw/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS82RkIyODA3NjM5RTFBN0YxQTYwREM2ODI/1RkVBOTk5QjkyNkEyMTE2NjhEQ0RGOTFFRUFBMEY1REJDNjA4RTA0LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "trauben",
+      "hell",
+      "kernlos"
+    ],
+    "normalizedCategory": "Obst & Gemüse",
+    "nameLength": 20
   },
   {
     "id": "lidl_10046965",
@@ -957,7 +1423,12 @@
     "sku": "10046965",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/2-_tWy1eg-zIBHeOSlQfWm1qcJI74qfTTJ9gAKX8vxc/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8zMTQxMEIyRTQ0QjhENUVFNzg0NUVFODJ/CMUFEQjkzMTQ4NTZEOTc2NTdBMTgxOTk5NDVBQTAyOUQ1N0QzQjI3LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "granatapfel"
+    ],
+    "normalizedCategory": "Obst & Gemüse",
+    "nameLength": 11
   },
   {
     "id": "lidl_10046966",
@@ -972,7 +1443,12 @@
     "sku": "10046966",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/JKfXDPlXO7dOQVoFX-279aiC3777T-GKZqPvPPopvTo/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9ENzYwMTk5MjMxNDRDMzdDOUM4MTRFNjJ/CRDkyRDgwQkE1QUM0Q0UwRUFCQzlGNjQ5NzI5NTg3RkQ5NjIyNjc0LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "eisbergsalat"
+    ],
+    "normalizedCategory": "Obst & Gemüse",
+    "nameLength": 12
   },
   {
     "id": "lidl_10046967",
@@ -987,7 +1463,13 @@
     "sku": "10046967",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/7M8XN6U52xpcfSs4sA_RQYNsTzWzpjjrLZarqZC97ww/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8wQzM3MUE0MTVFMUU0MkMwOUEyRjk0OTE/yNEUwQjRDOEM5NjY0Nzc0RjZBQzBGQjg5NEI4RDdCMUYzNjRDQjI3LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "bio",
+      "zucchini"
+    ],
+    "normalizedCategory": "Obst & Gemüse",
+    "nameLength": 12
   },
   {
     "id": "lidl_10046968",
@@ -1002,7 +1484,12 @@
     "sku": "10046968",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/zvRYBjlOxE93EHIJpenDOx64tXxtgS0ZIWV2P13Emro/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9GMkRDOTAyMEJDMDAzMTIxODRGQTk5NDV/DMEI3QUQ1QzM5QzJGOTAxQzU3NzA2QkRDNkQxMEFEQzEzMzE0RThGLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "grapefruit"
+    ],
+    "normalizedCategory": "Obst & Gemüse",
+    "nameLength": 10
   },
   {
     "id": "lidl_10046969",
@@ -1017,7 +1504,13 @@
     "sku": "10046969",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/qLox5VTsZxeXbCDlxQYCMPg8MoFl-hxmXqQV_DuLKjg/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8zN0E1MDFEMkIwNkVDNzNDMEMyMENCNTA/3MUFBNjExMzI3MEEyQTUzMjdCQkI5NDRERjFGNzMyREVDMzhBRDg3LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "saftiges",
+      "krustenbrot"
+    ],
+    "normalizedCategory": "Brot & Gebäck",
+    "nameLength": 20
   },
   {
     "id": "lidl_10046970",
@@ -1032,7 +1525,12 @@
     "sku": "10046970",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/BT5enCnkdEZemmrpSYyyZVnW1uuWT36DL2_NeJmWPyI/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9CRDM5RTAwODQxRUREQjk2RUY1OUVFQTM/zNjY3RjJBRTdCMDYyOUI2NkJGNkZBNzdGRjgxNEEyNzUxRDg4QTc1LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "donut"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 5
   },
   {
     "id": "lidl_10046971",
@@ -1047,7 +1545,12 @@
     "sku": "10046971",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/kOJ8dMQpWvdiT2mSfYDBDhmgueQcv4U3QH6uYCohJ7o/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS82MzY2Nzc3RUYyOTYzM0I0M0JCNUNDQjl/FQzFDM0ZEQzJGN0U5QjgyRjE1MEJDQjU4ODQ4NUFBRkU1M0U4MENBLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "apfeltasche"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 11
   },
   {
     "id": "lidl_10046972",
@@ -1062,7 +1565,15 @@
     "sku": "10046972",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/6EIn5lmPjvIoqMCqnvWGsWt3CNNvpnOE69ko83ct0O4/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9ENTU3QzM1RUM1Mjk5OUE0N0ZGQTA4NDM/4QkQ5MTM1Mjc3RTc0NjM4NDU1MjZFQ0EzRjdFNUEwRUU0QzZGMUI1LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "wiesentaler",
+      "frisches",
+      "rindsgulasch",
+      "gewürfelt"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 43
   },
   {
     "id": "lidl_10046973",
@@ -1077,7 +1588,14 @@
     "sku": "10046973",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/6EIn5lmPjvIoqMCqnvWGsWt3CNNvpnOE69ko83ct0O4/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9ENTU3QzM1RUM1Mjk5OUE0N0ZGQTA4NDM/4QkQ5MTM1Mjc3RTc0NjM4NDU1MjZFQ0EzRjdFNUEwRUU0QzZGMUI1LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "frisches",
+      "rindsgulasch",
+      "gewürfelt"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 31
   },
   {
     "id": "lidl_10046974",
@@ -1092,7 +1610,15 @@
     "sku": "10046974",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/YRt2cKj8McPPI8KQNZIvFfKI61gxP1Hx7-wIQ6lUy0c/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9BM0NBOTQ5QTYyMjNDMjczOEIxREUxOTV/DMkE1REJCNEZEMzhDRkNFNkQ0MTQ4RTcyNDBFNEVDRUIwMUE5NjQzLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "frische",
+      "minutensteaks",
+      "vom",
+      "schwein"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 33
   },
   {
     "id": "lidl_10046975",
@@ -1107,7 +1633,15 @@
     "sku": "10046975",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/yVbTh-awQXJL0nIBWMkgoPK5RNg-_Ubv_8sq7JrMUrM/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9BMjkxQTNERjRDRkJFODA0RDQzODZFMTc/wRTI5OEIzNDNFQkNCRkVBNDRFNjRBNjExNDg4MEFBNDVFN0M3NzBCLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "wiesentaler",
+      "frische",
+      "maishendl",
+      "flügel"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 36
   },
   {
     "id": "lidl_10046976",
@@ -1122,7 +1656,15 @@
     "sku": "10046976",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/t25Rkon8P6Y6P7ZUJlnSwq2DFLmVsafcJ_G8mzmt4vQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9GMzk3MjA0QTM2OTNDNkE1MjgxRUIxQUQ/3RjA1RDE0ODREQ0NFREVEQjJENkM4RUZFNjk0NkU2NjdBODkyRkZELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "fischerstolz",
+      "frische",
+      "dorade",
+      "4er"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 31
   },
   {
     "id": "lidl_10046977",
@@ -1137,7 +1679,15 @@
     "sku": "10046977",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/aZ9EeYGbs4EGkqqJ3_g1dJzVPmrpimpgg5jgyPuy0IQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9EQkRERUZERkE1QzhGMDY2ODQxMkIzRkQ/zNkNBNjc5MUM2MDYwNDdBRTAzNEYxRjc3Njc3NTM3ODRBMDYxQzhCLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "wiesentaler",
+      "frisches",
+      "faschiertes",
+      "gemischt"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 41
   },
   {
     "id": "lidl_10046978",
@@ -1152,7 +1702,15 @@
     "sku": "10046978",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/AP1vppInr0yE7pV5nFIeBZZxVk3qgTqNaRHyiWp3HYc/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9FQzEzNzU2MzkwRDhDOTBFNTNFOUZDMkR/DOUI3MzUwNkE5OTc3NkUzNDQ2QzgyNzZDRTA0RTUxMzI4Q0JBNDY3LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "chef",
+      "select",
+      "fertigteig",
+      "glutenfrei"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 33
   },
   {
     "id": "lidl_10046979",
@@ -1167,7 +1725,16 @@
     "sku": "10046979",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/JBMTA0Zm5aizfzzBqH_8amNkEoHWLBS44DZXD3OYuP4/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9GRTc4OUM0ODgxMzI4RTlCNDdDRDhDMkQ/4OEY0N0UzRUJFQjRFREEzMTkxNDIzRkIyN0I5QjI1QzVDMTJBNDVELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "trattoria",
+      "alfredo",
+      "glutenfreie",
+      "pizza",
+      "margherita"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 46
   },
   {
     "id": "lidl_10046980",
@@ -1182,7 +1749,16 @@
     "sku": "10046980",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/gepVlWa7ZY-pzW8wH4RjxCxQN2o2cz_VUC1xGsUrS34/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9GNDNDRUIyRkE5MjI0NjA2MTI3MTgzRTh/EMzg5NDg1M0VGQjdFMzk3QkEwQjA3QkYyQzQ3RDVDMzA4NEYyNkJFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "trattoria",
+      "alfredo",
+      "glutenfreie",
+      "pizza",
+      "calzone"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 43
   },
   {
     "id": "lidl_10046982",
@@ -1197,7 +1773,16 @@
     "sku": "10046982",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/uBK39ciBEYnnfXSefHb_kPS2oxoQW3xZV-gbXXlbnVo/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8zNUQ4MjFDMUVBNjdBQjc2NkEzOEFBMTU/yNDcyRjRGOUQ4Nzk1Qjg5MDRDODJCREZGN0NFNEE1MEFGNzVFQzgzLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "chef",
+      "select",
+      "glutenfreie",
+      "chicken",
+      "nuggets"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 39
   },
   {
     "id": "lidl_10046983",
@@ -1212,7 +1797,14 @@
     "sku": "10046983",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/_-mUuA_evaUj3Cw6yj-6RoxcFP-Oen4vPcm7Kbgb8Qo/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS83Qzk4QjdGN0Y3ODRGNzMxMjU1MjdCOTJ/FRTVERDIwMzYxQzZBM0E1QjA4REQ5N0NEMEM1NTgyMjMwNjA5MEY2LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "combino",
+      "glutenfreie",
+      "fusilli"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 27
   },
   {
     "id": "lidl_10046985",
@@ -1227,7 +1819,15 @@
     "sku": "10046985",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/e1tPp1hcpOxZL2Bb_uwia6HHvUKSWYoo-6mFO1mYPPQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS84RkRGQ0RGQ0RFNDhGRDU2NDRCMDIzQ0I/2OEVERTZCQkFCNTlGQzYwOEVFNUFGRkI4Rjk4NzAwMzU5NjE3MDUyLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "vitasia",
+      "glutenfreie",
+      "konjak",
+      "nudeln"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 33
   },
   {
     "id": "lidl_10046986",
@@ -1242,7 +1842,15 @@
     "sku": "10046986",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/g-_l8CnXJ7BpoVuP9dGCsIzC47I2VsA46z1_ygoubdw/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9CNjg2MEY5NTYzRTE0QzU1MEUwQjE0MzI/3NTQ0REEwRjUwM0Y4QTY0Rjc0OEE1RDVDNTRFNzlENTIyM0U4QTI3LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "grafschafter",
+      "glutenfreie",
+      "bio",
+      "brötchen"
+    ],
+    "normalizedCategory": "Brot & Gebäck",
+    "nameLength": 37
   },
   {
     "id": "lidl_10046987",
@@ -1257,7 +1865,15 @@
     "sku": "10046987",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/qPN7mosP78EmDBfHGv9LK5M-CzwJ0G2ttkH8aKbYnIU/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS81MzA0OEJBRDA0MkI4MkRFN0VBMDY0ODk/3MzQyOTZFRjAxRjEwMTJGODk4MDQwNzM5MUJBMTAxRjM4RTI4RjIyLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "tastino",
+      "glutenfreie",
+      "bio",
+      "baguettes"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 33
   },
   {
     "id": "lidl_10046988",
@@ -1272,7 +1888,17 @@
     "sku": "10046988",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/rgOaREe0rhlXTyuejiW7t9JsSULeiXmYypeFwo4kGEc/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS83RkZENjE0NEYwRDQzRTA5M0M1MDA0MEY/xMUZDMTlENDk2OERFNTI1RUZFQkIzN0E0RTBENjdDM0YyMUM4NzQ0LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "confiserie",
+      "firenze",
+      "glutenfreie",
+      "muffins",
+      "mit",
+      "schokotropfen"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 56
   },
   {
     "id": "lidl_10046989",
@@ -1287,7 +1913,14 @@
     "sku": "10046989",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/og5qlReimhP66_t1SYH3a5FUul4euj1AdLRYxvoeWmg/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS82QkQzNkFFNUNCNzFFMkRFNUNFMkQ2QTc/3ODcxNDIyODE3MTQ5REUzQzdCMEEzMUVEM0ZBNDEzQUJEMEFERDg1LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "marlenka",
+      "glutenfreie",
+      "honigkugeln"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 32
   },
   {
     "id": "lidl_10046990",
@@ -1302,7 +1935,16 @@
     "sku": "10046990",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/8F_voOs4vLJhyytXtqFWXnMc9pWMAVIi_5XtWYj2J2Y/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS80QzE2RjNENTVCRDJGQzJERURENTExNjg/2NUM3NDcxNUVENEJDRURFQkNGMDc2MzMxN0IxM0U3N0U5RTBCNEYyLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "marlenka",
+      "glutenfreie",
+      "honigtorte",
+      "mit",
+      "nüssen"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 42
   },
   {
     "id": "lidl_10046991",
@@ -1317,7 +1959,14 @@
     "sku": "10046991",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/NSkU21fc-pR4dwU4V5lJEeCn7S85Ud9kourJAMsHA0E/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9CMDZDQkUzMEJCRkI0OUMxMTYxNEY4MjF/DRkUxQjA2NEYxODQ5QTBEMEVCMkY2RDZEMDdDN0E1RTU0ODBCNjY2LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "alpengut",
+      "laktosefreies",
+      "schlagobers"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 34
   },
   {
     "id": "lidl_10046992",
@@ -1332,7 +1981,14 @@
     "sku": "10046992",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/R0vdzQBpFr3htNLZA_Tn-1Jegghf2WPeOEv5mWo7FOM/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9ENzNEMDZCNzRERTYxRUYwOTNGM0UyMkN/BNDRDQUJBNjdDNTA1MjlGOTk5QUVFNDRCNEVFNTczMTMxNzk1MjlELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "alpengut",
+      "laktosefreier",
+      "sauerrahm"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 32
   },
   {
     "id": "lidl_10046993",
@@ -1347,7 +2003,15 @@
     "sku": "10046993",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/KErYo0j9coTFEiWOJ--FdEtXBba7tVq-1pFqK9EOqcI/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9DODQzRkE5Mzk5MzFFMzlCQTNENTVCMTQ/1N0RCRDBCNDg2RDU3NUQxMzg4Qzk3RDk2NkU5QjM4NTJFREJBNzVCLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "alpengut",
+      "laktosefreier",
+      "speisetopfen",
+      "mager"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 41
   },
   {
     "id": "lidl_10046994",
@@ -1362,7 +2026,15 @@
     "sku": "10046994",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/5W4uUERq17Dae7koCb6M1HI94WKkfcDVYYRpW6qDX7g/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS84MEU0RDVFRjNGMDFBRjhCNTQyOTNDMEQ/1M0M2QkE4RDhFQTg2MDhDRTM0RDY3OThGNDlGRTEyOUY3NkU5REZDLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "milbona",
+      "mini",
+      "ricotta",
+      "laktosefrei"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 32
   },
   {
     "id": "lidl_10046995",
@@ -1377,7 +2049,15 @@
     "sku": "10046995",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/_C9O_WTvFJ26d_poEz3V3NTX4-Rs_LrAbSox5q776Ag/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS81QTk1QUFBQTkyM0U2QjY5NjM1MkQ1MjZ/DMUU4NEMwRjM3OUU5MzNEQ0Q1QUU4OUQ0OTEyNkE2NzEzREY4QzQyLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "milbona",
+      "körniger",
+      "frischkäse",
+      "laktosefrei"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 39
   },
   {
     "id": "lidl_10046996",
@@ -1392,7 +2072,17 @@
     "sku": "10046996",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/EL6x35LMf_4UNeVhLrt3L_8oAr6Ey4LobcnL6ZPMzBo/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8xMDkxMTJCM0VFQ0RGNzZENzg2N0Q3MjA/wNkYxMDQyN0E1RUI5MEY2NDQwNTY5RkYwMjdENzU4Nzg2ODBGNjRCLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "milbona",
+      "joghurt",
+      "nach",
+      "griechischer",
+      "art",
+      "laktosefrei"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 49
   },
   {
     "id": "lidl_10046997",
@@ -1407,7 +2097,15 @@
     "sku": "10046997",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/FK0R75x_1J3j5bO4Z9JfSp0zaa-bMPpVdRB5koPT6nE/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS83QzBCRkVBMkU3QjJFQjgxQTQ3QTI4MzE/zQTBBQzg3MzhEMDlFMEJFQTNFQkNCNEUxMURDM0E5MTNDOTNFRjdBLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "wiesentaler",
+      "leberkäse",
+      "im",
+      "stück"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 30
   },
   {
     "id": "lidl_10046998",
@@ -1422,7 +2120,19 @@
     "sku": "10046998",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/w7-dEcXgjbQOAc5Gr3vYbqhPD5Edq9lJ4u_VJY3NUi4/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS85QzM1Q0ZBNDJDRTEzQTRBNURGODNBOUZ/DRjkxMTc2RURBMjFEMTM2ODhBREQyMEJEMjlCM0QzNTU1NjBBRjY1LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "wiesentaler",
+      "pikante",
+      "schönbrunner",
+      "oder",
+      "leichte",
+      "pariser",
+      "mit",
+      "gemüse"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 64
   },
   {
     "id": "lidl_10046999",
@@ -1437,7 +2147,14 @@
     "sku": "10046999",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/y5u6ETTFo2R4_g79PEdHN4L2xQ-m3FrhfWoTZW_X7uY/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9BRUExMTg2MkU2NzYzNTEyMDZEQzhFNDk/4NzU1QzUwRDRBQURCNTg3QjNFMzBGOUE0QjVFN0Y5QTdFMkEwOTIyLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "wiesentaler",
+      "tiroler",
+      "speck"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 25
   },
   {
     "id": "lidl_10047000",
@@ -1452,7 +2169,13 @@
     "sku": "10047000",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/N2YAXuCVIeX63oxjsaTf_lnH1t5xsFuzzzN-Rl6uHqY/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9DQ0ZFQTA1RkMyOTlFQkMwNUYyOTk4QzY/4Qjg5NzA0MTU2MDRGN0Q1MTRERDY4RkRGOTlCQjJEMDVGNjk3QUY4LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "wiesentaler",
+      "toastschinken"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 25
   },
   {
     "id": "lidl_10047001",
@@ -1467,7 +2190,14 @@
     "sku": "10047001",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/XyUxS9osDZsIzpg78ZFBZcYInHSL1uS-OsbpAfbhkhk/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8zMTRFQ0NCQ0Y4RDNDRkY1MzA2QTIwREF/CRTA5RkY4MDE1RkRCMjMxMzRDREU5OUZDMTFGNkE3MzFCRjhGMTMxLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "alpengut",
+      "cottage",
+      "cheese"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 23
   },
   {
     "id": "lidl_10047002",
@@ -1482,7 +2212,14 @@
     "sku": "10047002",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/UZohRpaJ-MA27eYns6SvSB7RjilPOAej3LXsNvEcNLw/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9CQTdCMjQ1NTNCMEVBREI0REUxN0NDNDQ/2Q0JBQjAxQzFGQzMwMkM4RDM0OTMxN0VEOUE4NUE5ODA2M0M3MEFBLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "emmi",
+      "caff",
+      "latte"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 16
   },
   {
     "id": "lidl_10047003",
@@ -1497,7 +2234,13 @@
     "sku": "10047003",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/dIIgME54qNHPqHEHvfzq0bOn04a_tGzgrkBw9IR_Pys/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS80MTgzNkY4M0I4Q0VFMEQwRjk1MThBMUZ/GRENFRTg0OTdCNzVERTAwMDZGMUFDOUNBRDY1N0Q0QjJGMDg3NTcwLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "kelly",
+      "chips"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 13
   },
   {
     "id": "lidl_10047004",
@@ -1512,7 +2255,14 @@
     "sku": "10047004",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/U8noe1xb6GOLNgdwAD5mRxWjH3XZIaS0QR5HpTzlx6Q/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS81OThGQzIyNDYxMUNGMUFCM0JBQzEwMEM/wMTM1NTlENTI2NzlCQzJEMDYwMDcxM0MyMjEwOTg4NjJERDNDNzk3LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "bellarom",
+      "kaffeekapseln",
+      "44er"
+    ],
+    "normalizedCategory": "Kaffee & Tee",
+    "nameLength": 27
   },
   {
     "id": "lidl_10047005",
@@ -1527,7 +2277,16 @@
     "sku": "10047005",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/_GBWcDz_zCCQAbe9CwgmM6yiE8k9FiWasvbCzbhqB_Y/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9GQzczNDg5RjM3RjM4RUFBREE2NUNCMjl/COERDMENBQzZCQzVFNEY0OEE5NzU2NkNFOEVCOTA3NkY3RDM3QTI3LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "kinder",
+      "duplo",
+      "oder",
+      "riegel",
+      "country"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 40
   },
   {
     "id": "lidl_10047006",
@@ -1542,7 +2301,13 @@
     "sku": "10047006",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/E-8FDdJ9RyRljDOOKP0Pzzy0-iOBTSQwMspeuOL0ooU/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9CNURDQkNBNEM3REVFOTVGMDQ3MDhEQjh/BOEU0RkM2M0UxQ0M4QzlGM0U0MUU0MUEwOUI1OUQxODI5RjgyMjc1LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "kinder",
+      "bueno"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 12
   },
   {
     "id": "lidl_10047007",
@@ -1557,7 +2322,13 @@
     "sku": "10047007",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/iEoHZX7Z1Vu29J3rmsBBmBqFOw90BwJ_m02jHkQEPK4/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yREJBQjgzMEIzM0I2NDUwNUE4QzUwQTA/yQ0EyQkFDQjdENjZCMUQwODM0QUY5NkU4NjkyMDQ4OEExNjU0NUM0LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "wiesentaler",
+      "osterschinken"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 25
   },
   {
     "id": "lidl_10047008",
@@ -1572,7 +2343,15 @@
     "sku": "10047008",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/OZKydvOJA201Lbi-liUkLLMmokK0P_O2Dze_PwIv4ao/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8xNENBQkJBMDZDRDQ1M0EzOEVGOUQ0MDM/5NUQzNEZEMERCNUE2RkQyN0FBQkJFMTdENUUxOUQ0QkQxMjZFOEUwLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "alpengut",
+      "toastkäse",
+      "in",
+      "scheiben"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 30
   },
   {
     "id": "lidl_10047009",
@@ -1587,7 +2366,14 @@
     "sku": "10047009",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/OTNHJTm0_OzaRNjB2aBvmwUMvvcgPH8rfYzADdkgp2g/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yOTlCODA0NzVCNDFEMDUyQTk3RTgwOEI/4OTUxQzM2QUNCQzkxMkU3OUFEQ0E2QzJDM0E4OTk1NkM5MTU2MjcyLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "ehrmann",
+      "grand",
+      "dessert"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 21
   },
   {
     "id": "lidl_10047010",
@@ -1602,7 +2388,13 @@
     "sku": "10047010",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/jozL7aNaq632vKPzTvDDinDTbAqCuIu7J_ZwXs0Qi7E/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9GN0FFQzhCMkEzNzVGRUEzNDNFQjIzMDI/2QUI4MkU4MDI2NTczNDhCMzQwOEQ5RjFFNjlERkU1QjlENkZENjNELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "wiesentaler",
+      "cabanossi"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 21
   },
   {
     "id": "lidl_10047011",
@@ -1617,7 +2409,15 @@
     "sku": "10047011",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/PlVvPn4V7KNGjfhM58Qa0LyzfVRtoFY9gdqS4QtZBBQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yMzYwNEQyRDY1RkQ4MzQ1OEZCOURBRjI/2MjY1NzE1ODQ5NTBDOUFGMjE0MDVBMDE5NzdCMkU3MTJDQ0JDMDlELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "weiße",
+      "eier",
+      "aus",
+      "bodenhaltung"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 27
   },
   {
     "id": "lidl_10047012",
@@ -1632,7 +2432,13 @@
     "sku": "10047012",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/sR8yaNjTQ1LUlSeFUGPAIBA9mZx075jh6oJi8ObdWUE/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS82RTAzNzY2NjY5RTQ4Q0FDRTU1MDdFNjV/CQzBGREVDOTVGRjI5MDlENjNEQUNGODg1RjQ2NEREN0Y1NUM3NTUzLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "kuner",
+      "saucen"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 12
   },
   {
     "id": "lidl_10047013",
@@ -1647,7 +2453,14 @@
     "sku": "10047013",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/LQlBXAFiZz-rlEVaUv_B0NUZU6iS3hVYiu0N5V5Sfj0/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yN0ZBNDhFQTI0OUQ2MDczNDVGMjdDNTE/0QkZBOTRCMzRDQzFGRUUxQTY1MjFBRjRGOUZEN0Q4RENDQkZCQTJBLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "grafschafter",
+      "butter",
+      "croissants"
+    ],
+    "normalizedCategory": "Brot & Gebäck",
+    "nameLength": 30
   },
   {
     "id": "lidl_10047014",
@@ -1662,7 +2475,15 @@
     "sku": "10047014",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/Yv-4Z_7h4NKKK_ujzM0JEcbzF4DM8A0Z4X6I1omiWbU/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8wM0MzRDhEOTg0Mjg0REFDMzA3MTYzNEN/COTRGNEVFNTlEMDIwMDQ1QjZBNzY1Q0Y3RTUwQjUyNTQ5NDZCRDk5LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "efko",
+      "delikatess",
+      "xxl",
+      "gurken"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 26
   },
   {
     "id": "lidl_10047015",
@@ -1677,7 +2498,13 @@
     "sku": "10047015",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/MlAIVlfnL-MrxYUu-QdcI2Bvdce41uYYoZEuWX-zf6E/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS85ODZFRjNDMDI1NDAzNDYwMjM4NjEwRUN/FNjFERkI0OEVCRTkzRkI0MDNEQTE0MjZCNEVEMTU2MTUwNzE1MTUyLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "nixe",
+      "thunfischfilets"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 20
   },
   {
     "id": "lidl_10047016",
@@ -1692,7 +2519,13 @@
     "sku": "10047016",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/g4zu2uYTlv1jrKV6j5ZfLmmGjEPN46Tida72oqB2Cec/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9FRDk2NjQyQkJCMEY5QjA0MzFERDI5REE/zRDkxQUUwMkY2MjE2NjY3RERCQzZDRDRCRTNCOTRCNzcxMDgxMDQ4LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "rama",
+      "cremefine"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 14
   },
   {
     "id": "lidl_10047017",
@@ -1707,7 +2540,13 @@
     "sku": "10047017",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/UTkQR7f6qd79IBCeIaYxeu0_4Ph22eUI_675r7aGbA8/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yQ0M4NzE2QTM5RUI3NzlERDkwMEU4ODQ/5M0UzNjcxNTc3NjkwMjRDREE5QkQ5NzBBMzg5QTM4RDlCMzcyQ0Q0LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "freshona",
+      "gemüsemais"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 19
   },
   {
     "id": "lidl_10047018",
@@ -1722,7 +2561,14 @@
     "sku": "10047018",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/W4PvCFi4c6azW4UZjiv9zLy8Fl89gZPdLP_k8kXC7YE/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS82ODAzMjJFOUE0NTZBOEI5NTI1OTU5MDk/wQ0FGNTc4MzY1NTk1MzY1Rjk1MTZDQkFFOUZBNkZGQjc1RDVGNTIxLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "freshona",
+      "bio",
+      "gemüsemais"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 23
   },
   {
     "id": "lidl_10047019",
@@ -1737,7 +2583,14 @@
     "sku": "10047019",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/6yC-ROqV8NtFlxxg9U9w1LRHIGdhfjz1eeo7DRr1oIg/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS83NjZGM0Q4RjkxRTk4ODA0NUY2NDg3MEF/BRTIyQkY4RjdEMkM0NTVBMjMyMTBGMzJBNzdENjg0QzMwRDE5RDY2LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "baresa",
+      "passierte",
+      "tomaten"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 24
   },
   {
     "id": "lidl_10047020",
@@ -1752,7 +2605,14 @@
     "sku": "10047020",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/U25sc6SmLoc_O9aU08zmRCC5M1VDIJSfmrVn6iiDvnE/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS81Q0ZCOTVFRTg4MzYzMDIyRTg1NUNDNDg/wNzlGREYzM0VGQ0M3NURDMzNCNEI3QjkxNDlFOTRDOTc0N0EzRjU0LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "freshona",
+      "kidney",
+      "bohnen"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 22
   },
   {
     "id": "lidl_10047021",
@@ -1767,7 +2627,15 @@
     "sku": "10047021",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/a__oAgjUcivlRZLll5voE26nYFAezzXLQ1mUehuWQDQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9BQ0IzOTlBODZCN0QyM0IyNkY1MTc2MDk/3MEVDQUM5NDIyOERFRTVBRTVFMzM1NjQ3RTAwMTg0OTczMzc3QTU1LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "freshona",
+      "bio",
+      "rote",
+      "kidneybohnen"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 30
   },
   {
     "id": "lidl_10047022",
@@ -1782,7 +2650,14 @@
     "sku": "10047022",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/7gQQOijGfSdS28Sr5av4uwIXLLJaFiOzZs7EhDxaS78/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS83M0ZBQ0EzOTUyNTI1MTk3OTFCNzM4MjU/0QTE1M0I0MUI4MDBENjkzM0I1MEY0RDhBQ0IxQjA5NjMwQUY0N0RFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "baresa",
+      "gehackte",
+      "tomaten"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 23
   },
   {
     "id": "lidl_10047023",
@@ -1797,7 +2672,12 @@
     "sku": "10047023",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/lhBQVassA0c7wOntB-EDRcxPQ-fgDgvenWkexmb7EfA/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9BREI5Mzg5NkY4QTkzRTg0RjVFNUY3MDE/2NUM2RjBERjYyMUMwOEFEQjQwN0JCOTQ3NEM5RUVBMTNCMEVFNEM0LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "weissburgunder"
+    ],
+    "normalizedCategory": "Alkohol",
+    "nameLength": 14
   },
   {
     "id": "lidl_10047024",
@@ -1812,7 +2692,13 @@
     "sku": "10047024",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/uxaN68dA2fGtxXpl_nSxsbhdyEbl-nFXSvTp3u-bavg/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9GNjc1MzcxOTg4MzAzMjRGNDRBODU4NDQ/wOUEzQjg0REFEMzMzM0JERjE1RTg4MjA2MUE5MUI3M0QyQjU0NzExLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "römerquelle",
+      "emotion"
+    ],
+    "normalizedCategory": "Alkohol",
+    "nameLength": 19
   },
   {
     "id": "lidl_10047025",
@@ -1827,7 +2713,13 @@
     "sku": "10047025",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/fHssYUrK_B9Bwjt5FNyg1xCtSukdVzQ4NH_Y4modI6A/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS80Q0JFRDY1QzhCMEQ1QTZGODVGQjUyM0F/DODZBMDA1QzJGRDE2RTExMjdEN0Q2NEFGMEEyMEYwRDlGQjRDRTE0LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "freshona",
+      "kokosnussmilch"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 23
   },
   {
     "id": "lidl_10047026",
@@ -1842,7 +2734,13 @@
     "sku": "10047026",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/kwwn2zQohOTXfDI4-fM8_lTWxndAMryrHfxzNMkX0bQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yODJDNjMyQ0U3Q0E2MDQzNzcxMDNCQUE/4REUwRUVBQkRENDY4MzhFMDY5NTFGMjVDRTgzRENBOEI1RTNENjA4LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "freeway",
+      "orangenlimonade"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 23
   },
   {
     "id": "lidl_10047027",
@@ -1857,7 +2755,13 @@
     "sku": "10047027",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/xOsxnxJ4mka2oyqT0k3qTQiK1LGNoiQ-ZxrYwO35ABA/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8xMzQzNkIwOEM4QTc2MzgxM0UwOUI2QTk/3OTgyN0ZBRDY1MjY3NTc5MDJGNTRCQjExRjdDMzM0OEQwRDg1QUM0LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "freeway",
+      "cola"
+    ],
+    "normalizedCategory": "Getränke",
+    "nameLength": 12
   },
   {
     "id": "lidl_10047028",
@@ -1872,7 +2776,13 @@
     "sku": "10047028",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/wK3weDtOZ7j73PODs7EHzGSU3Wh9We9CofEHHL9Y6aI/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9DODZDQzBDMUM0MDdGNUIzNUY2NDY5QTY/5N0I4QUEzMEJFODhFNzlFRDAzNzI1NzFFMTQ1MjBDMTcxNzA5NDVFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "freshona",
+      "linsen"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 15
   },
   {
     "id": "lidl_10047029",
@@ -1887,7 +2797,14 @@
     "sku": "10047029",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/SzQ9rNXLCjm_dqYANcxBI5OC0_l3p0SsNNghg6NiJX8/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS82REVBOTRDNzA3NzAxMjc4MTAzMjI0ODU/wMjNEOTVGNURCMDEwMzJFNUVFRjE2NjYwQTRBNDU5QzExQTFEMzRDLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "kania",
+      "instant",
+      "nudeln"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 20
   },
   {
     "id": "lidl_10047030",
@@ -1902,7 +2819,15 @@
     "sku": "10047030",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/PI9gO-VNx-A82ISYlvGutBmAcQlB1AKiFHtY1FY46jU/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8wQTdGMUFDNEIyQzhCNThDQkIzNzI0NkY/4RjRDQzc1RjE5MDE4MjEzMzBBMUMyMUJGM0JCMjYzMTk2RkMyMjBDLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "kania",
+      "ramen",
+      "nudel",
+      "cup"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 21
   },
   {
     "id": "lidl_10047031",
@@ -1917,7 +2842,13 @@
     "sku": "10047031",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/ZqUFejm5x0OWP-hpmbVml244JUdz-TA0M8KnO4YOyAw/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS84RDk4QTZCQkY4QzE1NzMzRDU3MjVDNDM/yQ0M5RTJCRjRDM0UzNzE4QTlBODlFMUYxRTU4QzUyMEQwMzEwMzBCLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "zipfer",
+      "märzen"
+    ],
+    "normalizedCategory": "Alkohol",
+    "nameLength": 13
   },
   {
     "id": "lidl_10047032",
@@ -1932,7 +2863,13 @@
     "sku": "10047032",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/75mO90TNQ24Ph3OqnIzQJniSgcvrjvlySoBgpImNF3g/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9EQUQwQ0VBOEZBNTAwMzY0NUUwNjc2OEJ/GQkFCRUJERTA0MjYyQjUxRjE4OEY0RDhFOUQyNzZENjkyRjI2RDFDLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "puntigamer",
+      "märzenbier"
+    ],
+    "normalizedCategory": "Alkohol",
+    "nameLength": 21
   },
   {
     "id": "lidl_10047033",
@@ -1947,7 +2884,13 @@
     "sku": "10047033",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/BIAuleaQxSVkGFQamKhyLjuY9IN3MPAGUjdEp4MMaKw/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9DNTIxN0Q4NUYzNURCMzFDQThEMDUxNDl/BM0YxNjkzMzM1ODlDQTA5MThDMEI0NkNCQTQyODIyQ0I5NUIxNDExLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "milka",
+      "tafelschokolade"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 21
   },
   {
     "id": "lidl_10047034",
@@ -1962,7 +2905,13 @@
     "sku": "10047034",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/lF1vfmBrINHo7a3jClgb4gm_v2dPqXCNF0HwMkwoPac/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS85QjVCOENGMjAwMzE3MzQyNUJCOUVDRjd/GMDlERDBFN0QyQzdFMkFFQzcwQjU1QzI1NUNFQTVDMzJBNTY5QUMyLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "schärdinger",
+      "käsescheiben"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 24
   },
   {
     "id": "lidl_10047035",
@@ -1977,7 +2926,13 @@
     "sku": "10047035",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/lF1vfmBrINHo7a3jClgb4gm_v2dPqXCNF0HwMkwoPac/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS85QjVCOENGMjAwMzE3MzQyNUJCOUVDRjd/GMDlERDBFN0QyQzdFMkFFQzcwQjU1QzI1NUNFQTVDMzJBNTY5QUMyLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "schärdinger",
+      "käsescheiben"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 24
   },
   {
     "id": "lidl_10047038",
@@ -1992,7 +2947,15 @@
     "sku": "10047038",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/3KZuM6-Yub419gBRoR9_I-zTxwAeQrMSXZjWppid1qg/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS80OUY3OTAwMjk1ODYyNDEzN0E2NzJGMDE/zOTkxQzA5RjhGRTk4QTRDNzY3RDcwNTNGNkI1OTYzMDhERjYwREY3LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "favorina",
+      "osterhase",
+      "in",
+      "alufolie"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 30
   },
   {
     "id": "lidl_10047039",
@@ -2007,7 +2970,14 @@
     "sku": "10047039",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/nfyVbcbMi59MeNTUVFf7aRpYcAc2paN38rutqvqAPsc/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yQzA5MjIzRTk1N0FGQTU2Mjc4MUNDQkR/GRTgwRjU3MkE0NkJFNkQ0ODVFRDEzMTI2RjU1OTQyQzMxNEI3NDE5LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "gurke",
+      "aus",
+      "österreich"
+    ],
+    "normalizedCategory": "Obst & Gemüse",
+    "nameLength": 20
   },
   {
     "id": "lidl_10047040",
@@ -2022,7 +2992,15 @@
     "sku": "10047040",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/KvjQN0RDlvCQSnJrvj2MnEeVOEewwp0t3hBssN4v-s8/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yOERFNzczNDk0RTRDOTc4MDM0ODQ4MEM/0MEJCODA1QjBFNkM3RjFFMzJBMkVBOUUxRDQ1NDE2OTE5MDZDQUQ1LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "bio",
+      "schalotten",
+      "aus",
+      "österreich"
+    ],
+    "normalizedCategory": "Obst & Gemüse",
+    "nameLength": 29
   },
   {
     "id": "lidl_10047041",
@@ -2037,7 +3015,12 @@
     "sku": "10047041",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/PJuyxSNTYAD1zywpgdfSKfpMpPwGp8Tei0vEOZA6rbc/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9DM0FFMjM2MjdEODJGQzg4MzA0MUI3QkY/5NUJGMTk3NUI2MDFCQjFCMUQ3QkI5QUI3NzIyODk0RTQ4QzA2RTIwLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "melanzani"
+    ],
+    "normalizedCategory": "Obst & Gemüse",
+    "nameLength": 9
   },
   {
     "id": "lidl_10047042",
@@ -2052,7 +3035,14 @@
     "sku": "10047042",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/eWIVNsHJ3XkVwrVq8wnAZ_qL77nKzCSVXW8e83v68GU/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9GOTU3Qjc4MDcxOTZEQTYyOUEwNzAxNDM/2MEQ4QzhDMzVGRTYxNjJBNjk0N0VDMEQwQUM5QUZFQUZCQUI4OEVELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "äpfel",
+      "pink",
+      "lady"
+    ],
+    "normalizedCategory": "Obst & Gemüse",
+    "nameLength": 16
   },
   {
     "id": "lidl_10047043",
@@ -2067,7 +3057,15 @@
     "sku": "10047043",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/O2m-t8OuaROl3kXZ_De8k7psE_ja-lVkHnKVkuuADR8/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9DQkRGMkY1M0JFQkY5MzQ5ODgwMzNDQUY/wQzVCRDIyODZFMEQ3MTNGQkQ4RUY4MTY3NTk3MjVGODBCNDA0MTRFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "zuckermais",
+      "gekocht",
+      "aus",
+      "österreich"
+    ],
+    "normalizedCategory": "Obst & Gemüse",
+    "nameLength": 33
   },
   {
     "id": "lidl_10047044",
@@ -2082,7 +3080,12 @@
     "sku": "10047044",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/ppmTOtX4Dz3rHG7dyfkIDOZHIlGlDqtKWNpbzlJgLgY/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yRTg0REFEMTBGNkNGMkZERDlGRTUxMDE/4RjM3MjY5NTJFMTk2MUVBQzc1NEIzMUIyN0YxREQ3MTgwRDRFQzMwLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "baguette"
+    ],
+    "normalizedCategory": "Brot & Gebäck",
+    "nameLength": 8
   },
   {
     "id": "lidl_10047045",
@@ -2097,7 +3100,12 @@
     "sku": "10047045",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/ppmTOtX4Dz3rHG7dyfkIDOZHIlGlDqtKWNpbzlJgLgY/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yRTg0REFEMTBGNkNGMkZERDlGRTUxMDE/4RjM3MjY5NTJFMTk2MUVBQzc1NEIzMUIyN0YxREQ3MTgwRDRFQzMwLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "baguette"
+    ],
+    "normalizedCategory": "Brot & Gebäck",
+    "nameLength": 8
   },
   {
     "id": "lidl_10047046",
@@ -2112,7 +3120,13 @@
     "sku": "10047046",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/CaAnhVPxFBSFK7Tep48IAAS-9Javi0IKkw032vga5X4/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS84N0JCOTFCNUJDQjM2OENBNDM1RjM2QkE/yNDlBQzdCNjc5Mzc0RDQ0RkI2ODc5NzBFMEE0MEE0MzVFNDBFQUM3LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "butter",
+      "croissant"
+    ],
+    "normalizedCategory": "Brot & Gebäck",
+    "nameLength": 16
   },
   {
     "id": "lidl_10047047",
@@ -2127,7 +3141,13 @@
     "sku": "10047047",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/j2L_MKU61Z2uJT_KFf5CS4jli24KEwU9cQWnGXvtXrQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS84QkE2NTZBNTgyRkFGMDg4RDE5MkI1NjI/0MjhCNjU0NzJEQ0FBRTNERDc1NkREQUE1RjREOTg0MjE2RTY1M0NBLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "bio",
+      "langsemmel"
+    ],
+    "normalizedCategory": "Brot & Gebäck",
+    "nameLength": 14
   },
   {
     "id": "lidl_10047048",
@@ -2142,7 +3162,12 @@
     "sku": "10047048",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/owHMHR37hBSJ87bsstCWhuBWEtSQNpp0niGxsrkRe5E/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9BMDIwN0NCM0QwMTFERjAyODVCRTExNjM/wMTAyMTcyNEU2RkZBN0M3MjZBNDAwMEI3ODI4MTg4QUJCRDExQjE4LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "partykranz"
+    ],
+    "normalizedCategory": "Brot & Gebäck",
+    "nameLength": 10
   },
   {
     "id": "lidl_10047049",
@@ -2157,7 +3182,14 @@
     "sku": "10047049",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/bARtERnuHvmOAgVUUDdSy9aLc6S4UiByLWfzonHaaCU/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yQjAzM0FENDFDOEFDMTc5NUYwMTlGRTM/2RkYzNUZBODU3Njk5NEQ2QkM2NTY5QTVBN0ZCMEJDQTk2MTVBRTVFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "osterhase",
+      "mit",
+      "rosinenaugen"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 26
   },
   {
     "id": "lidl_10047050",
@@ -2172,7 +3204,13 @@
     "sku": "10047050",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/9zN4hfk7JJamP68kPsfNCyb2KTX7_bQZ13UQV_oXboI/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yM0U2RkUyNTgxRjcxNjYxQjQyODk1RUR/ERUNDQjE2OEZFRUNCMzQzREI1MTI1NTI3ODkyRUIyNzcyRDVFODBELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "oster",
+      "krapfen"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 13
   },
   {
     "id": "lidl_10047051",
@@ -2187,7 +3225,16 @@
     "sku": "10047051",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/DFZpoziUWzIjZeGvKM9_BlyqoHHklDala1ZsMYLJyJQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS82NzVBRUI3QjVDQzM4MkQ5RkJCOTA4RDA/5MjRENTg5QTg5QkVENTNCNjFDOTExQzAyNTBFMzlEREZFMDMwMEZGLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "frisches",
+      "schweinefilet",
+      "im",
+      "speckmantel"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 44
   },
   {
     "id": "lidl_10047052",
@@ -2202,7 +3249,15 @@
     "sku": "10047052",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/9lmCPHiAKeYFqIugHGrIryy1RaQvnWKLfQ91KmTtp7k/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8wNjBCMEY1RUMxQjdGNTc5OTYxOUY5Nzh/GNDhCOUYxOTc3MEVBRTM2QjI3MzlDNTlBN0E4QUJBRUUxNTBGMEU1LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "metzgerfrisch",
+      "frisches",
+      "kalbs",
+      "ossobuco"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 37
   },
   {
     "id": "lidl_10047053",
@@ -2217,7 +3272,15 @@
     "sku": "10047053",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/y9-9msl3aDzTJ7_HpTHxQMDY_fmDIVoC2lYpk0hYfGo/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9BREU0NEZGOUM0MTM0Q0FGNkE4NkI3ODQ/4REMxNTEwODg5NUUzNzQzRjMwMzUyRUNBMDEyMTM4NzE1RTcwQzZELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "wiesentaler",
+      "frische",
+      "maishendl",
+      "innenfiletspieße"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 46
   },
   {
     "id": "lidl_10047054",
@@ -2232,7 +3295,17 @@
     "sku": "10047054",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/Xgjy7UniTb-bN05Bq43X4_09_9MqeIQd364D-6gc3yo/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8zQjgxRDUxQ0U4RjFEMEIxOTc1MzI5NUR/EMzlEQ0MwMDc3NEMwOENGODhDM0QxQUJGMzY2ODhFN0YxQUE5QjdCLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "wiesentaler",
+      "frische",
+      "karree",
+      "oder",
+      "schopfsteaks",
+      "mariniert"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 55
   },
   {
     "id": "lidl_10047055",
@@ -2247,7 +3320,13 @@
     "sku": "10047055",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/-Jlid1-Des0b5581dXlVXRQ9qQnGUMP4c1r8g-DmCeg/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS84RUQ5NDI0QjE5OUQxODc4RjFFNEI4RDA/1NENBRUNCOUVEQUYyMkUzNDVDRTRCRUU2QzA0QTZDMkY4REVFOUIzLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "laschinger",
+      "lachsfilet"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 21
   },
   {
     "id": "lidl_10047056",
@@ -2262,7 +3341,15 @@
     "sku": "10047056",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/u3_NAabqVwYAs8YH93k_ywuXR9oA0t1CKPUKjQMQRgQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS83OTU2QTc0MzE4QkJCRkE3RjQ3MkIyRTZ/EMEIwQTE1RDg4MDMxRDU1ODRFQUQ1Q0JFRURFOTQxM0MyRkEyNTVGLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "chef",
+      "select",
+      "sushi",
+      "osterei"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 25
   },
   {
     "id": "lidl_10047057",
@@ -2277,7 +3364,15 @@
     "sku": "10047057",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/LxERhNcmokPldpESDF9Y00l8rJy-r1M-WvwZ0T1GSOw/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS82MTQwMDlERDlDNzU0QTdDQUZEOURDRUV/GOTVCOEVCNUQzMkM0ODBGQUIzOTU1MjJGQUFGMjVDOTJCQjU0MTNELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "wiesentaler",
+      "frische",
+      "maishendl",
+      "keulen"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 36
   },
   {
     "id": "lidl_10047058",
@@ -2292,7 +3387,13 @@
     "sku": "10047058",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/8f2d7C5LPqan8Ga0abXsnWsOd9-k5lw9L1Wisf03ZKw/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9FQkU5QUFGMDY1M0Y3NkE0QTY1NTZFMEF/BNEY2OTBCMzQ4OTYzRkE3MTUzOTIxNzE1OEUyOTNFQjU3MUQ0RTJGLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "aguinamar",
+      "muscheln"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 18
   },
   {
     "id": "lidl_10047060",
@@ -2307,7 +3408,17 @@
     "sku": "10047060",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/77Vw1hxpUxQxW7CFudBR844vDvhuSt1mtxWwKJqJqdw/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS82NjIwRUFCMDUyQzg2OEMyNTExNTJENUE/1MDVFNTEwOTU5OTlDRDQ4M0VCNjkxQjI2NTcxRkUyNUVEM0NBRkJBLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "frischer",
+      "rostbraten",
+      "oder",
+      "beiried",
+      "vom",
+      "jungstier"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 46
   },
   {
     "id": "lidl_10047061",
@@ -2322,7 +3433,14 @@
     "sku": "10047061",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/VRtvRKdpYQLp2bcyONTmmFKtL3S5Kz_lIVGSj0rUCoE/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS80REE5RDI2QzJCQzkwREEwREZEQzJFNEE/1NjQzREY4MUVCMzVDQkU0QzJGMjI5QzlBRkQ5NTQ5Q0RDNjRGNzJFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "schärdinger",
+      "sirius",
+      "camembert"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 28
   },
   {
     "id": "lidl_10047062",
@@ -2337,7 +3455,13 @@
     "sku": "10047062",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/EZVIllfosdc_waLlYZWnxA-UxLNRqOzGFDQZTafX-fE/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9DM0RBNDE0ODVEREJGQTUwQTVBODJGMkU/3NDZBODI5OTRFRjhBNzNGOUFBOEI5NUJCNDEzOTUyRTVDRjc1NEQxLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "dulano",
+      "putenaufschnitt"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 22
   },
   {
     "id": "lidl_10047063",
@@ -2352,7 +3476,14 @@
     "sku": "10047063",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/ov6DcK7Vfrh66fh4VMhJgd_6T2jyfnT_98Yo0f9ECD8/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS82REY5QTFDRDdEMjlERTIwQzEzREI1RjA/1RjQwNDQzMDk0REVCOEFDQjY2NTM2NTREOUFGQ0MwREYzQUVFNjZGLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "dulano",
+      "delikatess",
+      "schinken"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 26
   },
   {
     "id": "lidl_10047064",
@@ -2367,7 +3498,15 @@
     "sku": "10047064",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/Mh1bMa4a-GAB_i8_7ztIepotXDpAdAoqtPblM4H6Ui4/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8wNDUwQUU3NDEzN0MxRjNBQkY3RTNFNkN/DNzJGRjgyMzY2MTM5MzUyQjgwQ0NEMDhCQUFCRUU4RjlDNkEwQkRFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "pastell",
+      "eier",
+      "aus",
+      "bodenhaltung"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 29
   },
   {
     "id": "lidl_10047065",
@@ -2382,7 +3521,13 @@
     "sku": "10047065",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/wZh004dLmCQdq1wN7p81JzP5P8xGLWJswnyWM3zaHdo/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS80MjI4QUI4MDlCOUZERUFDQ0I3RUM5NjJ/CNzQ5NDAzOTM5QzFGNjRBNEE2QzNFMjIwMUQwQ0NCQUIxRTFCOERFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "schärdinger",
+      "mozzarella"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 22
   },
   {
     "id": "lidl_10047066",
@@ -2397,7 +3542,15 @@
     "sku": "10047066",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/EFB2UkeChxaUhojn5PqNGJtxoZSZH9-1EQZv9_0MVWE/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS81MUNCQjc2MTdFMUIyQ0FENkJEMEFCRkZ/BRTAyRkIxQkUzQjY2QjM4MjA4MTczQTA4Q0U4ODUxOTFGN0JDMjBDLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "milbona",
+      "tilsiter",
+      "in",
+      "scheiben"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 28
   },
   {
     "id": "lidl_10047067",
@@ -2412,7 +3565,15 @@
     "sku": "10047067",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/LT3zGSfbEFa4P761jolbQ1ym-VIm7i1MiJux3CsDqho/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9BNDUyQzhDREU5NDQ2MDQyMDE0NzNDRDc/yNjQ3Q0U0QkY1QTJGNjYyOTI3QjkzMkMzMjFBQTY5QkQ1OTQ0MTIzLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "alpengut",
+      "emmentaler",
+      "in",
+      "scheiben"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 31
   },
   {
     "id": "lidl_10047068",
@@ -2427,7 +3588,14 @@
     "sku": "10047068",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/awdT5f2zS8IkK6KQ5JXTlbyOFJiQHNnlmT3Z5tE5Yz0/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS83MDhEMURBMTZDQjM3NDdFRjc3NjMyMjd/GQzMxNzU1QzBGRTNGOUVCNEQyNTMxRjZBQUIzMTRFOUM3RDk1MzRFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "alpenfest",
+      "schweinszunge",
+      "geräuchert"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 34
   },
   {
     "id": "lidl_10047069",
@@ -2442,7 +3610,17 @@
     "sku": "10047069",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/4XgIW3kzxTbHs1EbCNOhM4ddFWujFRn0BBWwZoJRKFU/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS80QTRBQUE2RTZGNDk4OTc5RUY1QTIyMkJ/COEYyMjJENzFGRjIxQTRBNUJCRThGRjlGQThEODFDQ0QzM0RBNTQyLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "chef",
+      "select",
+      "kren",
+      "gerieben",
+      "oder",
+      "oberskren"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 40
   },
   {
     "id": "lidl_10047070",
@@ -2457,7 +3635,17 @@
     "sku": "10047070",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/9p2t99aoDcXC_spItm_-w6i9mJUUUFYEGTY-im1a7ZI/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8zNThCNjExQkQ5NzVCQUI4NTMxQzhFQjV/DMUNFMDAyODFBQkY4NzIxRkUwRjU5OEUzRTg0MENFMDlEQTE3QTA0LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "mautner",
+      "markhof",
+      "estragon",
+      "oder",
+      "kremser",
+      "senf"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 42
   },
   {
     "id": "lidl_10047071",
@@ -2472,7 +3660,16 @@
     "sku": "10047071",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/hBuySeF4a2r5QKfajdybLo87mWIEPTO6U0HWzrVedNI/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9BOUU4NzNBOTAxNzFDMjEzNzM4RTA1OTE/xOEYwQ0ZGMTIwREQ0QjUwNEQwQzhBNzM0QjY4QjRCNjM2RjZENkExLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "nautica",
+      "edle",
+      "matjesfilets",
+      "nordische",
+      "art"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 39
   },
   {
     "id": "lidl_10047072",
@@ -2487,7 +3684,13 @@
     "sku": "10047072",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/-3UiCxsDm3LTJCS1f7JAAbmKRUzQ7COnnUsU1pkmhwU/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9GMUM0NDM3NzhGMDQwMUVBOThDREFFOTI/xMzc3QzI0MzA4QTIxM0IxNkI3MEI0MENGODY4OTUxNkJBNjkxMzdELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "nautica",
+      "forellenfilets"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 22
   },
   {
     "id": "lidl_10047073",
@@ -2502,7 +3705,14 @@
     "sku": "10047073",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/nNFEkLOer31seVGUrKex4yfWTrH7R-gokm8-WOmCWMQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS82NTc3MDEzRUI0OTIwMkE4ODI5NkYxQTh/FOUNBRUZENERFNjk0MTlCRERFRThCMEE1QjYyODEyNzY3NjBBRjBBLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "milbona",
+      "rahm",
+      "brotaufstrich"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 26
   },
   {
     "id": "lidl_10047074",
@@ -2517,7 +3727,13 @@
     "sku": "10047074",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/IZOUW3XBss3-RYH_3qOHvzHRr1yl63H86pyYlwAf7U4/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8zMjIxQ0ZCN0M5NEUzRjY4RERGRDExNUM/2OUM3NDdFRTQ4REZEMjlGODZENjM0NEM3MDhEMEFENjFGOTVEODc0LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "maribel",
+      "blütenhonig"
+    ],
+    "normalizedCategory": "Frühstück & Aufstriche",
+    "nameLength": 19
   },
   {
     "id": "lidl_10047075",
@@ -2532,7 +3748,14 @@
     "sku": "10047075",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/Z7BfSNZmS9ZZ3xwRkSTTgj4DUTjn3spdQivoUEfJbTU/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9FNEM5OTFGQTUyNUUzQTcxRUFDNTQ1RDl/BNTEzQzhDMUM5RTQxOTFCNkVBRDRDRERBNTA1NjVDMDU2NzZBNTlBLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "benei",
+      "süße",
+      "teegebäckmischung"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 28
   },
   {
     "id": "lidl_10047076",
@@ -2547,7 +3770,13 @@
     "sku": "10047076",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/rUpIr106GyqRbWG3heaIW7LHGSFcMYzNZTHn_4m0yuA/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9GNUI3Q0EyRkMxRjM1RjQzMzBCQjYxMEQ/wOTlEOEFDMEQ2OTMzQzQ3MDUyRjc3RTFGRkVCNThDOTkxNkI1OUYxLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "solevita",
+      "orangensaft"
+    ],
+    "normalizedCategory": "Getränke",
+    "nameLength": 20
   },
   {
     "id": "lidl_10047077",
@@ -2562,7 +3791,15 @@
     "sku": "10047077",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/mVvQFnOhm8ZleQ5ESWgJT8xa6MvtvFcQYbypKEvOKqU/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9GN0UxNzI5MjUwQkQ0M0ZERDREQzc3NDJ/CRURCNTU4OTY3RDRDNUJDNTYwRDg3Mzk3NTBBNUIxRDUzM0VBODY0LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "lavazza",
+      "caff",
+      "crema",
+      "gusto"
+    ],
+    "normalizedCategory": "Kaffee & Tee",
+    "nameLength": 27
   },
   {
     "id": "lidl_10047078",
@@ -2577,7 +3814,13 @@
     "sku": "10047078",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/tEU1GPAPCihHbtONkzI-Wyh3oESxxxx_UTUQiiBPv6o/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS80QjAyOTFBNEI1MUVBOEIyOUVCOUQyODM/yQTk5MUFBOUZCRTk4RjVDRTMxNTcyRTExRDIwNDRGMUJCNzZEODc4LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "alpengut",
+      "schlagobers"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 20
   },
   {
     "id": "lidl_10047079",
@@ -2592,7 +3835,14 @@
     "sku": "10047079",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/W6rIRP7qyE5kdLe6FeNlW-FXWT07WeNXQW5Nv6eNGE0/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS80OTNBN0I1NUFBQ0M5NzBGMzY5QkFCMDU/wMkNFOTM1QTBFQzk3REI0NEI5NEZBM0MwMzAxMDdCMTU1RjE3Mzg1LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "frische",
+      "hendlbrust",
+      "filets"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 25
   },
   {
     "id": "lidl_10047085",
@@ -2607,7 +3857,16 @@
     "sku": "10047085",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/lREfwWsgwcuj3yopqwgSXiQmiullnGDQVJQ5rWyJCnU/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS80MEREQUFEMkY3NUMzNkJDNzM1MDg2M0M/3OUZDMUM1NThFNkZFRDM0OTU4QTkyNDYwRUREMjE1QjYzNDE2NjQ3LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "chef",
+      "select",
+      "kräuter",
+      "knoblauch",
+      "baguette"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 38
   },
   {
     "id": "lidl_10047086",
@@ -2622,7 +3881,13 @@
     "sku": "10047086",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/yAZ9xjZg7gwcHGay0NdypLN1FRZuLFrY53wYYgepj58/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS81NEE4REIxOTdFOTIwNzg3OTE3NTQ4MDY/xRDgwNEFEMEY5QjZFNUYzMDkzMzYyRjg0RUQwREE2RDdBQjZENUZGLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "wiesentaler",
+      "käsekrainer"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 23
   },
   {
     "id": "lidl_10047087",
@@ -2637,7 +3902,13 @@
     "sku": "10047087",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/mggXu99ivt-vkNNX_AfAzFs4RI22rJgZlRIexIXoXJg/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9GOUFFNEVFRjE3NTdBOUFBNDEwMzgwM0R/FNTlCRjk3MjUzMEYzMUI2NDQ4MUM4ODE1MDZFNkEzMkEwN0Q4OUU4LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "wiesentaler",
+      "extrawurststange"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 28
   },
   {
     "id": "lidl_10047088",
@@ -2652,7 +3923,16 @@
     "sku": "10047088",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/t1nbtuKWykK_-nNJHU4PJ8uFU6Xj6w2_5N6tTl3i-d8/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9FRjNGREJGRDgzMUY2MDc5RThCN0ZCOTF/CMDc5NEU0RDM1RDczNTQwN0VGQUNGNERGNTUzQkQyNjRDNkExRkNCLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "wiesentaler",
+      "ungarische",
+      "salami",
+      "oder",
+      "kantwurst"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 44
   },
   {
     "id": "lidl_10047089",
@@ -2667,7 +3947,14 @@
     "sku": "10047089",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/fYUhgbqosuzPTmYWZ-UE5VVIfodB6siblFAU0_9CudE/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9EQzg1NDAzQUNBRkY0Rjk2NDg0OEI3MUQ/2RUQyNDBFM0Q2MEU1QzU2QkVENTcyQUZBMDMwMjBBN0ZBOUNGODYzLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "salzburg",
+      "milch",
+      "almkönig"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 23
   },
   {
     "id": "lidl_10047090",
@@ -2682,7 +3969,15 @@
     "sku": "10047090",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/mW0ffZX0ZDcLtPGSjZKO6vxHlnBXlgWMbvtTYWqtEYs/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS82MjE4MEE0ODQwRDRENzExNkYzRTlDOUE/zRUFDOTM0MzM1NjA3OUU5NUJBRkE4M0E4QTVCRkZDNEIzOEI3N0Q4LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "danone",
+      "fruchtzwerge",
+      "big",
+      "pack"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 28
   },
   {
     "id": "lidl_10047091",
@@ -2697,7 +3992,16 @@
     "sku": "10047091",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/l3W5V9Q59yHeH-fbidabemmYrpniSafu0pWlZTGHdto/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8zOUEyNzNEODE2N0EzOEQ3NzgzNTRGMTQ/zQjFGNzkzOUVBOUNENjAzQ0E3RjNDNDYzRkM5MUU2RTAxMDNEODUyLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "müller",
+      "joghurt",
+      "mit",
+      "der",
+      "ecke"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 27
   },
   {
     "id": "lidl_10047092",
@@ -2712,7 +4016,14 @@
     "sku": "10047092",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/WoS_tSQpoWAH_Ew1vpS4KBJv3xuCtDlnqRckDySVLMQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS85NzJFRjQ4MzMwQTMyNEQ4NUI0RTcwRUI/5QjY1MzA4RjE4RDIzMTBENDY4NkVBNkUwNjQ3QTY0Q0RGNzU3MkUzLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "iglo",
+      "hühner",
+      "nuggets"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 19
   },
   {
     "id": "lidl_10047093",
@@ -2727,7 +4038,15 @@
     "sku": "10047093",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/KngLNiSkypsqZSRlhIskeMpJnxXITic55GXNnmdGJMc/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8zQTY5NzQyOTQ5QjFBQkVERDIyMTU1MEQ/2Rjc5RUMwMUNCOTQ3OUI1MkI0QkQwNzE3Qzk4RDk2OEVGQ0JFMzRDLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "dr",
+      "oetker",
+      "bistro",
+      "baguette"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 26
   },
   {
     "id": "lidl_10047094",
@@ -2742,7 +4061,14 @@
     "sku": "10047094",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/Wtd7ceyCNrJhet1Al1tin2NDF0dJEAj_SLGLOTw47AM/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8zODU2Q0QyRDcxOEY3MDkxMzMyMTVBNjc/3RjY2RTdBRDI2Q0Q0QTIxMzA2MzM2RTdBMTA2NTZEMjBCQjQ3NTY4LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "ocean",
+      "sea",
+      "fischstäbchen"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 23
   },
   {
     "id": "lidl_10047095",
@@ -2757,7 +4083,14 @@
     "sku": "10047095",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/QrX5InVeuzQqr6JJawHCuB7OLRngfUsZwLcDICkii3I/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9COUQzQzQ1RERDM0E1MjNFNjAwQUM5M0Q/0N0M5NjREQzM3NUFDMTg1RDczRjFFMUJCOTEzRjIwNEQ1OUM0OTA0LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "ocean",
+      "sea",
+      "knusperfilet"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 22
   },
   {
     "id": "lidl_10047096",
@@ -2772,7 +4105,17 @@
     "sku": "10047096",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/YipIP6FWbsLjZfllv7lQ1jRhjznkeauQQ5bcPm8tTP0/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS84REQxREQ5N0RFODQ4ODYxRDIzMzU3QUJ/DRkUwREU4NEIzQkM0QzJGMkE2QkNFRjM2NjYyQTFEMjlFRjY4OTMxLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "pepsi",
+      "mirinda",
+      "regular",
+      "zero",
+      "lemon",
+      "oder"
+    ],
+    "normalizedCategory": "Getränke",
+    "nameLength": 58
   },
   {
     "id": "lidl_10047097",
@@ -2787,7 +4130,16 @@
     "sku": "10047097",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/d1o-6ME8WQmn-aTDblLCQNX7WraRCiNRW9eZKDXJASQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yNEYzNUZCRTIxQjgyOUZCNEM1MDM1REM/yRTkzNzhFMjFCNEU1QUY4MjJCRjhBRTNBRUMzNDQyM0I3RUIxN0RBLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "freshona",
+      "cremespinat",
+      "oder",
+      "passierter",
+      "spinat"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 43
   },
   {
     "id": "lidl_10047098",
@@ -2802,7 +4154,13 @@
     "sku": "10047098",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/uVIeeSX8i_QonIS5uWYCw0adn-dYFriFUhEFuwbF3b4/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS84QzIzMDZGM0Y3QUI2MjA3MTkyODlGQzR/FMzI1NzNCOTNENDhFQUJCRTg4NUIxOUJCQTZEMEEyNzg2NTVCRDc2LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "heinz",
+      "saucen"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 12
   },
   {
     "id": "lidl_10047099",
@@ -2817,7 +4175,15 @@
     "sku": "10047099",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/qgWx_auIy4UZfPysS_xYXNCXRWXjE0QxQlQp1jg1oqQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS82QTNCRUQ2NkZDMjA5NzRGOTc5QUM4OUM/4NTIyQjUzQjhDRkM5OTkwN0FEMjUwNzNFOTIzOEZFODVBNjQ5OEU5LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "heinz",
+      "ketchup",
+      "oder",
+      "mayonnaise"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 29
   },
   {
     "id": "lidl_10047100",
@@ -2832,7 +4198,13 @@
     "sku": "10047100",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/-edxgl_J18FNroNEsRqy21cmsHFu9-XCd90njF58grc/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS84QTZBRUJDN0ZGODgxNjA2MUE3OUY4MTN/GOUVBRDBCRUJCRTAxM0FCQTE2MjQ4MzBBRkE2OEQ0OTU0QTU3RUUxLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "kuner",
+      "mayonnaise"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 16
   },
   {
     "id": "lidl_10047101",
@@ -2847,7 +4219,13 @@
     "sku": "10047101",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/PhD2sr0Mk1DsPAiEJBMv8Rsqx9jop9_2kYB9vdI34VM/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS80NUVBMUU1ODFGRkZFNEEzNTU5MjdCQkN/EODEzMTMwQzgwNDU0ODU5RDk5NjA2MjMxNzY0QkIzNDg0NTUzOEU4LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "soletti",
+      "osterhasen"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 18
   },
   {
     "id": "lidl_10047103",
@@ -2862,7 +4240,15 @@
     "sku": "10047103",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/T-jyFlig5zeur4VPkXARhfyuQvTFVGnYUBdxIjMFlIQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8wRjMyRkQ3RUY2QTM0Njg1Qjk3QTYyMkF/CN0M2OTk3ODFBQTc4RTFERjg2MEExRTEwM0U1REJCRTk5ODM2NUNFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "wiesentaler",
+      "kümmelbraten",
+      "oder",
+      "knoblauchspeck"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 44
   },
   {
     "id": "lidl_10047104",
@@ -2877,7 +4263,13 @@
     "sku": "10047104",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/BE8o7dDgXC2wZNKN-AeGKWEsr7eZaeqpDPCSPCFOQ-k/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9ERjcyMzI1NDc5MUU4RTZGMUI4NDg1OEI/1ODdGREVEQUJEMzkyREU3MTU0NUFBRUU2RTZBQjBGRTM2NDdENUVDLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "eskimo",
+      "cremissimo"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 17
   },
   {
     "id": "lidl_10047105",
@@ -2892,7 +4284,13 @@
     "sku": "10047105",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/TABvpzw1fwn8_4JakuuvYPgyHYwIGQEjGWXKsgm6WVI/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8zN0EwQ0VCN0IzMDgxN0QwMEY2QjNBMjE/5N0Q4M0I3OTc2NjNGN0Y5MTMxN0EyMkYxMkE1ODhCRTZFRjBCMzJELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "gazi",
+      "joghurt"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 12
   },
   {
     "id": "lidl_10047106",
@@ -2907,7 +4305,13 @@
     "sku": "10047106",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/QZBfOR9EHH_njXnv06SmagkS0fgWT7HQtk36-fHAWKQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9FQzZDN0Q0RTlBMkRGRDBEOEMyQzg2NEE/5OEE5NDk2NDczNjhFREMyQzU0NkJBQ0ZCQTU2MkVENTU3QUUzQkExLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "efko",
+      "feinkostsalat"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 18
   },
   {
     "id": "lidl_10047107",
@@ -2922,7 +4326,16 @@
     "sku": "10047107",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/pmPok_prKOd70--tl42BG8NjeyFf72dl4taRgCzTFbE/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS81MDY2MDBFM0E5N0Y1NkEyNEMyRDdFOEY/4REY5MDVEQUU1MEY4NkI1N0Q2QkQwNjRBMDU2MTM3Q0FFNjgzRDQzLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "primadonna",
+      "bio",
+      "natives",
+      "olivenöl",
+      "extra"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 37
   },
   {
     "id": "lidl_10047108",
@@ -2937,7 +4350,14 @@
     "sku": "10047108",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/XN6FSqBE3deR2bH82y1zEekVw1oXVT_aomltoTHYams/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8wRDQzOUY3NjdCQTFCQzMwMzExQzhBOEE/3NkQ0RjhCQzQ5ODVCN0ZFMjMwODRGRTdBQzcxMkIxNEIxQjdENTUxLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "kelly",
+      "riffel",
+      "chips"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 20
   },
   {
     "id": "lidl_10047109",
@@ -2952,7 +4372,13 @@
     "sku": "10047109",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/QrYWAb6a7NeWNhoSlEstvDYtrRRaGvSivErjzttBslk/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS83QzQ1NTAyQjgzNDA2QjFBMzQzRjE4MUR/GMEM5RjBGN0M0OUM0QkYyQjBGNTczQkVERUY1NDc0Qzg1M0ExQjMyLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "barilla",
+      "sugo"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 12
   },
   {
     "id": "lidl_10047110",
@@ -2967,7 +4393,13 @@
     "sku": "10047110",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/lRhBoQNhJTvOWoSL9SjIgx-OPPOoDRI9KJLEyumO1HA/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9DRDA3RTg2OUE4NDVCRjUwQUQ3M0UwQjg/2NzM1OEUxNTQ1NDhBMEU1QTIwNDZDNTVBOUFGM0EwMjM5MDk5OTBDLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "barilla",
+      "pesto"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 13
   },
   {
     "id": "lidl_10047111",
@@ -2982,7 +4414,13 @@
     "sku": "10047111",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/yJ7UY92MFNuz3Dd7L4YHtvFzZib1Kaqc2wXolkH0b3U/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS80NzBEOTNGNDhFMzgzQzNCQjU4QUIxMDV/FQzgyQzNCMURDMDkzNUJFMTNGRDREOTlGNDQ4OUJDNTA5RjcyNDUyLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "barilla",
+      "pasta"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 13
   },
   {
     "id": "lidl_10047112",
@@ -2997,7 +4435,13 @@
     "sku": "10047112",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/LvGbwXdXRd1UydCmZvv53ZPvIUBQUMk0ZwoJP0KjiPA/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9CNTJCNkY4Q0Y0QzI4RkE0RjRDRDdCNUE/yQkVBMEFDMzUyMDIwRUVERjYxRjdGOTRGQTE0NzcxMENFRUEyQjg0LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "puntigamer",
+      "märzenbier"
+    ],
+    "normalizedCategory": "Alkohol",
+    "nameLength": 21
   },
   {
     "id": "lidl_10047116",
@@ -3012,7 +4456,13 @@
     "sku": "10047116",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/yjwqf9_etS3Q8ac1KsG5HOupzYbPv7Q-0Lz644Xv2fs/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9CRTU5MUFCQUFGOTQ3MTZCMjJBRjVBRUQ/0Njk3NEIzNEQ1QjBDMzc2QjBFM0IyRTcwRDRFQjQ1NkE5QzEwMTNCLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "alpengut",
+      "teebutter"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 18
   },
   {
     "id": "lidl_10047117",
@@ -3027,7 +4477,13 @@
     "sku": "10047117",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/HiNTspAkkcwG5ogtVUyzGf1bvRxEc8h3zi0Q1i6QIAo/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS83NEI3MTA3NTgyNUUwQzhEQzJDNTRFMjA/3OTc1MzkxMjM2REVDQzcwQkE4NDg0Nzg5REFDRjVENTVDMUM4REY3LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "alpengut",
+      "teebutter"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 18
   },
   {
     "id": "lidl_10047118",
@@ -3042,7 +4498,14 @@
     "sku": "10047118",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/rJIgu62kANIRVo-3CNde6J-ddJgRTmzw6dRG43nH14E/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS85MzE2RDU4QkU0NEREQzA4NEQ2NEIxODU/yQUQ5NTI4QjI3MDYyREU5NEEwOTI0NTY4MUEwMEEyNzY4NDIxNDgxLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "alpengut",
+      "bergbauern",
+      "teebutter"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 29
   },
   {
     "id": "lidl_10047119",
@@ -3057,7 +4520,13 @@
     "sku": "10047119",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/BE8o7dDgXC2wZNKN-AeGKWEsr7eZaeqpDPCSPCFOQ-k/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9ERjcyMzI1NDc5MUU4RTZGMUI4NDg1OEI/1ODdGREVEQUJEMzkyREU3MTU0NUFBRUU2RTZBQjBGRTM2NDdENUVDLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "eskimo",
+      "cremissimo"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 17
   },
   {
     "id": "lidl_10047120",
@@ -3072,7 +4541,13 @@
     "sku": "10047120",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/QZBfOR9EHH_njXnv06SmagkS0fgWT7HQtk36-fHAWKQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9FQzZDN0Q0RTlBMkRGRDBEOEMyQzg2NEE/5OEE5NDk2NDczNjhFREMyQzU0NkJBQ0ZCQTU2MkVENTU3QUUzQkExLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "efko",
+      "feinkostsalat"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 18
   },
   {
     "id": "lidl_10047121",
@@ -3087,7 +4562,16 @@
     "sku": "10047121",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/pmPok_prKOd70--tl42BG8NjeyFf72dl4taRgCzTFbE/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS81MDY2MDBFM0E5N0Y1NkEyNEMyRDdFOEY/4REY5MDVEQUU1MEY4NkI1N0Q2QkQwNjRBMDU2MTM3Q0FFNjgzRDQzLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "primadonna",
+      "bio",
+      "natives",
+      "olivenöl",
+      "extra"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 37
   },
   {
     "id": "lidl_10047122",
@@ -3102,7 +4586,13 @@
     "sku": "10047122",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/yJ7UY92MFNuz3Dd7L4YHtvFzZib1Kaqc2wXolkH0b3U/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS80NzBEOTNGNDhFMzgzQzNCQjU4QUIxMDV/FQzgyQzNCMURDMDkzNUJFMTNGRDREOTlGNDQ4OUJDNTA5RjcyNDUyLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "barilla",
+      "pasta"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 13
   },
   {
     "id": "lidl_10047123",
@@ -3117,7 +4607,13 @@
     "sku": "10047123",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/LvGbwXdXRd1UydCmZvv53ZPvIUBQUMk0ZwoJP0KjiPA/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9CNTJCNkY4Q0Y0QzI4RkE0RjRDRDdCNUE/yQkVBMEFDMzUyMDIwRUVERjYxRjdGOTRGQTE0NzcxMENFRUEyQjg0LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "puntigamer",
+      "märzenbier"
+    ],
+    "normalizedCategory": "Alkohol",
+    "nameLength": 21
   },
   {
     "id": "lidl_10047127",
@@ -3132,7 +4628,15 @@
     "sku": "10047127",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/VwM4mk9ejal2NAub10sce3L8l6FGvEPrjFODGjGU4KI/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS81M0JCRDRENTZBQzU1MjY1ODZBNzJCMjI/xRDU0ODdFNzlERjIzRkUxN0FFODNCRUVFNUEyNzcwNkZFRDMwQTRGLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "red",
+      "bull",
+      "energy",
+      "drink"
+    ],
+    "normalizedCategory": "Getränke",
+    "nameLength": 21
   },
   {
     "id": "lidl_10047128",
@@ -3147,7 +4651,16 @@
     "sku": "10047128",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/ovYzQ0OkWlxByoksruB6OKSeAAoo4fF-vI3Lfian7m8/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9DQkY4QTg5MDFFRTc0NDYxMkE4Mjk4RDF/GOTM5NEI4OEMwOUI0RDQ5RkYxQkY1QzBFREVERjVGMzI5Q0E3RTk2LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "stiegl",
+      "radler",
+      "hell",
+      "oder",
+      "alkoholfrei"
+    ],
+    "normalizedCategory": "Alkohol",
+    "nameLength": 36
   },
   {
     "id": "lidl_10047129",
@@ -3162,7 +4675,15 @@
     "sku": "10047129",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/PEIDPu9V7iiJ-NM0rZH2IdqrIxt7xWwlb5PcbjsiXas/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9ERTQzNTU2N0Q0NkQwQUFEOUNDNUU0QkU/3QjBCRkI1RkFEMTkyRTZBNTUxMTA2N0IwNDlGMkNCQjkzRUVBOTg1LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "käsemacher",
+      "schafskäsebällchen",
+      "schnittlauch",
+      "blüten"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 49
   },
   {
     "id": "lidl_10047130",
@@ -3177,7 +4698,13 @@
     "sku": "10047130",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/HL1r6yv76QPhVXvQtnfbYRJQ42tXf8YS3IxpEXnmyjQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS80QzA0RjNCQzQ4NjE3Qjg0OUExMTlGNTh/FMDBDRjY0MzMzOTUwQzVDRTIyREY0REFGODIwOTc3NjFGNTM0MDZGLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "deluxe",
+      "törtchen"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 15
   },
   {
     "id": "lidl_10047131",
@@ -3192,7 +4719,13 @@
     "sku": "10047131",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/nBbxGhzCIJlsuPIrw-umSxezeZ1BILQdgMNM1G3PHOk/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8xNDJENjNCNzMzRjUyNDNDQjJBRjNBQjQ/wQUQ3QUM5RTA5NTRFMjEwNzAwMkE2N0I4RDZFODZFQTJERkM4ODlELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "milka",
+      "schmunzelhase"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 19
   },
   {
     "id": "lidl_10047132",
@@ -3207,7 +4740,14 @@
     "sku": "10047132",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/qQOR0Wr_-0R_JDZd0Um_Xrx3lpViDZ9SAr8ByUNSkxQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9BN0Q2OEJBRDE3MDNBNzA1NkU1RkY3RTE/xQjc3NDU1OTVFQkI0MkQxQzUwRDJEQzlGRDNENEY0MUU2RjYxRTY4LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "kinder",
+      "ferrero",
+      "mixbeutel"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 24
   },
   {
     "id": "lidl_10047133",
@@ -3222,7 +4762,13 @@
     "sku": "10047133",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/nlSKgMW0hcRKSpZ4k1rjULMGfjw4SZTLGmuZlBlZtKU/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8wODIyNkQ3Njc1M0UwMTkwMjAwQTM0Njd/GMkQ3NjExRjJBQkJFNERCNUIwQUM4MkQ5MEJGNUFFRkIwNEIxMjdBLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "milka",
+      "löffeleier"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 16
   },
   {
     "id": "lidl_10047134",
@@ -3237,7 +4783,13 @@
     "sku": "10047134",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/nBbxGhzCIJlsuPIrw-umSxezeZ1BILQdgMNM1G3PHOk/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8xNDJENjNCNzMzRjUyNDNDQjJBRjNBQjQ/wQUQ3QUM5RTA5NTRFMjEwNzAwMkE2N0I4RDZFODZFQTJERkM4ODlELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "milka",
+      "schmunzelhase"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 19
   },
   {
     "id": "lidl_10047135",
@@ -3252,7 +4804,14 @@
     "sku": "10047135",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/qQOR0Wr_-0R_JDZd0Um_Xrx3lpViDZ9SAr8ByUNSkxQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9BN0Q2OEJBRDE3MDNBNzA1NkU1RkY3RTE/xQjc3NDU1OTVFQkI0MkQxQzUwRDJEQzlGRDNENEY0MUU2RjYxRTY4LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "kinder",
+      "ferrero",
+      "mixbeutel"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 24
   },
   {
     "id": "lidl_10047136",
@@ -3267,7 +4826,13 @@
     "sku": "10047136",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/nlSKgMW0hcRKSpZ4k1rjULMGfjw4SZTLGmuZlBlZtKU/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8wODIyNkQ3Njc1M0UwMTkwMjAwQTM0Njd/GMkQ3NjExRjJBQkJFNERCNUIwQUM4MkQ5MEJGNUFFRkIwNEIxMjdBLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "milka",
+      "löffeleier"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 16
   },
   {
     "id": "lidl_10047137",
@@ -3282,7 +4847,12 @@
     "sku": "10047137",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/GaZRIHSObhNjZVvUt4EmRHt83TLx6P40m3dBVZF9XCk/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS83NzE5QTVEREY0OTY5RERGODUxQUE1NUM/zOENDNTRCMTRBMDA2RUVERjFFQjNDNTY0QTdFQjlENkE1NDM0MEQ2LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "cocktailstrauchtomaten"
+    ],
+    "normalizedCategory": "Obst & Gemüse",
+    "nameLength": 22
   },
   {
     "id": "lidl_10047138",
@@ -3297,7 +4867,13 @@
     "sku": "10047138",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/_aOSAH5ooqc1ElyOrxgMAC999kWXbk6Hz75PECf5FN8/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9GMTlBQkEzQzdCMUQ3RjQwQzcwNDJEN0M/yOThEMTZBMkI5MThDOUE1QjZCOEZBNEExRkVFQUZFMzgxNjRGQTI4LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "avocado",
+      "vorgereift"
+    ],
+    "normalizedCategory": "Obst & Gemüse",
+    "nameLength": 18
   },
   {
     "id": "lidl_10047139",
@@ -3312,7 +4888,12 @@
     "sku": "10047139",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/6AtJypXd4I6uVyuEmuR9t2OZ9wETORHAuofac5tzgYw/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8zMjVBMEYwNUQ5QzkxODlGNTRCNDcxQkF/BNEE5MzIwRjY0RUM1NzY1MkY0NjREMDM3QURDMUE3RUU2RjUxRjZFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "pflaumen"
+    ],
+    "normalizedCategory": "Obst & Gemüse",
+    "nameLength": 8
   },
   {
     "id": "lidl_10047140",
@@ -3327,7 +4908,14 @@
     "sku": "10047140",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/_m2ZjvC-oma2T1Qx5h47wpo2dWSDovRrpA9dpLu-zVY/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9BQkU3Q0YwNzM3NzZFRDRERDg2NTA5NEQ/wQUY0NTlGRUI1MDI0NDUyNTEyMzBEOTE0M0E2Rjg2OEMyRUI2MTdBLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "häuptelsalat",
+      "aus",
+      "österreich"
+    ],
+    "normalizedCategory": "Obst & Gemüse",
+    "nameLength": 27
   },
   {
     "id": "lidl_10047141",
@@ -3342,7 +4930,13 @@
     "sku": "10047141",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/EKCAJZb0-J4IFRrhqO1PtxyvC6puEFGsM9FZHcOOIew/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yNzlGOEE4QkRERDIzRDM1NzFGRkQwMkE/2MDFFRkI1OThEM0M2MTBBODkxRTZGNkU5QUQwRkQ2QkJFQ0JFNjQ1LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "bio",
+      "zitronen"
+    ],
+    "normalizedCategory": "Obst & Gemüse",
+    "nameLength": 12
   },
   {
     "id": "lidl_10047142",
@@ -3357,7 +4951,14 @@
     "sku": "10047142",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/wWjJ_7wmCWvaeHaoiZ-A1fYeQ80cr5ZSJF6w4Tv1fZc/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yRTUxQ0EwNzAzRDQ2Q0Q1MDMwM0FDMzJ/BQ0UxOThFMDk2OUY2QkMxMDFFQzJBNDE5NkJBNjk2NDg1Mjc5NTk0LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "käse",
+      "schinken",
+      "twister"
+    ],
+    "normalizedCategory": "Brot & Gebäck",
+    "nameLength": 21
   },
   {
     "id": "lidl_10047143",
@@ -3372,7 +4973,16 @@
     "sku": "10047143",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/LNyv93y1hp1zkhvTVtKl0g1x6jBbogky6uwOy4Gg8Zk/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9BNzk5QjlCMkI1OTExNkNGRDM4RkRBMjc/3MUI3MzZCRDVEMEJDOEJGQzM3M0Q4MDI1QzNDRUZDODc1RUUyRkRGLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "wiesentaler",
+      "frische",
+      "maishendl",
+      "mini",
+      "steaks"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 41
   },
   {
     "id": "lidl_10047144",
@@ -3387,7 +4997,14 @@
     "sku": "10047144",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/2gzVTGUs4dj-5HGqT2lgp1zuNiTlLUQS33CZpySHZQI/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9DMDdEOTExMDA4NkZBQjQ4OTdBOUJFQkM/wNTI4NDBBNzA5MDI3MTcxQ0VCODgzMENCMkNDMTdBNzI0MjZFNkQ4LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "kartoffelbrot",
+      "mit",
+      "röstzwiebeln"
+    ],
+    "normalizedCategory": "Brot & Gebäck",
+    "nameLength": 30
   },
   {
     "id": "lidl_10047145",
@@ -3402,7 +5019,12 @@
     "sku": "10047145",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/YptcPYO0ki9l-NSeaNkNhXgBaSrUdMw4sBV6Fl0y6aU/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yQjc3MDk0OTlDRTk4NDQ3QUYyQUU4MEN/BRURFRDc3NzhDQkIwOThBMDVEMTYwNkY5QjhBNDEzRkMyNUMzRjA1LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "wachauer"
+    ],
+    "normalizedCategory": "Brot & Gebäck",
+    "nameLength": 8
   },
   {
     "id": "lidl_10047146",
@@ -3417,7 +5039,15 @@
     "sku": "10047146",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/MLjv-lctwPngh_3xJcEibIPAM_Nqung0d6kHGA2iphE/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS81NzU2RTJCQzg4RkZBQUQyRDZGQzc5QTV/DNjUzQ0E4NEI2QzcyMTUwMzdGMTI1MEFEN0I1MzQ4NTQzRTMzQjBCLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "chicken",
+      "nuggets",
+      "mit",
+      "dips"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 24
   },
   {
     "id": "lidl_10047147",
@@ -3432,7 +5062,13 @@
     "sku": "10047147",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/v1F1EtaBs0T_3YdK2VgiRFgn6beI5-k6Eg8T3JbgG-4/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS80N0ZFMzNDQUYzQjNCQ0YxOEEwOUVFNDE/yQkFFQThGMjFCREU2NDU4NDAxNjg3OTFFQUMwRjYxN0E4RDVGOUU3LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "grill",
+      "ribs"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 10
   },
   {
     "id": "lidl_10047148",
@@ -3447,7 +5083,15 @@
     "sku": "10047148",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/LL0FEvZ-HfcF7-jr-ssEXuX2lGBwLwKKuPpI5ZY4JK4/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9FQjAwQTM4OEM5N0M0Mjg1MDdBOThFOEQ/4RjgzQUIwQUE3RjNFNjVDOEIwQ0UyMEM5QTAwMUQ4RDQ0RTI2RTM3LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "wiesentaler",
+      "frische",
+      "maishendl",
+      "leber"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 35
   },
   {
     "id": "lidl_10047149",
@@ -3462,7 +5106,13 @@
     "sku": "10047149",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/xk8IkspK--z57N-DvraFzoWEW6vbxy_cvNcndgrK1Ww/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9CODM5NjZDOTNGMUJDNDk1N0Y3MUMyNTB/CREU0MzQ3MzQyNTFDNDJGQjI1OEE2MzgyN0Q2QTAwQkRFMTIxNDYzLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "fischerstolz",
+      "backfisch"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 22
   },
   {
     "id": "lidl_10047150",
@@ -3477,7 +5127,13 @@
     "sku": "10047150",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/U7YCFrjQIWkoH1z9TRBovGAUMMGouwC-i5sqPgIgZXk/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yNUI2NjA2RTM1MUMxQTUxM0FBRDc1OEI/yMjA2OTc5N0IwOEVCNzVDNTJGMkIyMTI3NzIzNDNGRDUxNUU0OUNCLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "wiesentaler",
+      "knacker"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 19
   },
   {
     "id": "lidl_10047151",
@@ -3492,7 +5148,15 @@
     "sku": "10047151",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/hmhUACygn5yj6xww2uXXik2v50yV4GYW9JSAtVaJnuY/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9EQUE5QjREODhCMzA1M0JDQkU0OTFGRjh/FMUQ2NjFBOEJCRkJBNUEzMkQ1MzRBNDQwNTBBQUMyMzg3MzE1Q0Q1LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "chef",
+      "select",
+      "lasagne",
+      "bolognese"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 29
   },
   {
     "id": "lidl_10047152",
@@ -3507,7 +5171,14 @@
     "sku": "10047152",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/tZkY-6xi1V9aPOCKf7hThhpW2UTsYvANTllq2sh5CLM/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9CQ0NGMzIyQTc3REQ4NUMwODYxRTM3NkR/DNzVGQjQ0OUU2MUVFMzYwMDMwQTc4QTI1Nzg3OTVEMkNDNDlCQ0MwLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "milbona",
+      "griechischer",
+      "feta"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 25
   },
   {
     "id": "lidl_10047153",
@@ -3522,7 +5193,13 @@
     "sku": "10047153",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/Jv9HWmP66GLO4xneM51M6pkq33661CsCqpBujeG-Ia8/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8wMTI0RUQyNkRBMTAyRTRDQTA5NkJFM0V/CMDc3RTkwMzc3QUQyMjM1REVCODdEQ0EyQjgxMjUwMDhDOEM5MTYxLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "milbona",
+      "edamer"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 14
   },
   {
     "id": "lidl_10047154",
@@ -3537,7 +5214,14 @@
     "sku": "10047154",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/VRngcyie7q2ZojtevTtgKXKJ2soqpm5xdXZ9EjGG0WQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS81QjQzNzQyOEZDQjUxMUY0MDE3MTdGM0U/0REJEMzI0MTYzRUI3M0FBMjY0MUJGNDg2MUI0RUE3MERDQTM0RDc4LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "bellarom",
+      "caff",
+      "rosso"
+    ],
+    "normalizedCategory": "Kaffee & Tee",
+    "nameLength": 20
   },
   {
     "id": "lidl_10047157",
@@ -3552,7 +5236,13 @@
     "sku": "10047157",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/U7YCFrjQIWkoH1z9TRBovGAUMMGouwC-i5sqPgIgZXk/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yNUI2NjA2RTM1MUMxQTUxM0FBRDc1OEI/yMjA2OTc5N0IwOEVCNzVDNTJGMkIyMTI3NzIzNDNGRDUxNUU0OUNCLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "wiesentaler",
+      "knacker"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 19
   },
   {
     "id": "lidl_10047158",
@@ -3567,7 +5257,13 @@
     "sku": "10047158",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/Jv9HWmP66GLO4xneM51M6pkq33661CsCqpBujeG-Ia8/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8wMTI0RUQyNkRBMTAyRTRDQTA5NkJFM0V/CMDc3RTkwMzc3QUQyMjM1REVCODdEQ0EyQjgxMjUwMDhDOEM5MTYxLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "milbona",
+      "edamer"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 14
   },
   {
     "id": "lidl_10047161",
@@ -3582,7 +5278,15 @@
     "sku": "10047161",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/g7356kO7XhAc0lDrs4deev6SjDTxYLMh33TZGKfyyRQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS85RTYyMzk4Q0IzRDdFNzY1QTI0NTAyRkI/4RjBFMzhEMDk4MTc5NkQzRTc1QjRFMzkzREYyRjE3QTlERTY3MThFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "milbona",
+      "high",
+      "protein",
+      "pudding"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 28
   },
   {
     "id": "lidl_10047162",
@@ -3597,7 +5301,13 @@
     "sku": "10047162",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/ZOSm-tc3tiKcDOrAEqzbdNi9J2jkms0HaxRbJemVmas/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9DQ0Q3NjUzQUFCMjcwOEJGRjU0MzJCN0R/DQjY4QzNDQ0I3QUQ0Nzg0MjgxMjgxQzlBMDQ0MEY3RTcxMEQ2MEQxLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "wiesentaler",
+      "almaufschnitt"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 25
   },
   {
     "id": "lidl_10047163",
@@ -3612,7 +5322,16 @@
     "sku": "10047163",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/PhshM_mApqTLAhT3pM2Nya-1Svb3j-pbI_K84tcpky0/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9FMDEzNDg1MjhCNkRFNzk4RTJDOENBQzQ/wRkIwMzlGREJFRUU4NkRCMkQzNUYzOEE4MUYwRjM4NEM5RjIwQ0RDLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "poli",
+      "cocktail",
+      "würstel",
+      "oder",
+      "frankfurter"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 38
   },
   {
     "id": "lidl_10047164",
@@ -3627,7 +5346,14 @@
     "sku": "10047164",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/7ltLmEK29QEF2Ebm2H5ovUgptiDODNLZoHDydnbqQsQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS81RUFCRkI5NDk3MTUzMzkxRjczMTRBQkR/DNTNBRjhDMjE0MjM2RkY2MkQxNUYyQzI0MzgzNkJGNjA1NjJCN0U4LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "pivac",
+      "dalmatinische",
+      "spezialitäten"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 33
   },
   {
     "id": "lidl_10047165",
@@ -3642,7 +5368,15 @@
     "sku": "10047165",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/-_RhK-2Wd7sF55FGoQaEB7msCK0id6WB0O1OOXkdUBw/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9GRkMyRjc0MjVCNEY3RDJCQ0IzMjEzMEN/FMEE4N0RFQzQ2OEEyNEFFODE3OEY1RERCMDUxQTAyMEY0NjFDNTgyLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "pick",
+      "original",
+      "ungarische",
+      "salami"
+    ],
+    "normalizedCategory": "Fleisch & Fisch",
+    "nameLength": 31
   },
   {
     "id": "lidl_10047166",
@@ -3657,7 +5391,13 @@
     "sku": "10047166",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/TOLHa7DuRzDMw5XwTv8IK6UoGQdVE6Vnu5jBbTqlhTs/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yMkYzODFEMzE2MjI0Q0JEMjc0OUVCNkJ/BQTY5REU5OTlCMzI0MzQ5MDNDQjZBMzFEMTY4NDg1NjM5NTFDRkNELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "nixe",
+      "heringsfilets"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 18
   },
   {
     "id": "lidl_10047167",
@@ -3672,7 +5412,14 @@
     "sku": "10047167",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/P1RWIq7gGeqOhQ9-AF0EPPhIipb0HcARCp7pznF4nE0/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9DQkI5QkZFMUY2QzdGNDA0MjdBQzY4ODI/0OEUzMjQ5QzE2MjdENDM3MTZGOENCRTM3QTc0MTUzRkNERkVFRDU5LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "sondey",
+      "neapolitaner",
+      "schnitten"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 29
   },
   {
     "id": "lidl_10047168",
@@ -3687,7 +5434,14 @@
     "sku": "10047168",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/ebXySr-UBeS6noTSRju7D5L60qwDLOdx1ge1gDHske0/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9BMTMwNjdBREQ4RDgwRjJEMjcwNTFFMEU/0MDQ4RDM5NTFDMTdCNTExQkYzQkZCNjREQ0JCRjYzRUI0QzAxNERELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "milbona",
+      "gouda",
+      "gerieben"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 22
   },
   {
     "id": "lidl_10047169",
@@ -3702,7 +5456,15 @@
     "sku": "10047169",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/UARcoTOHNCx_IcQwZQTLuqWyOtP-1eOcpIo9OFgtSKg/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yRkQ0RkIwOEI2QjQxRDBFQjNGQjgyNUE/0NUQ2NzEwQTEzMzM1MTZDMzg0NTdEREMzMTI4MUQ5QUUwM0U4RTg4LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "alpengut",
+      "mozzarella",
+      "in",
+      "scheiben"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 31
   },
   {
     "id": "lidl_10047170",
@@ -3717,7 +5479,14 @@
     "sku": "10047170",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/SXe5Ns71-FDePJ-tpeN1hpsFCT-6Ta_ISsVjK9Gk_7I/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9GRTAwNDg2ODAyNUIyQ0VDQzNEM0E4OUE/5REJCQUE5NDNEMEMwNDkyODlBRjkxOTRGRDMwRkIxOTBENzFCODUzLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "santa",
+      "maria",
+      "gewürzmischung"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 26
   },
   {
     "id": "lidl_10047171",
@@ -3732,7 +5501,15 @@
     "sku": "10047171",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/XKve4AuCGzXmqcVbAgJ0N-euGRYqABG8n9HAgZjLEhM/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS81OEMxMUZBRTg2RjkyODMwOThBQkUzNDI/yRjg1REJBQUM1RDUxRDVCRjM0N0IwOTUzNURFMTYxMzMwM0I2NDlBLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "santa",
+      "maria",
+      "taco",
+      "shells"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 23
   },
   {
     "id": "lidl_10047172",
@@ -3747,7 +5524,15 @@
     "sku": "10047172",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/dworjWDn-UKTwo91KEb2WnaTl7p_TxGT0HEVoLxEUeo/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9ENjkzRkZBMEIxMzhFNTA1MkFDMkEyRUV/BMDlFMEM0QjY0MTUxNUM1MUNEMTQyNzU2QTdERjBCNjUxRTQxNjhFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "shan",
+      "shi",
+      "sojasauce",
+      "chilisauce"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 29
   },
   {
     "id": "lidl_10047173",
@@ -3762,7 +5547,14 @@
     "sku": "10047173",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/yKzZOpc2gCg9Z8LeIE2iKnycIG-MsNLjci03o6ub5O4/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS82NjZBMEZBM0Q1Q0M3QkU5RkNDQ0FCODU/4Q0VBQzM3NDc0ODcxNjEzOEIzQjg3OTA3MTExRkQwNzRGNjIwRDk4LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "shan",
+      "shi",
+      "kokosmilch"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 19
   },
   {
     "id": "lidl_10047174",
@@ -3777,7 +5569,13 @@
     "sku": "10047174",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/PxTaelr9hwvTVYnvRnJS76gKloUb2d4BnJA4VIRipso/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9FOTA5NjE1MTc2QTIwNTMwN0I5RjBCNjM/3MjY4MUZBNDRGNDE0QjBEOTQ5N0I2MDBERDcwQzQ1ODZGOTJBRkJBLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "capri",
+      "sun"
+    ],
+    "normalizedCategory": "Getränke",
+    "nameLength": 9
   },
   {
     "id": "lidl_10047175",
@@ -3792,7 +5590,13 @@
     "sku": "10047175",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/GeAqMFPSlXbH5yJhrHt_sOlGEPwLfKYnPozFl1FWN74/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS85Q0ExNjY5RDI4MTJFNzI2MDYwQjFENkY/3QkJGODA4QUNBNDZDNUNFQkZEOUI4REQwMjU5OUFGMUJGRUMxRUUyLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "orangina",
+      "original"
+    ],
+    "normalizedCategory": "Getränke",
+    "nameLength": 17
   },
   {
     "id": "lidl_10047176",
@@ -3807,7 +5611,14 @@
     "sku": "10047176",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/XimH1VaylGcJiVke6WtoG8RRJWGsQ_brg0HRBZX6CaM/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS81MzVDODBBNjY3OTJGNTlDQzM5ODcxMkR/DNDI5M0UzMEFFQUY1ODhGNzg0NTY4MjhBRkM3MTI4MTRDMkVFNDBELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "arizona",
+      "iced",
+      "tea"
+    ],
+    "normalizedCategory": "Getränke",
+    "nameLength": 16
   },
   {
     "id": "lidl_10047177",
@@ -3822,7 +5633,13 @@
     "sku": "10047177",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/86WPGFDLOJ8msV_sAaqQ3Rp1qMnI5cPhZbOJLn3qew4/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS83NDg2QkI1NzlFRTczMjVGNjI2NENBQjQ/yQTNFODNCNkMzNUFEQTQ4MzI2QTYwMUExNDJDNDNGMzQ0Rjg1MkEwLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "gasteiner",
+      "mineralwasser"
+    ],
+    "normalizedCategory": "Getränke",
+    "nameLength": 23
   },
   {
     "id": "lidl_10047178",
@@ -3837,7 +5654,13 @@
     "sku": "10047178",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/PYlcCSE50vF69ov0bPQ2JEIzq7IUA4WvRxUKbsAGRB0/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8wNjg0QjZEN0VGNTQ5NDI3MjMxODM2RDc/2RkU0REJCNkRBODZGMEU0QjM1N0JDOERENUUyRTM0ODkzODZFQUQzLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "felix",
+      "sugo"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 10
   },
   {
     "id": "lidl_10047179",
@@ -3852,7 +5675,14 @@
     "sku": "10047179",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/3sMpVdsxpbcX8NJtXq-U2FlEkSer7G8Kussu2xqBnec/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9GRkNEREZDQkEyMjgzM0FCM0FEOTEwNjE/5MTIzNjYwOTYyNUJBRDNCQzY1MzYyRjVBMDE2QUUzMDYwMzZDMzhGLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "kelly",
+      "mikrowellen",
+      "popcorn"
+    ],
+    "normalizedCategory": "Süßes & Snacks",
+    "nameLength": 27
   },
   {
     "id": "lidl_10047181",
@@ -3867,7 +5697,14 @@
     "sku": "10047181",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/Sx8_Rzk9d82WWIo2sYmhKMkJOIIdKPzAm1eeP3oTqOQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS81MUNFRTExQURCRTcxRThDQzlEM0U2NkY/yMzdFQTFDNjk2ODNEOUVERDhCNTJGMjFEMjc3NEZDQzRDOTJBMjUwLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "glem",
+      "vital",
+      "shampoo"
+    ],
+    "normalizedCategory": "Drogerie & Haushalt",
+    "nameLength": 18
   },
   {
     "id": "lidl_10047183",
@@ -3882,7 +5719,15 @@
     "sku": "10047183",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/qEI_HzbDe0-_4jton2eVVZqyPBs4xGEAPkcT94Ia34E/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS83NkFGMkY0QkVCNzhCNjU3QzUxQUEyMjJ/FRDRGRTE5NTJFMzNCRTZFQzA3N0NGNDg4NkE2QzcxMkVBMDk0MzJCLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "good",
+      "milk",
+      "aktiv",
+      "drink"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 21
   },
   {
     "id": "lidl_10047184",
@@ -3897,7 +5742,13 @@
     "sku": "10047184",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/SS3PDu2C9JSdQoTl3si0kwKi9W9pkUKJBzaGQvdfIkw/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yMTIzRkQ4N0E2ODdGRjkyMzcyQzk5QUJ/CMTgzQjNEQUY3MjVEQTc1NTgxMTdEODlGQzY1MTAxMzRGN0I4QUVELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "keli",
+      "limonaden"
+    ],
+    "normalizedCategory": "Getränke",
+    "nameLength": 14
   },
   {
     "id": "lidl_10047185",
@@ -3912,7 +5763,14 @@
     "sku": "10047185",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/SNegmiaKkRFpHEWtVjO3VDQG3vN6YBzCouLQaOoPeG8/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8zNjVCRjUwQURDMDhEQTA1N0M2MDc2Qzg/2NDkyMzM1QkU5QzlEMjI5MEJCMDIxM0EzQTU1ODE1NTk5NTk3RjZELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "julius",
+      "meinl",
+      "präsident"
+    ],
+    "normalizedCategory": "Kaffee & Tee",
+    "nameLength": 22
   },
   {
     "id": "lidl_10047186",
@@ -3927,7 +5785,14 @@
     "sku": "10047186",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/SNegmiaKkRFpHEWtVjO3VDQG3vN6YBzCouLQaOoPeG8/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8zNjVCRjUwQURDMDhEQTA1N0M2MDc2Qzg/2NDkyMzM1QkU5QzlEMjI5MEJCMDIxM0EzQTU1ODE1NTk5NTk3RjZELnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "julius",
+      "meinl",
+      "präsident"
+    ],
+    "normalizedCategory": "Kaffee & Tee",
+    "nameLength": 22
   },
   {
     "id": "lidl_10047197",
@@ -3942,7 +5807,16 @@
     "sku": "10047197",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/EcCZPPMlJKrQKRqZ6UJ_7uNDpae5KQHDOgAxziWbI-o/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS85RjNBOTE2QzRBMjgxQUI1RUVBQTU5NjF/GRUM3Mjk5N0VDMzFDNzQxQ0ExODRGM0QzQkNBQTFDODk3QzlDRTgzLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "bon",
+      "gelati",
+      "push",
+      "up",
+      "lollies"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 26
   },
   {
     "id": "lidl_10047198",
@@ -3957,7 +5831,15 @@
     "sku": "10047198",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/UEtdI-gXdulZ14Z2LcS9mLN4HvLvDLjqu5NTZd8P_2Y/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9BNkE1MUU2M0MwRDNBNThDMDY5QTk4MjE/1QzVFODYyNDE4MDdDREY4QjIyQUQ3MjRFNTU2MkJFMzFGQkI4QUUyLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "bon",
+      "gelati",
+      "protein",
+      "eisriegel"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 28
   },
   {
     "id": "lidl_10047199",
@@ -3972,7 +5854,13 @@
     "sku": "10047199",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/IwcNmzBuZfte5RhKgg9Tu2ObNO07OBu8qEMKgF_fEe8/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS80NDYyMTdDRTg0QThBNkYxMzRGN0YyNzg/5MTMxMzdDQzJBODU4MEExNTc2OEIxM0FBMTZDM0U1NUE0NjExN0JFLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "gelatelli",
+      "stieleis"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 18
   },
   {
     "id": "lidl_10047200",
@@ -3987,7 +5875,14 @@
     "sku": "10047200",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/JjgTOYd8bQx6O5DziGJJH1oYoAd87g2-hfOS8XNNUwk/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS82ODg1QTI1RjlGNThERTEyMDlCOTI2M0U/3QzYyNTlBRjRGNENFNDc3NkIwNjZBREYzMTJDRkJDNDFFNzY2MkU2LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "gelatelli",
+      "double",
+      "stieleis"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 25
   },
   {
     "id": "lidl_10047201",
@@ -4002,7 +5897,15 @@
     "sku": "10047201",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/k4DYvcaSJdNgXuib0-zk2p6aUBlOhCaUMfOxL4xOlUA/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9FQjI1MDZGNTk4OUYwMzVBNUQwMjBDRTh/GN0ZCRDFCNUU4MkU2RTVDQjYyQTZFRDUyMDhFMzQ3Q0U0QkIxOUI2LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "bon",
+      "gelati",
+      "eis",
+      "sandwich"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 23
   },
   {
     "id": "lidl_10047202",
@@ -4017,7 +5920,15 @@
     "sku": "10047202",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/sbwft8mk0R50WerNGrjwzgEqlTI0chiefLwNA5My2Hg/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9DMzI1ODY2MjlDMkIyOEFFQTI0NUYzMkR/ENDM3OUQwRkQwMERGQzRDNDY4RDBEMjBENTRFRkNGQUFDRUEzQ0YxLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "bon",
+      "gelati",
+      "gestrudeltes",
+      "eis"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 27
   },
   {
     "id": "lidl_10047203",
@@ -4032,7 +5943,14 @@
     "sku": "10047203",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/_7u2Elclejmg3ELmC0rZeeLeWSvAREauMgW5iFzT2XY/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS81RTZDRTcxNEEzNjVGNThCQkE4Q0UxMjA/0NzAyRkNDOTFCN0E5ODYyOTU3MkY5QjIyRDJBRDdBQ0ZDMjMwNDVBLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "bon",
+      "gelati",
+      "waffeltüten"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 22
   },
   {
     "id": "lidl_10047286",
@@ -4047,7 +5965,14 @@
     "sku": "10047286",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/DbLA8fCtuk08X8Fuhgm5faswochmgpHehgwvsgxe_vQ/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS81NEZGNDBFNThENUE1MUEwN0RBQjU1OTE/xMkZFRTI0OUUxQTRGQjk1M0Q5NjNEOEE4OUUyMkE4MDlCNDZFMzAzLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "vemondo",
+      "pflanzliche",
+      "gnocchi"
+    ],
+    "normalizedCategory": "Grundnahrungsmittel",
+    "nameLength": 27
   },
   {
     "id": "lidl_10047287",
@@ -4062,7 +5987,16 @@
     "sku": "10047287",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/KrKKszuzEp_qODNgv2BVjurwwgDn2Y0OlVO-OANYc50/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8xOEUwM0QzMTMwNEFFRjVGMTY3QkEyMjB/DREE1REYxNEYyNjY3NzMxOUM5NjVBRDgxQkY0NEFDMUI5Qjk5RjEyLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "vemondo",
+      "pflanzliche",
+      "würstchen",
+      "im",
+      "blätterteig"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 44
   },
   {
     "id": "lidl_10047288",
@@ -4077,7 +6011,17 @@
     "sku": "10047288",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/WGMAfnXNi4jXc7l0PbpzFJd97nPFu3PbN97gdtyAphE/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9BMzM5RkMxQjkxRTQ1N0M0ODY4QjkxQTM/yMUM1MThDQkY0NzI5Q0JFQzdBQjBEQkEyMzMwNDQxRDA0NDg1MzFBLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "vemondo",
+      "karfiol",
+      "oder",
+      "brokkoli",
+      "wings",
+      "mariniert"
+    ],
+    "normalizedCategory": "Tiefkühl",
+    "nameLength": 46
   },
   {
     "id": "lidl_10047289",
@@ -4092,7 +6036,16 @@
     "sku": "10047289",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/Vp63p_BxCndJDgDB6qMCKHpoip1S_vb8W7jIAIO-6L8/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8yMjk2Q0U1Nzg5OTNGNjI2QzMzNzM1RDc/yQzgyOUI5NDZGQzU2NzcwNzQzQTM3Q0JGREVENzdFNTg3REFCQ0M1LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "vemondo",
+      "pflanzlicher",
+      "high",
+      "protein",
+      "pudding"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 41
   },
   {
     "id": "lidl_10047290",
@@ -4107,7 +6060,14 @@
     "sku": "10047290",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/9gg5t_uxaFgEMmJSypVqG1HevhegrDBAsEz8gBzqH2M/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9FNTYyMEE2MjlCQzlGMDhGOUNFNTZBRkN/ENzc0QTcyNTlFM0ZFMEI5QTQyOTRGRjdFMzY4NTVCODNBNzY3REMwLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "vemondo",
+      "pflanzliche",
+      "antipasti"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 29
   },
   {
     "id": "lidl_10047291",
@@ -4122,7 +6082,16 @@
     "sku": "10047291",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/zYrr5hiIc2oOOSzD0CfH_T2PXRhvH0W75rNEUITua1w/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9EQUNBMEExRTQ2OTBEOTk2MkJCQjhBNTF/DOTAwOEUyQ0FERDE3RENDRTlGQUZFNDAzQjYwN0JFNDhBNURDNjhBLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "vemondo",
+      "soja",
+      "nach",
+      "griechischer",
+      "art"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 34
   },
   {
     "id": "lidl_10047292",
@@ -4137,7 +6106,14 @@
     "sku": "10047292",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/AxSYsyFY-FA-sUbhnfT4yG-1278uADqRe7ypQQ-6NLw/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS8wREMzQjMzQTQ0MzNGMTc1NTA0QzkxQjI/2QzE5QzM1NTJBQkI5OUZBOTVDNjY5NjhDRUYzMDQ0RTM2OEU2ODhGLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "vemondo",
+      "pflanzliche",
+      "tortilla"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 28
   },
   {
     "id": "lidl_10047293",
@@ -4152,7 +6128,14 @@
     "sku": "10047293",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/JsLVUXIxGj0ugFDeOKMv-842H0NjblgAvAPA1oz63p4/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS9DQkY3QTFBMjhEODEwRkMwMjhDMTAzMjI/5Rjc3QjQ1QTExMDMzMEI5MjVDN0ZEOEMzRTAzNkQ5ODREMkVGRkJCLnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "vemondo",
+      "vegane",
+      "brotaufstriche"
+    ],
+    "normalizedCategory": "Fertiggerichte",
+    "nameLength": 29
   },
   {
     "id": "lidl_10047294",
@@ -4167,6 +6150,12 @@
     "sku": "10047294",
     "inPromotion": true,
     "imageUrl": "https://imgproxy-retcat.assets.schwarz/pYCiHyI1jMpN2CWa2VoA4MwaLyDmJQV3CvJqNGOQEYI/sm:1/exar:1:ce/w:427/h:320/cz/M6Ly9wcm9kLWNhd/GFsb2ctbWVkaWEvYXQvMS80Mjc5QzkwMjM4QkNGMkQ3NUE2Q0E5NjE/3QjM3NTgxNUNFOUQwMUNBMTcyRjcxMDcxQzQzQjNDRDUxMUY5MTg1LnBuZw.png",
-    "supermarket": "lidl"
+    "supermarket": "lidl",
+    "nameTokens": [
+      "rama",
+      "pflanzencreme"
+    ],
+    "normalizedCategory": "Milchprodukte",
+    "nameLength": 18
   }
 ]

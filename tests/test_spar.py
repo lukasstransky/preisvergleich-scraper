@@ -49,6 +49,9 @@ def _make_product(category="obst-gemuese", sku=None, name="Bio Apfel"):
         "inPromotion": False,
         "imageUrl": None,
         "supermarket": "spar",
+        "nameTokens": name.lower().split() if name else [],
+        "normalizedCategory": "Sonstiges",
+        "nameLength": len(name or ""),
     }
 
 

@@ -16,8 +16,46 @@ All scrapers produce a list of product dicts with a common schema:
   "sku": "00-123456",
   "inPromotion": true,
   "imageUrl": "https://...",
-  "supermarket": "billa"
+  "supermarket": "billa",
+  "nameTokens": ["bio", "vollmilch"],
+  "normalizedCategory": "Milchprodukte"
 }
+```
+
+### `nameTokens` field
+
+Every product includes a `nameTokens` list – lowercase, deduplicated word tokens
+extracted from the product name.  This field is designed for Algolia (or any
+full-text search backend) to enable **word-boundary matching** instead of
+substring-contains filtering.
+
+**Why?**  A simple contains-filter for "milch" matches both "Milch 3.5%" and
+"Milchschokolade".  With `nameTokens`, Algolia can match on exact tokens:
+- `"Milch 3.5% 1L"` → `["milch"]` ✅ matches "milch"
+- `"Milchschokolade Vollmilch 100g"` → `["milchschokolade", "vollmilch", "100g"]` ❌ no exact "milch" token
+
+The tokenizer lives in `scrapers/tokenizer.py` and:
+1. Lowercases the name
+2. Splits on non-alphanumeric boundaries (keeps German umlauts ä ö ü ß)
+3. Drops tokens shorter than 2 characters
+4. Deduplicates while preserving order
+
+### `normalizedCategory` field
+
+Every product includes a `normalizedCategory` string that maps the supermarket-specific
+raw `category` to one of 15 unified categories.  This enables a consistent category
+filter in the Flutter app across all supermarkets.
+
+The mapper lives in `scrapers/categories.py` and uses a two-tier strategy:
+1. **Exact-match dict** for all known raw categories (~490 entries)
+2. **Keyword fallback** for unknown/future categories (substring matching)
+3. Falls back to `"Sonstiges"` if nothing matches
+
+**Normalized categories:**
+`Obst & Gemüse`, `Brot & Gebäck`, `Milchprodukte`, `Fleisch & Fisch`,
+`Tiefkühl`, `Getränke`, `Süßes & Snacks`, `Kaffee & Tee`,
+`Grundnahrungsmittel`, `Fertiggerichte`, `Frühstück & Aufstriche`,
+`Alkohol`, `Drogerie & Haushalt`, `Baby & Tier`, `Sonstiges`
 ```
 
 Each scraper writes its results to a local JSON file (`billa.json`, `spar.json`, `hofer.json`, `penny.json`) before uploading.

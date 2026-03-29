@@ -3,6 +3,9 @@ import re
 import requests
 import time
 
+from scrapers.tokenizer import tokenize_name
+from scrapers.categories import normalize_category
+
 BASE_URL = "https://www.lidl.at/q/api/search"
 
 # Main "Essen & Trinken" category – the API returns all subcategories within it.
@@ -174,6 +177,9 @@ def _parse_product(item):
             "inPromotion": in_promotion,
             "imageUrl": image,
             "supermarket": "lidl",
+            "nameTokens": tokenize_name(data.get("fullTitle")),
+            "normalizedCategory": normalize_category(category),
+            "nameLength": len(data.get("fullTitle", "") or ""),
         }
     except (KeyError, TypeError):
         return None

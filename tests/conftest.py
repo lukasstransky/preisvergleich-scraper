@@ -18,6 +18,9 @@ REQUIRED_PRODUCT_KEYS = {
     "inPromotion",
     "imageUrl",
     "supermarket",
+    "nameTokens",
+    "normalizedCategory",
+    "nameLength",
 }
 
 # Spar and Hofer include an extra 'amount' key

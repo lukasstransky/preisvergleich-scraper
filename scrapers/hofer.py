@@ -5,6 +5,9 @@ import time
 from datetime import date
 from playwright.sync_api import sync_playwright
 
+from scrapers.tokenizer import tokenize_name
+from scrapers.categories import normalize_category
+
 SCREENSHOT_DIR = "screenshots"
 
 BASE_URL = "https://www.hofer.at/de/sortiment/produktsortiment/{category}.html"
@@ -150,6 +153,9 @@ def _parse_tile(tile, category):
         "inPromotion": in_promotion,
         "imageUrl": image_url,
         "supermarket": "hofer",
+        "nameTokens": tokenize_name(name if brand else full_name),
+        "normalizedCategory": normalize_category(category),
+        "nameLength": len((name if brand else full_name) or ""),
     }
 
 
@@ -370,6 +376,8 @@ def _parse_tiefpreis_product(container):
         "inPromotion": True,
         "imageUrl": image_url,
         "supermarket": "hofer",
+        "nameTokens": tokenize_name(name if brand else full_name),
+        "normalizedCategory": normalize_category("tiefpreis-aktionen"),
     }
 
 

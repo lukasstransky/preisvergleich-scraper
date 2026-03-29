@@ -2,6 +2,9 @@ import json
 import requests
 import time
 
+from scrapers.tokenizer import tokenize_name
+from scrapers.categories import normalize_category
+
 BASE_URL = "https://www.billa.at/api/product-discovery/categories/{category}/products"
 
 CATEGORIES = [
@@ -52,6 +55,9 @@ def _parse_product(product):
             "inPromotion": product.get("inPromotion", False),
             "imageUrl": product["images"][0] if product.get("images") else None,
             "supermarket": "billa",
+            "nameTokens": tokenize_name(product.get("name")),
+            "normalizedCategory": normalize_category(product.get("category")),
+            "nameLength": len(product.get("name", "") or ""),
         }
     except (KeyError, TypeError):
         return None
