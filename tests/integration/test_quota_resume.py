@@ -161,10 +161,10 @@ class TestResumeAfterQuotaHit:
         hashes = meta["hofer"]["hashes"]
         assert len(hashes) == 5
 
-        # Only the 2 new products + metadata were written (3 unchanged)
+        # Only the 2 new products + their history entries + metadata were written
         counts = get_request_counts()
         assert counts["reads"] == 1
-        assert counts["writes"] == 3   # 2 new products + 1 metadata
+        assert counts["writes"] == 5   # 2 new products + 2 price history + 1 metadata
         assert counts["deletes"] == 0
 
 
@@ -209,10 +209,10 @@ class TestMixedCompleteAndIncompleteCollections:
 
         counts = get_request_counts()
 
-        # penny: 1 read + 1 metadata write only (no product writes)
-        # billa: 1 read + 4 product writes + 1 metadata write
+        # penny: 1 read + 1 metadata write only (no product writes, no history)
+        # billa: 1 read + 4 product writes + 4 price history writes + 1 metadata write
         assert counts["reads"] == 2            # 1 per supermarket
-        assert counts["writes"] == 6           # 0 penny products + 4 billa products + 2 metadata
+        assert counts["writes"] == 10          # 4 billa products + 4 history + 2 metadata
         assert counts["deletes"] == 0
 
         # All products present in the single products collection
