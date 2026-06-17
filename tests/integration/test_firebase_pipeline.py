@@ -59,10 +59,10 @@ class TestFullSyncPipeline:
         for p in products:
             assert hashes[p["id"]] == _product_hash(p)
 
-        # Request counters: 1 read (metadata) + 5 writes (products) + 1 write (metadata)
+        # Request counters: 1 read + 5 product writes + 5 price history writes + 1 metadata
         counts = get_request_counts()
         assert counts["reads"] == 1
-        assert counts["writes"] == 6  # 5 products + 1 metadata
+        assert counts["writes"] == 11  # 5 products + 5 history + 1 metadata
         assert counts["deletes"] == 0
 
     def test_second_sync_no_changes(self):

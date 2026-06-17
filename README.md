@@ -72,6 +72,14 @@ Tiefpreis/Aktionen products are scraped from the dedicated actions page.
 **Requirements:** Python 3.10+, a Firebase project with Firestore enabled.
 
 ```bash
+# Create virtual environment (once)
+python3 -m venv venv
+
+# Activate it (every new terminal session)
+source venv/bin/activate        # macOS / Linux
+# venv\Scripts\activate         # Windows
+
+# Install dependencies
 pip install -r requirements.txt
 playwright install chromium
 ```
@@ -84,11 +92,15 @@ If neither is found, scraping still works but uploading is skipped.
 
 ## Usage
 
+Make sure the virtual environment is active (`source venv/bin/activate`) before running any command.
+
 ```bash
 python main.py               # scrape all + upload to Firestore
 python main.py --no-upload   # scrape only, skip upload
 python main.py --upload-only # upload existing *.json files without re-scraping
 ```
+
+To deactivate the virtual environment when done: `deactivate`
 
 ## Documentation
 
