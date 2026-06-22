@@ -38,7 +38,7 @@ def _expected_hash(product):
     return hashlib.md5(serialized.encode()).hexdigest()
 
 
-def _make_firestore_db(existing_hashes=None, existing_prices=None):
+def _make_firestore_db(existing_hashes=None):
     """Build a mock Firestore client with a metadata document.
 
     Returns (db, meta_ref, col_ref, batches) where batches is a list that
@@ -50,10 +50,7 @@ def _make_firestore_db(existing_hashes=None, existing_prices=None):
     meta_doc = MagicMock()
     if existing_hashes is not None:
         meta_doc.exists = True
-        meta_data: dict = {"hashes": existing_hashes}
-        if existing_prices is not None:
-            meta_data["prices"] = existing_prices
-        meta_doc.to_dict.return_value = meta_data
+        meta_doc.to_dict.return_value = {"hashes": existing_hashes}
     else:
         meta_doc.exists = False
 
@@ -247,7 +244,6 @@ class TestSyncProductsChangedProducts:
         }
         db, meta_ref, col_ref, batches = _make_firestore_db(
             existing_hashes=existing,
-            existing_prices={"p1": 1.0, "p2": 2.0},
         )
 
         ops = sync_products(db, [p1, p2_new], "test_products")
@@ -266,7 +262,6 @@ class TestSyncProductsChangedProducts:
         existing = {"p1": _expected_hash(p1)}
         db, meta_ref, col_ref, batches = _make_firestore_db(
             existing_hashes=existing,
-            existing_prices={"p1": 1.0},
         )
 
         ops = sync_products(db, [p1, p2], "test_products")
@@ -291,7 +286,6 @@ class TestSyncProductsDeletedProducts:
         }
         db, meta_ref, col_ref, batches = _make_firestore_db(
             existing_hashes=existing,
-            existing_prices={"p1": 1.0, "p2": 2.0},
         )
 
         # Only p1 in new data → p2 should be deleted, p1 unchanged → no history
@@ -334,7 +328,6 @@ class TestSyncProductsMixedChanges:
         }
         db, meta_ref, col_ref, batches = _make_firestore_db(
             existing_hashes=existing,
-            existing_prices={"p1": 1.0, "p2": 2.0, "p4": 4.0},
         )
 
         ops = sync_products(
@@ -383,7 +376,6 @@ class TestSyncProductsBatching:
         }
         db, meta_ref, col_ref, batches = _make_firestore_db(
             existing_hashes=existing,
-            existing_prices={"p1": 1.0},
         )
 
         # Only p1 remains → 3 deletes, p1 unchanged → no history
@@ -507,7 +499,6 @@ class TestPriceHistory:
         existing = {"p1": _expected_hash(p_old)}
         db, meta_ref, col_ref, batches = _make_firestore_db(
             existing_hashes=existing,
-            existing_prices={"p1": 1.00},
         )
 
         ops = sync_products(db, [p_new], "products")
@@ -517,23 +508,18 @@ class TestPriceHistory:
         assert len(batches) == 2
 
     @patch("firestore_sync.time.sleep")
-    def test_no_history_when_only_name_changes(self, mock_sleep):
-        """Non-price field change does not produce a history entry."""
+    def test_history_written_for_any_change(self, mock_sleep):
+        """History is written for any field change, not just price changes."""
         p_old = _make_product("p1", name="Old Name", price=1.00)
         p_new = _make_product("p1", name="New Name", price=1.00)
         existing = {"p1": _expected_hash(p_old)}
-        db, meta_ref, col_ref, batches = _make_firestore_db(
-            existing_hashes=existing,
-            existing_prices={"p1": 1.00},
-        )
+        db, meta_ref, col_ref, batches = _make_firestore_db(existing_hashes=existing)
 
         ops = sync_products(db, [p_new], "products")
 
-        # 1 product write + 0 history + 1 metadata = 2
-        assert ops == 2
-        assert len(batches) == 1  # only product batch, no history batch
-        doc_ref = col_ref.document.return_value
-        doc_ref.collection.assert_not_called()
+        # 1 product write + 1 history write + 1 metadata = 3
+        assert ops == 3
+        assert len(batches) == 2
 
     @patch("firestore_sync.time.sleep")
     def test_no_history_when_nothing_changed(self, mock_sleep):
@@ -542,7 +528,6 @@ class TestPriceHistory:
         existing = {"p1": _expected_hash(p)}
         db, meta_ref, col_ref, batches = _make_firestore_db(
             existing_hashes=existing,
-            existing_prices={"p1": 1.00},
         )
 
         sync_products(db, [p], "products")
@@ -611,8 +596,8 @@ class TestPriceHistory:
         assert history_set_calls == 5
 
     @patch("firestore_sync.time.sleep")
-    def test_metadata_includes_prices(self, mock_sleep):
-        """Final metadata document contains both hashes and prices."""
+    def test_metadata_contains_hashes_only(self, mock_sleep):
+        """Final metadata document contains only hashes (no prices)."""
         products = [_make_product("p1", price=1.99), _make_product("p2", price=2.49)]
         db, meta_ref, col_ref, batches = _make_firestore_db(existing_hashes=None)
 
@@ -620,8 +605,7 @@ class TestPriceHistory:
 
         saved = meta_ref.set.call_args[0][0]
         assert "hashes" in saved
-        assert "prices" in saved
-        assert saved["prices"] == {"p1": 1.99, "p2": 2.49}
+        assert "prices" not in saved
 
     @patch("firestore_sync.time.sleep")
     def test_no_history_for_deleted_products(self, mock_sleep):
@@ -634,7 +618,6 @@ class TestPriceHistory:
         }
         db, meta_ref, col_ref, batches = _make_firestore_db(
             existing_hashes=existing,
-            existing_prices={"p1": 1.00, "p2": 2.00},
         )
 
         # p2 deleted, p1 unchanged → no writes, no history
@@ -692,7 +675,6 @@ class TestRequestCounters:
         }
         db, meta_ref, col_ref, batches = _make_firestore_db(
             existing_hashes=existing,
-            existing_prices={"p1": 1.0, "p2": 2.0},
         )
 
         sync_products(db, [p_unchanged, p_changed_new], "test_products")

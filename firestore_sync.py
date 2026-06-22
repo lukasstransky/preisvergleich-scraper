@@ -116,18 +116,17 @@ def sync_products(db, products: list[dict], collection: str, meta_key: str | Non
 
     col_ref = db.collection(collection)
 
-    # ── 1. Read existing hashes and prices from the metadata document ────
+    # ── 1. Read existing hashes from the metadata document ──────────────
     meta_ref = db.collection(META_COLLECTION).document(meta_key)
     meta_doc = meta_ref.get()
     _request_counts["reads"] += 1
-    existing_meta: dict = meta_doc.to_dict() if meta_doc.exists else {}
-    existing_hashes: dict[str, str] = existing_meta.get("hashes", {})
-    existing_prices: dict[str, float] = existing_meta.get("prices", {})
+    existing_hashes: dict[str, str] = (
+        meta_doc.to_dict().get("hashes", {}) if meta_doc.exists else {}
+    )
     print(f"  Existing products in Firestore: {len(existing_hashes)}")
 
-    # ── 2. Compute hashes and collect prices for freshly scraped products ─
+    # ── 2. Compute hashes for freshly scraped products ───────────────────
     new_hashes: dict[str, str] = {}
-    new_prices: dict[str, float] = {}
     products_by_id: dict[str, dict] = {}
     for product in products:
         pid = product.get("id")
@@ -135,9 +134,6 @@ def sync_products(db, products: list[dict], collection: str, meta_key: str | Non
             continue
         new_hashes[pid] = _product_hash(product)
         products_by_id[pid] = product
-        price = product.get("price")
-        if price is not None:
-            new_prices[pid] = price
 
     # ── 3. Diff ──────────────────────────────────────────────────────────
     ids_to_write = [
@@ -145,12 +141,11 @@ def sync_products(db, products: list[dict], collection: str, meta_key: str | Non
     ]
     ids_to_delete = list(set(existing_hashes.keys()) - set(new_hashes.keys()))
 
-    # Price history is only needed for products being written whose price
-    # specifically changed (or that are newly seen).
-    products_with_price_change = [
+    # Write a price history entry for every product being written that has a
+    # price field. Using the date as document ID makes this idempotent.
+    products_for_history = [
         products_by_id[pid] for pid in ids_to_write
         if products_by_id[pid].get("price") is not None
-        and existing_prices.get(pid) != products_by_id[pid].get("price")
     ]
 
     unchanged = len(new_hashes) - len(ids_to_write)
@@ -161,7 +156,7 @@ def sync_products(db, products: list[dict], collection: str, meta_key: str | Non
     if not ids_to_write and not ids_to_delete:
         print("  Nothing changed – skipping Firestore writes.")
         # Still update metadata in case the doc doesn't exist yet
-        meta_ref.set({"hashes": new_hashes, "prices": new_prices})
+        meta_ref.set({"hashes": new_hashes})
         _request_counts["writes"] += 1
         return 1  # 1 metadata write
 
@@ -185,12 +180,12 @@ def sync_products(db, products: list[dict], collection: str, meta_key: str | Non
         _request_counts["deletes"] += len(chunk)
         print(f"  Deleted batch {i // FIRESTORE_BATCH_LIMIT + 1}  ({len(chunk)} docs)")
 
-    # ── 6. Batch-write price history for products with price changes ──────
-    history_count = _write_price_history(db, collection, products_with_price_change)
+    # ── 6. Batch-write price history for all written products ────────────
+    history_count = _write_price_history(db, collection, products_for_history)
     _request_counts["writes"] += history_count
 
-    # ── 7. Persist final hashes and prices ───────────────────────────────
-    meta_ref.set({"hashes": new_hashes, "prices": new_prices})
+    # ── 7. Persist final hashes ───────────────────────────────────────────
+    meta_ref.set({"hashes": new_hashes})
     _request_counts["writes"] += 1
 
     total_ops = len(ids_to_write) + len(ids_to_delete) + history_count + 1

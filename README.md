@@ -100,6 +100,14 @@ python main.py --no-upload   # scrape only, skip upload
 python main.py --upload-only # upload existing *.json files without re-scraping
 ```
 
+| | JSON updated | Firestore sync | Price history |
+|---|:---:|:---:|:---:|
+| `python main.py` | ✓ | ✓ | ✓ |
+| `python main.py --no-upload` | ✓ | ✗ | ✗ |
+| `python main.py --upload-only` | ✗ | ✓ | ✓ |
+
+Price history entries (`products/{id}/price_history/{date}`) are only written during a Firestore upload.
+
 To deactivate the virtual environment when done: `deactivate`
 
 ## Documentation
