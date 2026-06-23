@@ -133,5 +133,6 @@ To deactivate the virtual environment when done: `deactivate`
 ## Documentation
 
 - [docs/scrapers.md](docs/scrapers.md) – how each scraper works, product schema, ID strategies
+- [docs/fields-by-scraper.md](docs/fields-by-scraper.md) – which fields are populated by which scraper
 - [docs/firestore.md](docs/firestore.md) – diff-based sync, data layout, resumability, quota impact
 - [docs/testing.md](docs/testing.md) – running tests, integration test overview, data quality analysis
