@@ -2,6 +2,7 @@ import json
 import re
 import requests
 import time
+from datetime import datetime, timezone
 
 from scrapers.tokenizer import tokenize_name
 from scrapers.categories import normalize_category
@@ -163,6 +164,16 @@ def _parse_product(item):
         # Filiale"), so inPromotion is always True.
         in_promotion = True
 
+        canonical_path = data.get("canonicalPath") or data.get("canonicalUrl")
+
+        def _ts_to_iso(ts):
+            if ts is None:
+                return None
+            try:
+                return datetime.fromtimestamp(int(ts), tz=timezone.utc).strftime("%Y-%m-%d")
+            except (ValueError, OSError):
+                return None
+
         return {
             "id": f"lidl_{sku}",
             "name": data.get("fullTitle"),
@@ -176,6 +187,9 @@ def _parse_product(item):
             "sku": sku,
             "inPromotion": in_promotion,
             "imageUrl": image,
+            "productUrl": f"https://www.lidl.at{canonical_path}" if canonical_path else None,
+            "offerStart": _ts_to_iso(data.get("storeStartDate")),
+            "offerEnd": _ts_to_iso(data.get("storeEndDate")),
             "supermarket": "lidl",
             "nameTokens": tokenize_name(data.get("fullTitle")),
             "normalizedCategory": normalize_category(category),

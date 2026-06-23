@@ -41,6 +41,7 @@ def _parse_product(product):
         sku = product.get("sku")
         crossed = price_info.get("crossed")
         per_qty = price_data.get("perStandardizedQuantity")
+        slug = product.get("slug")
         return {
             "id": f"billa_{sku}",
             "name": product.get("name"),
@@ -54,6 +55,9 @@ def _parse_product(product):
             "sku": sku,
             "inPromotion": product.get("inPromotion", False),
             "imageUrl": product["images"][0] if product.get("images") else None,
+            "productUrl": f"https://shop.billa.at/produkte/{slug}" if slug else None,
+            "offerStart": None,
+            "offerEnd": None,
             "supermarket": "billa",
             "nameTokens": tokenize_name(product.get("name")),
             "normalizedCategory": normalize_category(product.get("category")),

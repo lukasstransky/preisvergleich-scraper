@@ -106,6 +106,9 @@ class TestParseProduct:
                 "variantsHaveDifferentPrices": False,
             },
             "image": "https://imgproxy-retcat.assets.schwarz/test.png",
+            "canonicalPath": "/p/favorina-mini-ostersortiment/p10045677",
+            "storeStartDate": 1748646000,
+            "storeEndDate": 1749855599,
             "category": "Food",
         }
         data.update(overrides)
@@ -139,6 +142,9 @@ class TestParseProduct:
         assert result["sku"] == "10045677"
         assert result["inPromotion"] is True  # all products on this page are promotions
         assert result["imageUrl"] == "https://imgproxy-retcat.assets.schwarz/test.png"
+        assert result["productUrl"] == "https://www.lidl.at/p/favorina-mini-ostersortiment/p10045677"
+        assert result["offerStart"] == "2025-05-30"
+        assert result["offerEnd"] == "2025-06-13"
         assert result["supermarket"] == "lidl"
 
     def test_discounted_product(self):

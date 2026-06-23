@@ -183,6 +183,11 @@ def _parse_tile(tile, category):
     if category == "aktionen":
         in_promotion = True
 
+    href = tile.get_attribute("href") or ""
+    product_url = None
+    if href:
+        product_url = href if href.startswith("http") else f"https://www.mpreis.at{href}"
+
     return {
         "id": f"mpreis_{sku}" if sku else None,
         "name": name,
@@ -197,6 +202,9 @@ def _parse_tile(tile, category):
         "sku": sku,
         "inPromotion": in_promotion,
         "imageUrl": image_url,
+        "productUrl": product_url,
+        "offerStart": None,
+        "offerEnd": None,
         "supermarket": "mpreis",
         "nameTokens": tokenize_name(name),
         "normalizedCategory": normalize_category(category),

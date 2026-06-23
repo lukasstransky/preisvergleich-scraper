@@ -28,6 +28,9 @@ def _parse_product(product):
         sku = product.get("sku")
         crossed = price_info.get("crossed")
         per_qty = price_data.get("perStandardizedQuantity")
+        slug = product.get("slug")
+        offer_start = price_info.get("validityStart")
+        offer_end = price_info.get("validityEnd")
         return {
             "id": f"penny_{sku}",
             "name": product.get("name"),
@@ -41,6 +44,9 @@ def _parse_product(product):
             "sku": sku,
             "inPromotion": product.get("inPromotion", False),
             "imageUrl": product["images"][0] if product.get("images") else None,
+            "productUrl": f"https://www.penny.at/produkte/{slug}" if slug else None,
+            "offerStart": offer_start,
+            "offerEnd": offer_end,
             "supermarket": "penny",
             "nameTokens": tokenize_name(product.get("name")),
             "normalizedCategory": normalize_category(product.get("category")),

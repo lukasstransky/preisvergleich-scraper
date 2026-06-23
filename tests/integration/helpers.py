@@ -11,10 +11,14 @@ from unittest.mock import MagicMock, AsyncMock, PropertyMock
 def make_billa_api_product(sku="00-427631", name="Lindt Goldhase", price_cents=499,
                            crossed=None, per_qty=499, promo_text=None,
                            base_unit="g", category="Schokolade", brand_name="Lindt",
-                           in_promo=False, image_url="https://images.example.com/lindt.jpg"):
+                           in_promo=False, image_url="https://images.example.com/lindt.jpg",
+                           slug=None):
     """Return a single product dict matching the Billa/Penny REST API shape."""
+    if slug is None:
+        slug = f"{name.lower().replace(' ', '-')}-{sku.replace('-', '')}"
     return {
         "sku": sku,
+        "slug": slug,
         "name": name,
         "price": {
             "regular": {
@@ -82,11 +86,13 @@ def make_spar_tile(sku="2020005521308", brand="SPAR PREMIUM", name="Bio Apfel",
                    amount="500 G", price_text="2,99", unit_text="Per 1 kg 5,98",
                    image_url="https://cdn1.interspar.at/at/2020005521308/HB_500px.jpg",
                    link_href="/produkte/spar-premium-bio-apfel-2020005521308/",
-                   badge_urls=None):
+                   badge_urls=None, old_price_text=None, promo_pill_text=None):
     """Return an AsyncMock mimicking an ``article.product-tile`` Playwright element.
 
     *badge_urls*: optional list of badge image URLs (e.g. Bio, AMA icons)
     that appear before the product image in the DOM.
+    *old_price_text*: e.g. "statt 2,49" for crossed-out original price.
+    *promo_pill_text*: e.g. "Mengenvorteil ab 2 Stk. je" for promo badge.
     """
     tile = AsyncMock()
 
@@ -116,6 +122,8 @@ def make_spar_tile(sku="2020005521308", brand="SPAR PREMIUM", name="Bio Apfel",
         "div.product-tile__name3": _make_async_element(amount),
         "span.product-price__price": _make_async_element(price_text),
         'span[data-tosca="product-price-comparison-price"]': _make_async_element(unit_text),
+        "span.product-price__price-old": _make_async_element(old_price_text) if old_price_text else None,
+        "div.product-price__promo-pill": _make_async_element(promo_pill_text) if promo_pill_text else None,
         "img.tile-basic__image--product": product_img_el,
         'a[href*="/produktwelt/"]': _make_async_element(attrs={"href": link_href}),
         "a[href]": _make_async_element(attrs={"href": link_href}),
@@ -146,6 +154,9 @@ SAMPLE_SPAR_TILES = [
 def make_spar_mock_page(tiles, pagination_text="1 von 1"):
     """Return an async mock Playwright page suitable for spar scraping."""
     page = AsyncMock()
+
+    # page.on() is a sync call in Playwright (registers event listeners, not awaited)
+    page.on = MagicMock()
 
     # Navigation & waiting
     page.goto = AsyncMock()
@@ -326,6 +337,9 @@ def make_product(supermarket="billa", sku="00-100001", name="Bio Milch",
         "sku": sku,
         "inPromotion": in_promo,
         "imageUrl": image_url,
+        "productUrl": None,
+        "offerStart": None,
+        "offerEnd": None,
         "supermarket": supermarket,
         "nameTokens": tokenize_name(name),
         "normalizedCategory": normalize_category(category),

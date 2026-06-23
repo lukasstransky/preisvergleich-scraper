@@ -152,6 +152,9 @@ def _parse_tile(tile, category):
         "sku": sku,
         "inPromotion": in_promotion,
         "imageUrl": image_url,
+        "productUrl": None,
+        "offerStart": None,
+        "offerEnd": None,
         "supermarket": "hofer",
         "nameTokens": tokenize_name(name if brand else full_name),
         "normalizedCategory": normalize_category(category),
@@ -282,10 +285,12 @@ def _scrape_offer_page(browser, offer_date, url):
 
         tiles = page_obj.query_selector_all("div.plp_product[data-productid]")
         date_label = offer_date.strftime("%d.%m.%Y")
+        offer_start_iso = offer_date.isoformat()
         for tile in tiles:
             product = _parse_tile(tile, "angebote")
             product["inPromotion"] = True
             product["promotionText"] = f"ab {date_label}"
+            product["offerStart"] = offer_start_iso
             products.append(product)
 
         print(f"hofer offers {date_label}: {len(products)} products")
@@ -375,6 +380,9 @@ def _parse_tiefpreis_product(container):
         "sku": None,
         "inPromotion": True,
         "imageUrl": image_url,
+        "productUrl": None,
+        "offerStart": None,
+        "offerEnd": None,
         "supermarket": "hofer",
         "nameTokens": tokenize_name(name if brand else full_name),
         "normalizedCategory": normalize_category("tiefpreis-aktionen"),

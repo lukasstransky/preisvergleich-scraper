@@ -108,6 +108,26 @@ python main.py --upload-only # upload existing *.json files without re-scraping
 
 Price history entries (`products/{id}/price_history/{date}`) are only written during a Firestore upload.
 
+### Partial runs
+
+Run only specific scrapers with `--scraper`:
+
+```bash
+python main.py --scraper spar --no-upload
+python main.py --scraper billa penny --no-upload
+```
+
+For SPAR, limit to specific categories with `--spar-categories` (useful for quick testing):
+
+```bash
+python main.py --scraper spar --no-upload --spar-categories obst-gemuese
+python main.py --scraper spar --no-upload --spar-categories obst-gemuese milch-kaeseprodukte
+```
+
+Available SPAR categories: `obst-gemuese`, `brot-gebaeck`, `milchprodukte-alternativen`, `tiefkuehlprodukte`,
+`wurst-fleisch-eier-fisch`, `beilagen-essig-oel-gewuerze`, `backen-fruehstueck`, `suesses-salziges`,
+`schnelle-kueche-to-go`, `babynahrung`, `alkoholfreie-getraenke`, `kaffee-tee-kakao`, `alkoholische-getraenke`
+
 To deactivate the virtual environment when done: `deactivate`
 
 ## Documentation

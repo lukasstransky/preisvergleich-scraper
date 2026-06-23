@@ -134,7 +134,7 @@ async def _parse_tile(tile, category):
     asyncio.gather to minimise IPC round-trips to the browser.
     """
     # --- Stage 1: query all child elements in parallel ---
-    brand_el, name_el, amount_el, price_el, unit_el, link_el = (
+    brand_el, name_el, amount_el, price_el, unit_el, link_el, old_price_el, promo_pill_el = (
         await asyncio.gather(
             tile.query_selector("div.product-tile__name1"),
             tile.query_selector("div.product-tile__name2"),
@@ -142,6 +142,8 @@ async def _parse_tile(tile, category):
             tile.query_selector("span.product-price__price"),
             tile.query_selector('span[data-tosca="product-price-comparison-price"]'),
             tile.query_selector('a[href*="/produktwelt/"]'),
+            tile.query_selector("span.product-price__price-old"),
+            tile.query_selector("div.product-price__promo-pill"),
         )
     )
     img_el = await _find_product_image(tile)
@@ -158,6 +160,7 @@ async def _parse_tile(tile, category):
     (
         brand, name, amount, price_text, unit_text,
         img_src, img_data_src, img_srcset, link_href,
+        old_price_text, promo_pill_text,
     ) = await asyncio.gather(
         _text(brand_el),
         _text(name_el),
@@ -168,6 +171,8 @@ async def _parse_tile(tile, category):
         _attr(img_el, "data-src"),
         _attr(img_el, "srcset"),
         _attr(link_el, "href"),
+        _text(old_price_el),
+        _text(promo_pill_el),
     )
 
     # --- Stage 3: pure-Python post-processing (no awaits) ---
@@ -184,6 +189,17 @@ async def _parse_tile(tile, category):
             price = float(re.sub(r"[^\d.]", "", price_text.replace(",", ".")))
         except ValueError:
             price = None
+
+    # "statt 2,49" → 2.49
+    original_price = None
+    if old_price_text:
+        try:
+            original_price = float(re.sub(r"[^\d.]", "", old_price_text.replace(",", ".")))
+        except ValueError:
+            pass
+
+    promotion_text = promo_pill_text or None
+    in_promotion = original_price is not None or promotion_text is not None
 
     unit_price, unit_label = _parse_unit_price_text(unit_text or None)
 
@@ -206,16 +222,19 @@ async def _parse_tile(tile, category):
         "id": product_id,
         "name": name,
         "price": price,
-        "originalPrice": None,
-        "promotionText": None,
+        "originalPrice": original_price,
+        "promotionText": promotion_text,
         "unitPrice": unit_price,
         "unitLabel": unit_label,
         "category": category,
         "brand": brand,
         "amount": amount,
         "sku": sku,
-        "inPromotion": False,
+        "inPromotion": in_promotion,
         "imageUrl": image_url,
+        "productUrl": f"https://www.spar.at{link_href}" if link_href else None,
+        "offerStart": None,
+        "offerEnd": None,
         "supermarket": "spar",
         "nameTokens": tokenize_name(name),
         "normalizedCategory": normalize_category(category),
@@ -474,8 +493,12 @@ async def _scrape_category(browser, category, semaphore, error_log, cooldown_loc
         return []
 
 
-async def _scrape_spar_async():
-    """Scrape all categories concurrently and write products to spar.json."""
+async def _scrape_spar_async(categories=None):
+    """Scrape categories concurrently and write products to spar.json.
+
+    *categories*: optional list of category slugs to scrape; defaults to all.
+    """
+    active_categories = categories if categories is not None else CATEGORIES
     all_products = []
     error_log = []
     semaphore = asyncio.Semaphore(MAX_CONCURRENT)
@@ -487,11 +510,11 @@ async def _scrape_spar_async():
         try:
             tasks = [
                 _scrape_category(browser, category, semaphore, error_log, cooldown_lock)
-                for category in CATEGORIES
+                for category in active_categories
             ]
             results = await asyncio.gather(*tasks, return_exceptions=True)
 
-            for category, result in zip(CATEGORIES, results):
+            for category, result in zip(active_categories, results):
                 if isinstance(result, Exception):
                     msg = f"Error scraping category '{category}': {result}"
                     print(msg)
@@ -522,6 +545,9 @@ async def _scrape_spar_async():
     return all_products
 
 
-def scrape_spar():
-    """Scrape all categories and write products to spar.json."""
-    return asyncio.run(_scrape_spar_async())
+def scrape_spar(categories=None):
+    """Scrape SPAR categories and write products to spar.json.
+
+    *categories*: optional list of category slugs to scrape; defaults to all.
+    """
+    return asyncio.run(_scrape_spar_async(categories=categories))

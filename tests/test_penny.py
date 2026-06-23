@@ -22,6 +22,7 @@ class TestParseProduct:
     def test_full_product(self):
         product = {
             "sku": "78-101754",
+            "slug": "ottakringer-helles-78101754",
             "name": "Ottakringer Helles",
             "price": {
                 "regular": {
@@ -31,6 +32,8 @@ class TestParseProduct:
                 },
                 "crossed": 179,
                 "baseUnitShort": "l",
+                "validityStart": "2026-06-18",
+                "validityEnd": "2026-06-24",
             },
             "category": "Bier & Radler",
             "brand": {"name": "Ottakringer"},
@@ -51,6 +54,9 @@ class TestParseProduct:
         assert result["sku"] == "78-101754"
         assert result["inPromotion"] is True
         assert result["imageUrl"] == "https://img.example.com/product.jpg"
+        assert result["productUrl"] == "https://www.penny.at/produkte/ottakringer-helles-78101754"
+        assert result["offerStart"] == "2026-06-18"
+        assert result["offerEnd"] == "2026-06-24"
         assert result["supermarket"] == "penny"
 
     def test_product_without_optional_fields(self):
@@ -70,6 +76,9 @@ class TestParseProduct:
         assert result["unitLabel"] is None
         assert result["brand"] is None
         assert result["imageUrl"] is None
+        assert result["productUrl"] is None
+        assert result["offerStart"] is None
+        assert result["offerEnd"] is None
         assert result["inPromotion"] is False
         assert result["promotionText"] is None
 

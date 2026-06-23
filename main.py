@@ -3,7 +3,7 @@ import json
 import os
 import time
 from scrapers.billa import scrape_billa
-from scrapers.spar import scrape_spar
+from scrapers.spar import scrape_spar, CATEGORIES as SPAR_CATEGORIES
 from scrapers.hofer import scrape_hofer
 from scrapers.penny import scrape_penny
 from scrapers.lidl import scrape_lidl
@@ -46,7 +46,23 @@ def main():
         action="store_true",
         help="Skip uploading to Firebase (scrape only).",
     )
+    parser.add_argument(
+        "--scraper",
+        nargs="+",
+        choices=list(SCRAPERS.keys()),
+        metavar="SCRAPER",
+        help=f"Run only the specified scraper(s). Choices: {', '.join(SCRAPERS.keys())}",
+    )
+    parser.add_argument(
+        "--spar-categories",
+        nargs="+",
+        choices=SPAR_CATEGORIES,
+        metavar="CATEGORY",
+        help=f"Limit SPAR scraper to specific categories. Choices: {', '.join(SPAR_CATEGORIES)}",
+    )
     args = parser.parse_args()
+
+    active_scrapers = {k: v for k, v in SCRAPERS.items() if not args.scraper or k in args.scraper}
 
     start_time = time.time()
     timings = {}
@@ -54,7 +70,7 @@ def main():
 
     if args.upload_only:
         print("Upload-only mode: loading products from JSON files...\n")
-        for name, (json_file, _) in SCRAPERS.items():
+        for name, (json_file, _) in active_scrapers.items():
             if os.path.exists(json_file):
                 t = time.time()
                 all_products[name] = _load_from_json(json_file)
@@ -64,16 +80,19 @@ def main():
         print()
     else:
         # Delete existing JSON files to avoid duplicated data
-        for name, (json_file, _) in SCRAPERS.items():
+        for name, (json_file, _) in active_scrapers.items():
             if os.path.exists(json_file):
                 os.remove(json_file)
                 print(f"Deleted {json_file}")
 
-        for name, (json_file, scrape_fn) in SCRAPERS.items():
+        for name, (json_file, scrape_fn) in active_scrapers.items():
             label = name.capitalize()
             print(f"Starting {label} scraper...")
             t = time.time()
-            all_products[name] = scrape_fn()
+            if name == "spar" and args.spar_categories:
+                all_products[name] = scrape_fn(categories=args.spar_categories)
+            else:
+                all_products[name] = scrape_fn()
             timings[label] = time.time() - t
             print()
 

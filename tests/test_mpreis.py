@@ -174,6 +174,9 @@ class TestParseTileNoPromotion:
         assert result["sku"] == "541601"
         assert result["supermarket"] == "mpreis"
         assert result["category"] == "lebensmittel"
+        assert result["productUrl"] == "https://www.mpreis.at/shop/p/m-bio-bio-gurken-541601"
+        assert result["offerStart"] is None
+        assert result["offerEnd"] is None
 
     def test_price(self):
         result = _parse_tile(self._make_tile(), "lebensmittel")
