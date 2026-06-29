@@ -1,13 +1,19 @@
 # Preisvergleich Scraper
 
-Scrapes product prices from four Austrian supermarkets and syncs them to Google Cloud Firestore.
+Scrapes product prices from Austrian supermarkets and syncs them to Google Cloud Firestore.
 
-| Supermarket | Method | Source |
-|-------------|--------|--------|
-| **Billa** | REST API | `billa.at` |
-| **Penny** | REST API | `penny.at` |
-| **Spar** | Playwright (async) | `spar.at` |
-| **Hofer** | Playwright (sync) | `hofer.at` |
+| Supermarket | Was wird gescraped | Angebote erkannt? | Methode |
+|-------------|-------------------|:-----------------:|---------|
+| **Billa** | Alle Produktkategorien | ✓ (via API-Flag) | REST API |
+| **Penny** | Nur aktuelle Wochenangebote | ✓ (immer) | REST API |
+| **Lidl** | Nur aktuelle Aktionsprodukte | ✓ (immer) | REST API |
+| **SPAR** | Alle Produktkategorien | ✓ (via DOM) | Playwright (async) |
+| **Hofer** | Nur Angebotsflugblätter + Tiefpreis-Aktionen | ✓ (immer) | Playwright (sync) |
+| **MPreis** | Lebensmittel, Getränke + Aktionsseite | ✓ (via DOM) | Playwright (async) |
+
+> **Penny** und **Lidl** scrapen ausschließlich Angebote — alle Produkte haben `inPromotion: true`.
+> **Billa**, **SPAR** und **MPreis** scrapen das gesamte Sortiment und erkennen Angebote aus der Seite.
+> **Hofer** scraped nur Flugblätter, kein reguläres Sortiment.
 
 ### Billa — API endpoints
 
@@ -37,7 +43,16 @@ instead it scrapes the **current weekly offer tabs** only:
        ?sortBy=relevance&pageSize=500&page=N
    ```
 
-### Spar — pages scraped
+### Lidl — API endpoints
+
+Scraped via a single paginated API endpoint. Only the promotional "Essen & Trinken" category is scraped — all returned products are current in-store offers. The API returns `storeStartDate`/`storeEndDate` as Unix timestamps which are converted to `YYYY-MM-DD`.
+
+```
+GET https://www.lidl.at/p/api/restaurant/products
+    ?categoryId=10068374&language=de&country=AT&offset=N&limit=24
+```
+
+### SPAR — pages scraped
 
 Uses Playwright (async, up to 2 concurrent browser contexts) to render category listing pages:
 
@@ -45,8 +60,9 @@ Uses Playwright (async, up to 2 concurrent browser contexts) to render category 
 https://www.spar.at/produktwelt/{category}
 ```
 
-Infinite-scroll is handled by repeatedly scrolling to the bottom. Categories defined
-(some are currently commented-out for faster dev runs):
+Promotion detection happens via DOM: `span.product-price__price-old` for the crossed-out original price and `div.product-price__promo-pill` for the badge text (e.g. "Aktion!", "Immer billig!", "Mengenvorteil ab 2 Stk.").
+
+Categories scraped:
 `obst-gemuese`, `brot-gebaeck`, `milchprodukte-alternativen`, `tiefkuehlprodukte`,
 `wurst-fleisch-eier-fisch`, `beilagen-essig-oel-gewuerze`, `backen-fruehstueck`,
 `suesses-salziges`, `schnelle-kueche-to-go`, `babynahrung`, `alkoholfreie-getraenke`,
@@ -66,6 +82,18 @@ Uses Playwright (sync) and visits up to three page types:
 The scraper starts at the offers index, extracts all date-based leaflet links whose date
 is ≤ today, then visits each one to collect products.
 Tiefpreis/Aktionen products are scraped from the dedicated actions page.
+
+### MPreis — pages scraped
+
+Uses Playwright (async) to render three category pages:
+
+```
+https://www.mpreis.at/shop/c/lebensmittel
+https://www.mpreis.at/shop/c/getraenke
+https://www.mpreis.at/shop/c/aktionen/aktuell
+```
+
+Products from the `aktionen` page get `inPromotion: true` automatically. For all pages, promotion detection also happens via DOM (strike-through price, discount badge).
 
 ## Setup
 
