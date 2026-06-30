@@ -309,10 +309,17 @@ async def _load_page(page_obj, url, category, page_num, cooldown_lock=None):
         await page_obj.goto(url, wait_until="domcontentloaded", timeout=30000)
         await _dismiss_cookie_banner(page_obj)
 
+        # Wait for the product tiles themselves, not just the grid container —
+        # on slower machines (e.g. Raspberry Pi) the container renders well
+        # before the tiles are populated. _is_search_broken() below tells a
+        # genuinely empty/broken result apart from one that just hasn't rendered.
         try:
-            await page_obj.wait_for_selector("div.spar-plp__grid", timeout=15000)
+            await page_obj.wait_for_selector("article.product-tile", timeout=20000)
         except Exception:
-            pass
+            try:
+                await page_obj.wait_for_selector("div.spar-plp__grid", timeout=10000)
+            except Exception:
+                pass
 
         if not await _is_search_broken(page_obj):
             return
