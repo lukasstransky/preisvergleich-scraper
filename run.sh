@@ -12,8 +12,9 @@ cd "$DIR"
 mkdir -p logs
 LOG="logs/$(date +%Y-%m-%d_%H%M%S).log"
 
-# Use system Chromium on the Pi (Playwright's bundled build has no armhf binaries).
-export PLAYWRIGHT_BROWSERS_PATH=0
+# Use system Chromium on the Pi (Playwright ships no ARM/Raspberry Pi build).
+# Adjust the path if `which chromium` differs (e.g. /usr/bin/chromium-browser).
+export PLAYWRIGHT_CHROMIUM_EXECUTABLE=/usr/bin/chromium
 
 {
     echo "=== Run started: $(date) ==="

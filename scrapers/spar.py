@@ -9,6 +9,7 @@ from playwright.async_api import async_playwright
 
 from scrapers.tokenizer import tokenize_name
 from scrapers.categories import normalize_category
+from scrapers.browser import launch_kwargs
 
 SCREENSHOT_DIR = "screenshots"
 
@@ -506,7 +507,7 @@ async def _scrape_spar_async(categories=None):
     cooldown_lock = asyncio.Lock()
 
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
+        browser = await p.chromium.launch(**launch_kwargs())
         try:
             tasks = [
                 _scrape_category(browser, category, semaphore, error_log, cooldown_lock)

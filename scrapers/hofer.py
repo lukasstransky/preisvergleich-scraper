@@ -7,6 +7,7 @@ from playwright.sync_api import sync_playwright
 
 from scrapers.tokenizer import tokenize_name
 from scrapers.categories import normalize_category
+from scrapers.browser import launch_kwargs
 
 SCREENSHOT_DIR = "screenshots"
 
@@ -476,7 +477,7 @@ def scrape_hofer():
     all_products = []
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+        browser = p.chromium.launch(**launch_kwargs())
         try:
             for category in CATEGORIES:
                 try:
