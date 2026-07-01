@@ -180,13 +180,24 @@ def sync_products(db, products: list[dict], collection: str, meta_key: str | Non
         _request_counts["deletes"] += len(chunk)
         print(f"  Deleted batch {i // FIRESTORE_BATCH_LIMIT + 1}  ({len(chunk)} docs)")
 
-    # ── 6. Batch-write price history for all written products ────────────
-    history_count = _write_price_history(db, collection, products_for_history)
-    _request_counts["writes"] += history_count
-
-    # ── 7. Persist final hashes ───────────────────────────────────────────
+    # ── 6. Persist final hashes ───────────────────────────────────────────
+    # Do this BEFORE price history: the product writes/deletes above already
+    # succeeded, so the hashes must be saved even if the (optional) price
+    # history hits the daily write quota. Otherwise a price-history failure
+    # would leave the metadata stale, making the next run treat every product
+    # as changed and rewrite everything — a quota-blowing loop.
     meta_ref.set({"hashes": new_hashes})
     _request_counts["writes"] += 1
+
+    # ── 7. Batch-write price history for all written products ────────────
+    # Best-effort: a quota error here must not fail the whole sync, since the
+    # product data and metadata are already consistent.
+    history_count = 0
+    try:
+        history_count = _write_price_history(db, collection, products_for_history)
+        _request_counts["writes"] += history_count
+    except Exception as e:
+        print(f"  Price history skipped (non-fatal): {e}")
 
     total_ops = len(ids_to_write) + len(ids_to_delete) + history_count + 1
     print(f"  Firestore operations: {total_ops}")
