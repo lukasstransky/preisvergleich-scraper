@@ -29,7 +29,8 @@ Overview of which product fields are populated by each scraper. ✓ = always set
 - `promotionText` enthält Rabatttext (z.B. "-50%") und Lidl-Plus-Hinweis wenn vorhanden
 
 **Hofer**
-- Scraped Angebotsflugblätter (nach Datum) + Tiefpreis-Aktionen-Seite
+- Scraped reguläres Produktsortiment (Kategorien) + Angebotsflugblätter (nach Datum) + Tiefpreis-Aktionen-Seite → `inPromotion` kann `true` oder `false` sein
+- Produkte aus dem regulären Sortiment sind nur bei durchgestrichenem Originalpreis `inPromotion: true`; Flugblatt- und Tiefpreis-Produkte immer
 - `offerStart` wird aus dem Datum in der Flugblatt-URL extrahiert (Format `/d.DD-MM-YYYY.html`)
 - `offerEnd` bleibt null (kein Enddatum in der Seitenstruktur verfügbar)
 - `promotionText` ist bei Tiefpreis-Produkten immer `"Tiefpreis Aktion"`, sonst null

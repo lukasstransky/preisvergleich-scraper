@@ -58,7 +58,7 @@ The mapper lives in `scrapers/categories.py` and uses a two-tier strategy:
 `Alkohol`, `Drogerie & Haushalt`, `Baby & Tier`, `Sonstiges`
 ```
 
-Each scraper writes its results to a local JSON file (`billa.json`, `spar.json`, `hofer.json`, `penny.json`) before uploading.
+Each scraper writes its results to a local JSON file (`billa.json`, `penny.json`, `lidl.json`, `spar.json`, `hofer.json`, `mpreis.json`) before uploading.
 
 ## Billa (`scrapers/billa.py`)
 
@@ -94,15 +94,27 @@ The scraper logs the number of null-SKU products per category and in the final s
 
 ## Lidl (`scrapers/lidl.py`)
 
-Uses the **Lidl REST API** to fetch product data per category. It requests paginated JSON from Lidl's internal product API, mapping the response fields to the common schema. No browser automation is needed.
+Uses Lidl's internal **search API** (`/q/api/search`) to fetch the single "Essen & Trinken" category (`category.id=10068374`), paginated by `numFound` with a page size of 500. Every product on this page is an in-store promotion, so `inPromotion` is always `true`. Lidl-Plus-only products (no regular `price`) fall back to their `lidlPlus` price array. No browser automation is needed.
 
-**Flow:** category list → paginated GET requests → parse JSON → write `lidl.json`
+**Flow:** paginated GET requests (single category) → parse JSON → write `lidl.json`
 
 ## Hofer (`scrapers/hofer.py`)
 
-Uses **Playwright (sync)** to scrape Hofer's product pages. For regular categories, it navigates to each page and clicks the "Mehr anzeigen" (show more) button repeatedly until all products are loaded. It also scrapes **date-based offer pages**: it loads the offers page, extracts date links (e.g. `/de/angebote/d.23-03-2026.html`), filters to current/past dates, and scrapes each one. Products from offers are marked with `inPromotion: true`. SKU-based deduplication removes products that appear in multiple categories.
+Uses **Playwright (sync)** to scrape Hofer's product pages in three passes:
 
-**Flow:** launch headless Chromium → scrape categories (click "show more" to load all) → scrape offer date pages → deduplicate by SKU → write `hofer.json`
+1. **Regular categories** – navigates to each category listing and clicks the "Mehr anzeigen" (show more) button repeatedly until all products are loaded. Products are only marked `inPromotion: true` here when the tile shows a crossed-out original price.
+2. **Date-based offer pages** – loads the offers index, extracts date links (e.g. `/de/angebote/d.23-03-2026.html`), filters to current/past dates, and scrapes each one. All products get `inPromotion: true` and `promotionText: "ab {date}"`.
+3. **Tiefpreis Aktionen** – scrapes the dedicated actions page; all products get `inPromotion: true` and `promotionText: "Tiefpreis Aktion"`.
+
+SKU-based deduplication removes products that appear in more than one pass.
+
+**Flow:** launch headless Chromium → scrape categories (click "show more" to load all) → scrape offer date pages → scrape Tiefpreis Aktionen → deduplicate by SKU → write `hofer.json`
+
+## MPreis (`scrapers/mpreis.py`)
+
+Uses **Playwright (sync)** to render three MPreis pages: `lebensmittel`, `getraenke`, and the `aktionen` page (`/aktionen/aktuell/alle-produkte-in-aktion`). For each page it dismisses the cookie banner and clicks "Mehr laden" until all tiles (`a.c3-product`) are loaded. Promotion detection happens via DOM (strike-through price, discount badge, screen-reader "statt"-price, multi-buy promo text); every product on the `aktionen` page is additionally forced to `inPromotion: true`. Products without a price are dropped, and products appearing on multiple pages are deduplicated by SKU.
+
+**Flow:** launch headless Chromium → scrape three pages (click "load more" to load all) → deduplicate by SKU → write `mpreis.json`
 
 ## Error Handling & Debugging
 

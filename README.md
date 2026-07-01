@@ -21,14 +21,17 @@ All requests go to a single paginated endpoint (page size 500):
 
 ```
 GET https://www.billa.at/api/product-discovery/categories/{category}/products
-    ?sortBy=relevance&pageSize=500&page=N
+    ?sortBy=relevance&enableStatistics=false&enablePersonalization=false&pageSize=500&page=N
 ```
 
-Categories scraped:
-`neu-im-online-shop`, `obst-und-gemuese`, `brot-und-gebaeck`, `fleisch-wurst-und-fisch`,
-`kuehlwaren`, `schnelle-kueche`, `platten-broetchen-und-co`, `getraenke`, `vorratsschrank`,
-`tiefkuehl`, `rein-pflanzlich`, `drogerie-und-kosmetik`, `kueche-haushalt-und-garten`,
-`baby-und-kleinkind`, `haustier`
+`inPromotion` comes straight from the API's own flag on each product.
+
+Categories scraped (the slugs include a numeric category ID):
+`neu-im-online-shop-14506`, `obst-und-gemuese-13751`, `brot-und-gebaeck-15520`,
+`fleisch-wurst-und-fisch-15388`, `kuehlwaren-15416`, `schnelle-kueche-15389`,
+`platten-broetchen-und-co-15409`, `getraenke-13784`, `vorratsschrank-15012`,
+`tiefkuehl-15415`, `rein-pflanzlich-15207`, `drogerie-und-kosmetik-15274`,
+`kueche-haushalt-und-garten-15320`, `baby-und-kleinkind-15671`, `haustier-15672`
 
 ### Penny — API endpoints
 
@@ -40,8 +43,9 @@ instead it scrapes the **current weekly offer tabs** only:
 2. For each live tab, hit the products endpoint:
    ```
    GET https://www.penny.at/api/product-discovery/categories/angebote-ab-{DDMM}/products
-       ?sortBy=relevance&pageSize=500&page=N
+       ?sortBy=relevance&enableStatistics=false&enablePersonalization=false&pageSize=500&page=N
    ```
+   All products from these tabs are forced to `inPromotion: true`.
 
 ### Lidl — API endpoints
 
