@@ -16,6 +16,10 @@ LOG="logs/$(date +%Y-%m-%d_%H%M%S).log"
 # Adjust the path if `which chromium` differs (e.g. /usr/bin/chromium-browser).
 export PLAYWRIGHT_CHROMIUM_EXECUTABLE=/usr/bin/chromium
 
+# Unbuffered output so progress shows up in the log in real time (Python
+# otherwise buffers stdout when it's redirected to a file instead of a tty).
+export PYTHONUNBUFFERED=1
+
 {
     echo "=== Run started: $(date) ==="
     source venv/bin/activate
