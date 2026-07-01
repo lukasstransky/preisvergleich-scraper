@@ -39,3 +39,9 @@ Thumbs.db
 # Project specific
 #screenshots/
 firebase-key.json
+
+# local scrape logs
+scraper-pi-log.txt
+logs/
+nohup.out
+debug_spar.png
