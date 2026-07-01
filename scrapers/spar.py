@@ -502,7 +502,15 @@ async def _scrape_category(browser, category, semaphore, error_log, cooldown_loc
                         print(f"  Expected page {page_num} but got {actual_page} after retries, stopping pagination for {category}")
                         break
 
+                    # The new page's tiles may not have rendered yet on a slow
+                    # machine — poll briefly instead of reading 0 products.
                     tiles = await page_obj.query_selector_all("article.product-tile")
+                    for _ in range(8):
+                        if tiles:
+                            break
+                        await page_obj.wait_for_timeout(1000)
+                        tiles = await page_obj.query_selector_all("article.product-tile")
+
                     parsed = await asyncio.gather(*[_parse_tile(t, category) for t in tiles])
                     new_count = 0
                     for product in parsed:
