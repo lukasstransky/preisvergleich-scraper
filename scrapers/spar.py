@@ -313,6 +313,23 @@ async def _get_current_page_num(page_obj):
     return int(match.group(1)) if match else 1
 
 
+async def _verify_page_num(page_obj, expected, attempts=8, delay_ms=1000):
+    """Poll the pagination text until it reports the *expected* page.
+
+    Clicking "next" re-renders the grid; while that happens the pagination
+    element is briefly absent and _get_current_page_num() falls back to 1.
+    On slow machines (Raspberry Pi) a single read can hit that gap, so retry
+    for a few seconds before concluding the page really didn't advance.
+    """
+    actual = await _get_current_page_num(page_obj)
+    for _ in range(attempts - 1):
+        if actual == expected:
+            return actual
+        await page_obj.wait_for_timeout(delay_ms)
+        actual = await _get_current_page_num(page_obj)
+    return actual
+
+
 async def _load_page(page_obj, url, category, page_num, cooldown_lock=None):
     """Navigate to a URL, dismiss cookies, wait for the grid, and retry on search errors.
 
@@ -478,10 +495,11 @@ async def _scrape_category(browser, category, semaphore, error_log, cooldown_loc
                         skipped_pages.append(page_num)
                         break
 
-                    # Verify we actually moved to the expected page
-                    actual_page = await _get_current_page_num(page_obj)
+                    # Verify we actually moved to the expected page. Poll for a
+                    # few seconds so a mid-render read doesn't abort the category.
+                    actual_page = await _verify_page_num(page_obj, page_num)
                     if actual_page != page_num:
-                        print(f"  Expected page {page_num} but got {actual_page}, stopping pagination for {category}")
+                        print(f"  Expected page {page_num} but got {actual_page} after retries, stopping pagination for {category}")
                         break
 
                     tiles = await page_obj.query_selector_all("article.product-tile")
