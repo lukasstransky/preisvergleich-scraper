@@ -8,12 +8,12 @@ Scrapes product prices from Austrian supermarkets and syncs them to Google Cloud
 | **Penny** | Nur aktuelle Wochenangebote | ✓ (immer) | REST API |
 | **Lidl** | Nur aktuelle Aktionsprodukte | ✓ (immer) | REST API |
 | **SPAR** | Alle Produktkategorien | ✓ (via DOM) | Playwright (async) |
-| **Hofer** | Nur Angebotsflugblätter + Tiefpreis-Aktionen | ✓ (immer) | Playwright (sync) |
+| **Hofer** | Produktsortiment + Angebotsflugblätter + Tiefpreis-Aktionen | ✓ (via DOM + immer) | Playwright (sync) |
 | **MPreis** | Lebensmittel, Getränke + Aktionsseite | ✓ (via DOM) | Playwright (async) |
 
 > **Penny** und **Lidl** scrapen ausschließlich Angebote — alle Produkte haben `inPromotion: true`.
-> **Billa**, **SPAR** und **MPreis** scrapen das gesamte Sortiment und erkennen Angebote aus der Seite.
-> **Hofer** scraped nur Flugblätter, kein reguläres Sortiment.
+> **Billa**, **SPAR**, **Hofer** und **MPreis** scrapen das reguläre Sortiment und erkennen Angebote aus der Seite.
+> Bei **Hofer** kommen zusätzlich die Angebotsflugblätter und Tiefpreis-Aktionen dazu (dort ist `inPromotion` immer `true`).
 
 ### Billa — API endpoints
 
@@ -70,18 +70,29 @@ Categories scraped:
 
 ### Hofer — pages scraped
 
-Uses Playwright (sync) and visits up to three page types:
+Uses Playwright (sync) and visits three page types:
 
 | Page | URL |
 |------|-----|
+| Product category | `https://www.hofer.at/de/sortiment/produktsortiment/{category}.html` |
 | Weekly offers index | `https://www.hofer.at/de/angebote.html` |
 | Per-date offer leaflet | `https://www.hofer.at/de/angebote/d.{DD-MM-YYYY}.html` |
 | Tiefpreis Aktionen | `https://www.hofer.at/de/angebote/aktionen.html` |
-| Product category *(commented out)* | `https://www.hofer.at/de/sortiment/produktsortiment/{category}.html` |
 
-The scraper starts at the offers index, extracts all date-based leaflet links whose date
-is ≤ today, then visits each one to collect products.
-Tiefpreis/Aktionen products are scraped from the dedicated actions page.
+The scraper runs three passes and merges the results (deduplicated by SKU):
+
+1. **Regular product categories** — each category listing is loaded and "Mehr anzeigen"
+   is clicked until all tiles are visible. Products only get `inPromotion: true` here when
+   the tile shows a crossed-out original price (`.price_before del`).
+2. **Weekly offers** — starts at the offers index, extracts all date-based leaflet links
+   whose date is ≤ today, then visits each one. All products are marked `inPromotion: true`
+   with `promotionText: "ab {DD.MM.YYYY}"` and an `offerStart` date.
+3. **Tiefpreis Aktionen** — scraped from the dedicated actions page; all products are
+   marked `inPromotion: true` with `promotionText: "Tiefpreis Aktion"`.
+
+Categories scraped:
+`brot-und-backwaren`, `fleisch-und-fisch`, `getraenke`, `kuehlung`, `vorratsschrank`,
+`tiefkuehlung`, `suesses-und-salziges` (`drogerie` is currently commented out).
 
 ### MPreis — pages scraped
 

@@ -243,6 +243,19 @@ async def _parse_tile(tile, category):
     }
 
 
+async def _remove_consent_overlay(page_obj):
+    """Remove the consentmanager overlay wrapper if it lingers.
+
+    After accepting cookies the CMP can leave an empty <div id="cmpwrapper">
+    behind that still intercepts pointer events (observed on slower machines
+    like a Raspberry Pi), which blocks later clicks such as pagination.
+    """
+    try:
+        await page_obj.evaluate("document.getElementById('cmpwrapper')?.remove()")
+    except Exception:
+        pass
+
+
 async def _dismiss_cookie_banner(page_obj):
     """Try to dismiss consentmanager cookie banner (renders in Shadow DOM)."""
     try:
@@ -252,6 +265,7 @@ async def _dismiss_cookie_banner(page_obj):
         await page_obj.wait_for_timeout(500)
     except Exception:
         pass
+    await _remove_consent_overlay(page_obj)
 
 
 async def _take_screenshot(page_obj, category, page_num, label):
@@ -355,6 +369,8 @@ async def _click_next_page(page_obj, expected_page_num):
     if await next_btn.is_disabled():
         return False
 
+    # A lingering consent overlay can intercept the click — clear it first.
+    await _remove_consent_overlay(page_obj)
     await next_btn.click()
 
     # Wait for the pagination text to reflect the new page number
