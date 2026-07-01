@@ -523,6 +523,15 @@ async def _scrape_category(browser, category, semaphore, error_log, cooldown_loc
                         break
                     if actual_page != page_num:
                         print(f"  Expected page {page_num} but got {actual_page} after retries, stopping pagination for {category}")
+                        error_log.append({
+                            "type": "pagination_stalled",
+                            "category": category,
+                            "expected_page": page_num,
+                            "got_page": actual_page,
+                            "total_pages": total_pages,
+                            "lost_pages": total_pages - page_num + 1,
+                        })
+                        skipped_pages.append(page_num)
                         break
 
                     # The new page's tiles may not have rendered yet on a slow
