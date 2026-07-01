@@ -58,17 +58,21 @@ def _commit_with_retry(batch, label=""):
                 raise
 
 
-def _write_price_history(db, collection: str, products: list[dict]) -> int:
+def _write_price_history(db, collection: str, products: list[dict]) -> set:
     """Write price history entries to products/{id}/price_history/{date}.
 
-    Only called for products whose price changed or are newly scraped.
-    Returns the number of history entries written.
+    Only called for products whose price actually changed (or that have no
+    recorded price yet). Best-effort: on a commit failure it stops after the
+    last successful batch instead of raising.
+
+    Returns the set of product ids whose history entry was written, so the
+    caller only records those prices as persisted.
     """
+    written: set = set()
     if not products:
-        return 0
+        return written
 
     today = datetime.date.today().isoformat()
-    count = 0
 
     for i in range(0, len(products), FIRESTORE_BATCH_LIMIT):
         batch = db.batch()
@@ -82,11 +86,15 @@ def _write_price_history(db, collection: str, products: list[dict]) -> int:
                 .document(today)
             )
             batch.set(history_ref, {"price": product["price"], "date": today})
-        _commit_with_retry(batch, f"price_history batch {i // FIRESTORE_BATCH_LIMIT + 1}")
-        count += len(chunk)
+        try:
+            _commit_with_retry(batch, f"price_history batch {i // FIRESTORE_BATCH_LIMIT + 1}")
+        except Exception as e:
+            print(f"  Price history stopped at batch {i // FIRESTORE_BATCH_LIMIT + 1} (non-fatal): {e}")
+            break
+        written.update(product["id"] for product in chunk)
         print(f"  Price history batch {i // FIRESTORE_BATCH_LIMIT + 1}  ({len(chunk)} entries)")
 
-    return count
+    return written
 
 
 def sync_products(db, products: list[dict], collection: str, meta_key: str | None = None):
@@ -116,13 +124,14 @@ def sync_products(db, products: list[dict], collection: str, meta_key: str | Non
 
     col_ref = db.collection(collection)
 
-    # ── 1. Read existing hashes from the metadata document ──────────────
+    # ── 1. Read existing hashes and last-known prices from metadata ─────
     meta_ref = db.collection(META_COLLECTION).document(meta_key)
     meta_doc = meta_ref.get()
     _request_counts["reads"] += 1
-    existing_hashes: dict[str, str] = (
-        meta_doc.to_dict().get("hashes", {}) if meta_doc.exists else {}
-    )
+    meta_data = meta_doc.to_dict() if meta_doc.exists else {}
+    existing_hashes: dict[str, str] = meta_data.get("hashes", {})
+    # Last price for which a history entry was recorded, per product id.
+    existing_prices: dict[str, float] = meta_data.get("prices", {})
     print(f"  Existing products in Firestore: {len(existing_hashes)}")
 
     # ── 2. Compute hashes for freshly scraped products ───────────────────
@@ -141,22 +150,27 @@ def sync_products(db, products: list[dict], collection: str, meta_key: str | Non
     ]
     ids_to_delete = list(set(existing_hashes.keys()) - set(new_hashes.keys()))
 
-    # Write a price history entry for every product being written that has a
-    # price field. Using the date as document ID makes this idempotent.
+    # Write a price history entry only for products whose price actually
+    # changed, or that have no recorded price yet (e.g. a prior run's history
+    # failed). This is independent of the hash diff — a product can be
+    # unchanged hash-wise but still be missing its baseline history entry.
+    # Date-as-document-id keeps each day idempotent.
     products_for_history = [
-        products_by_id[pid] for pid in ids_to_write
+        products_by_id[pid] for pid in new_hashes
         if products_by_id[pid].get("price") is not None
+        and existing_prices.get(pid) != products_by_id[pid]["price"]
     ]
 
     unchanged = len(new_hashes) - len(ids_to_write)
     print(f"  Unchanged : {unchanged}")
     print(f"  To write  : {len(ids_to_write)}  (new + changed)")
     print(f"  To delete : {len(ids_to_delete)}  (removed)")
+    print(f"  Price history: {len(products_for_history)}  (price changed / new)")
 
-    if not ids_to_write and not ids_to_delete:
+    if not ids_to_write and not ids_to_delete and not products_for_history:
         print("  Nothing changed – skipping Firestore writes.")
         # Still update metadata in case the doc doesn't exist yet
-        meta_ref.set({"hashes": new_hashes})
+        meta_ref.set({"hashes": new_hashes, "prices": existing_prices})
         _request_counts["writes"] += 1
         return 1  # 1 metadata write
 
@@ -180,25 +194,25 @@ def sync_products(db, products: list[dict], collection: str, meta_key: str | Non
         _request_counts["deletes"] += len(chunk)
         print(f"  Deleted batch {i // FIRESTORE_BATCH_LIMIT + 1}  ({len(chunk)} docs)")
 
-    # ── 6. Persist final hashes ───────────────────────────────────────────
-    # Do this BEFORE price history: the product writes/deletes above already
-    # succeeded, so the hashes must be saved even if the (optional) price
-    # history hits the daily write quota. Otherwise a price-history failure
-    # would leave the metadata stale, making the next run treat every product
-    # as changed and rewrite everything — a quota-blowing loop.
-    meta_ref.set({"hashes": new_hashes})
+    # ── 6. Batch-write price history (best-effort) ───────────────────────
+    # Returns the ids whose history was actually written this run.
+    written_history_ids = _write_price_history(db, collection, products_for_history)
+    _request_counts["writes"] += len(written_history_ids)
+
+    # ── 7. Persist hashes + last-known prices ─────────────────────────────
+    # Carry prior prices forward, update only the ones whose history we just
+    # wrote (so a failed history entry is retried next run instead of being
+    # silently skipped), and drop deleted products.
+    new_prices = dict(existing_prices)
+    for product in products_for_history:
+        if product["id"] in written_history_ids:
+            new_prices[product["id"]] = product["price"]
+    for pid in ids_to_delete:
+        new_prices.pop(pid, None)
+
+    meta_ref.set({"hashes": new_hashes, "prices": new_prices})
     _request_counts["writes"] += 1
 
-    # ── 7. Batch-write price history for all written products ────────────
-    # Best-effort: a quota error here must not fail the whole sync, since the
-    # product data and metadata are already consistent.
-    history_count = 0
-    try:
-        history_count = _write_price_history(db, collection, products_for_history)
-        _request_counts["writes"] += history_count
-    except Exception as e:
-        print(f"  Price history skipped (non-fatal): {e}")
-
-    total_ops = len(ids_to_write) + len(ids_to_delete) + history_count + 1
+    total_ops = len(ids_to_write) + len(ids_to_delete) + len(written_history_ids) + 1
     print(f"  Firestore operations: {total_ops}")
     return total_ops
