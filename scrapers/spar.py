@@ -31,7 +31,10 @@ CATEGORIES = [
     "alkoholische-getraenke",
 ]
 
-MAX_CONCURRENT = 2
+# Number of categories scraped in parallel. Lower it (e.g. SPAR_MAX_CONCURRENT=1)
+# on resource-constrained machines like a Raspberry Pi, where CPU contention
+# between two Chromium contexts makes pagination clicks flaky.
+MAX_CONCURRENT = int(os.environ.get("SPAR_MAX_CONCURRENT", "2"))
 PAGE_RETRY_LIMIT = 5
 CATEGORY_RETRY_LIMIT = 3
 
@@ -481,23 +484,43 @@ async def _scrape_category(browser, category, semaphore, error_log, cooldown_loc
 
                 # Scrape remaining pages by clicking the "next page" button
                 for page_num in range(2, total_pages + 1):
-                    # Throttle between page navigations to avoid rate-limiting
-                    await asyncio.sleep(random.uniform(THROTTLE_MIN, THROTTLE_MAX))
-                    try:
-                        navigated = await _click_next_page(page_obj, page_num)
-                        if not navigated:
-                            print(f"  No next-page button on page {page_num - 1}, stopping pagination for {category}")
+                    # Advance to the next page. A single click can silently fail
+                    # under CPU contention (missed click / transient reset), so
+                    # retry the click a few times before giving up the category.
+                    no_next_button = False
+                    click_error = None
+                    actual_page = None
+                    for click_attempt in range(3):
+                        # Guard against double-advance: if a previous (slow) click
+                        # already moved us to the target page, don't click again.
+                        if await _get_current_page_num(page_obj) == page_num:
+                            actual_page = page_num
                             break
-                    except Exception as e:
-                        msg = f"Skipping {category} page {page_num}: {e}"
+                        # Throttle between page navigations to avoid rate-limiting
+                        await asyncio.sleep(random.uniform(THROTTLE_MIN, THROTTLE_MAX))
+                        try:
+                            navigated = await _click_next_page(page_obj, page_num)
+                        except Exception as e:
+                            click_error = e
+                            break
+                        if not navigated:
+                            no_next_button = True
+                            break
+                        # Poll for a few seconds so a mid-render read doesn't
+                        # falsely report the wrong page.
+                        actual_page = await _verify_page_num(page_obj, page_num)
+                        if actual_page == page_num:
+                            break
+
+                    if click_error is not None:
+                        msg = f"Skipping {category} page {page_num}: {click_error}"
                         print(f"  {msg}")
-                        error_log.append({"type": "page_skip", "category": category, "page": page_num, "error": str(e)})
+                        error_log.append({"type": "page_skip", "category": category, "page": page_num, "error": str(click_error)})
                         skipped_pages.append(page_num)
                         break
-
-                    # Verify we actually moved to the expected page. Poll for a
-                    # few seconds so a mid-render read doesn't abort the category.
-                    actual_page = await _verify_page_num(page_obj, page_num)
+                    if no_next_button:
+                        print(f"  No next-page button on page {page_num - 1}, stopping pagination for {category}")
+                        break
                     if actual_page != page_num:
                         print(f"  Expected page {page_num} but got {actual_page} after retries, stopping pagination for {category}")
                         break
