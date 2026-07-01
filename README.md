@@ -9,7 +9,7 @@ Scrapes product prices from Austrian supermarkets and syncs them to Google Cloud
 | **Lidl** | Nur aktuelle Aktionsprodukte | ✓ (immer) | REST API |
 | **SPAR** | Alle Produktkategorien | ✓ (via DOM) | Playwright (async) |
 | **Hofer** | Produktsortiment + Angebotsflugblätter + Tiefpreis-Aktionen | ✓ (via DOM + immer) | Playwright (sync) |
-| **MPreis** | Lebensmittel, Getränke + Aktionsseite | ✓ (via DOM) | Playwright (async) |
+| **MPreis** | Lebensmittel, Getränke + Aktionsseite | ✓ (via DOM) | Playwright (sync) |
 
 > **Penny** und **Lidl** scrapen ausschließlich Angebote — alle Produkte haben `inPromotion: true`.
 > **Billa**, **SPAR**, **Hofer** und **MPreis** scrapen das reguläre Sortiment und erkennen Angebote aus der Seite.
@@ -45,12 +45,15 @@ instead it scrapes the **current weekly offer tabs** only:
 
 ### Lidl — API endpoints
 
-Scraped via a single paginated API endpoint. Only the promotional "Essen & Trinken" category is scraped — all returned products are current in-store offers. The API returns `storeStartDate`/`storeEndDate` as Unix timestamps which are converted to `YYYY-MM-DD`.
+Scraped via a single paginated search API endpoint. Only the "Essen & Trinken" category (`category.id=10068374`) is scraped — every product on this page is an in-store promotion ("Angebote in deiner Filiale"), so `inPromotion` is always `true`. The API returns `storeStartDate`/`storeEndDate` as Unix timestamps which are converted to `YYYY-MM-DD`. Pagination follows `numFound` with a page size of 500.
 
 ```
-GET https://www.lidl.at/p/api/restaurant/products
-    ?categoryId=10068374&language=de&country=AT&offset=N&limit=24
+GET https://www.lidl.at/q/api/search
+    ?assortment=AT&locale=de_AT&version=v2.0.0&sort=relevancy
+    &category.id=10068374&offset=N&limit=500
 ```
+
+Some products are Lidl-Plus-only (no regular `price`); the parser falls back to the `lidlPlus` price array for those.
 
 ### SPAR — pages scraped
 
@@ -65,8 +68,8 @@ Promotion detection happens via DOM: `span.product-price__price-old` for the cro
 Categories scraped:
 `obst-gemuese`, `brot-gebaeck`, `milchprodukte-alternativen`, `tiefkuehlprodukte`,
 `wurst-fleisch-eier-fisch`, `beilagen-essig-oel-gewuerze`, `backen-fruehstueck`,
-`suesses-salziges`, `schnelle-kueche-to-go`, `babynahrung`, `alkoholfreie-getraenke`,
-`kaffee-tee-kakao`, `alkoholische-getraenke`
+`suesses-salziges`, `schnelle-kueche-to-go`, `alkoholfreie-getraenke`,
+`kaffee-tee-kakao`, `alkoholische-getraenke` (`babynahrung` is currently commented out)
 
 ### Hofer — pages scraped
 
@@ -96,15 +99,15 @@ Categories scraped:
 
 ### MPreis — pages scraped
 
-Uses Playwright (async) to render three category pages:
+Uses Playwright (sync) to render three pages, clicking "Mehr laden" until all tiles are loaded:
 
 ```
-https://www.mpreis.at/shop/c/lebensmittel
-https://www.mpreis.at/shop/c/getraenke
-https://www.mpreis.at/shop/c/aktionen/aktuell
+https://www.mpreis.at/shop/c/lebensmittel-50234186
+https://www.mpreis.at/shop/c/getraenke-13743475
+https://www.mpreis.at/aktionen/aktuell/alle-produkte-in-aktion
 ```
 
-Products from the `aktionen` page get `inPromotion: true` automatically. For all pages, promotion detection also happens via DOM (strike-through price, discount badge).
+Products from the `aktionen` page get `inPromotion: true` automatically. For all pages, promotion detection also happens via DOM (strike-through price, discount badge, screen-reader "statt"-price, multi-buy promo text). Products appearing on multiple pages are deduplicated by SKU.
 
 ## Setup
 
@@ -160,12 +163,12 @@ For SPAR, limit to specific categories with `--spar-categories` (useful for quic
 
 ```bash
 python main.py --scraper spar --no-upload --spar-categories obst-gemuese
-python main.py --scraper spar --no-upload --spar-categories obst-gemuese milch-kaeseprodukte
+python main.py --scraper spar --no-upload --spar-categories obst-gemuese milchprodukte-alternativen
 ```
 
 Available SPAR categories: `obst-gemuese`, `brot-gebaeck`, `milchprodukte-alternativen`, `tiefkuehlprodukte`,
 `wurst-fleisch-eier-fisch`, `beilagen-essig-oel-gewuerze`, `backen-fruehstueck`, `suesses-salziges`,
-`schnelle-kueche-to-go`, `babynahrung`, `alkoholfreie-getraenke`, `kaffee-tee-kakao`, `alkoholische-getraenke`
+`schnelle-kueche-to-go`, `alkoholfreie-getraenke`, `kaffee-tee-kakao`, `alkoholische-getraenke`
 
 To deactivate the virtual environment when done: `deactivate`
 
