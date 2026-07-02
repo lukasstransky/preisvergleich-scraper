@@ -51,4 +51,25 @@ If nothing changed (no writes, deletes, or price-history entries), the run print
 
 ## Quota Impact
 
-Because the metadata is local, a sync performs **zero Firestore reads**. A typical daily run where ~10% of prices change costs roughly N writes (changed products) + M writes (price-history entries for the price-changed subset). If nothing changed, **zero Firestore operations** occur. The first full run (or a fresh `sync_state/`) writes every product plus a baseline price-history entry each.
+Because the metadata is local, a sync performs **zero Firestore reads** — the diff is computed entirely from `sync_state/`.
+
+Worked example (~45,000 products across all supermarkets):
+
+**First run** (empty `sync_state/` → everything is "new"):
+
+```
+~45,000 product writes
++ ~45,000 price-history writes (baseline backfill for every product)
+= ~90,000 writes   (one-time; ≈ 15 cents on the Blaze plan)
+```
+
+**Next daily run** (say ~10 % of prices changed):
+
+```
+~40,500 unchanged products → 0 writes   (skipped via the hash diff)
+  ~4,500 changed products  → 4,500 product writes
+                           + 4,500 price-history writes (only the price-changed subset)
+= ~9,000 writes   (fractions of a cent)
+```
+
+If nothing changed at all, the run performs **zero Firestore operations** and only rewrites the local state file. Deleting `sync_state/` (or running the sync from a machine that lacks it) makes the next run treat everything as new — a one-time full re-upload (idempotent, just extra writes).
