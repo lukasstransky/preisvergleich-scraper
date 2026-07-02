@@ -3,6 +3,18 @@
 import os
 import pytest
 
+import firestore_sync
+
+
+@pytest.fixture(autouse=True)
+def _isolate_sync_state(tmp_path, monkeypatch):
+    """Point sync metadata at a fresh temp dir for every test.
+
+    Metadata now lives on disk (``sync_state/``); isolating it per test keeps
+    runs from sharing state or polluting the project root.
+    """
+    monkeypatch.setattr(firestore_sync, "SYNC_STATE_DIR", str(tmp_path / "sync_state"))
+
 
 REQUIRED_PRODUCT_KEYS = {
     "id",

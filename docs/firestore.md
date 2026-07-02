@@ -7,80 +7,48 @@ The upload pipeline is split into two modules:
 
 ## Data Layout
 
-All supermarkets share a single flat `products` collection. A separate `_sync_metadata` collection holds one document per supermarket (keyed by supermarket name) that maps every `product_id` to its MD5 hash — used to detect changes between runs.
+All supermarkets share a single flat `products` collection in Firestore. Price history lives in a per-product subcollection.
 
 ```
-_sync_metadata/
-  billa                 ← { hashes: { "billa_123": "abc…", … } }
-  spar                  ← { hashes: { "spar_456": "def…", … } }
-  hofer                 ← { hashes: { … } }
-  penny                 ← { hashes: { … } }
-
 products/
   billa_123             ← { id, name, price, supermarket: "billa", … }
+    price_history/
+      2026-07-01        ← { price, date }   (sparse: only days the price changed)
   spar_456              ← { id, name, price, supermarket: "spar", … }
-  hofer_789             ← { id, name, price, supermarket: "hofer", … }
-  penny_012             ← { id, name, price, supermarket: "penny", … }
   …
 ```
 
-Using a single collection makes it easy to integrate with search services like Algolia (one collection path to sync) and keeps the Firestore structure simple.
+The **sync metadata** (per-product hashes + last-known prices) is NOT in Firestore. It holds one entry per product; as a single Firestore document it would breach the per-document limits (40k index entries / 1 MiB). It lives on disk instead, one file per supermarket:
+
+```
+sync_state/               (gitignored; override dir via SYNC_STATE_DIR)
+  billa.json              ← { "hashes": { "billa_123": "abc…", … },
+                              "prices": { "billa_123": 1.39, … } }
+  spar.json               ← { "hashes": { … }, "prices": { … } }
+```
+
+This is pure sync bookkeeping the app never reads, so a local file (per machine running the sync) is the natural home. Using a single `products` collection keeps app queries and search-service integration (e.g. Algolia) simple.
 
 ## Diff-Based Sync
 
 Instead of deleting all documents and re-writing them on every run, `firestore_sync.py` uses a **hash-based diff** to minimise Firestore operations.
 
-### Step 1 – Read metadata (1 read per supermarket)
+1. **Load local state** — read `sync_state/{supermarket}.json` (no Firestore read). Missing file → treat everything as new.
+2. **Compute new hashes** — each scraped product is serialized to deterministic JSON (keys sorted) and MD5-hashed.
+3. **Diff** — compare old vs new hash maps:
 
-The metadata document for the supermarket (e.g. `_sync_metadata/billa`) is fetched. It contains `{ product_id → MD5_hash }` for every product from that supermarket currently in Firestore. This costs exactly **1 read** regardless of product count.
+   | Condition | Action |
+   |-----------|--------|
+   | Hash missing or different | **write** (`set`) to Firestore |
+   | ID no longer present | **delete** from Firestore |
+   | Hash identical | **skip** — no Firestore op |
 
-### Step 2 – Compute new hashes (local)
+4. **Batched writes** — writes (new/changed) then deletes, in batches of up to 500 ops. Failed commits retry up to 5× with exponential back-off (5→10→20→40→80 s), with a 1.5 s cooldown between batches.
+5. **Save local state** — after the product writes/deletes succeed, `sync_state/{supermarket}.json` is written with the new hashes + prices. This happens *before* price history so a price-history failure can't leave the state stale (which would make the next run rewrite everything).
+6. **Price history (best-effort)** — a `price_history/{date}` entry is written only for products whose price actually changed, or that have no recorded price yet (backfill). A quota/commit failure here is logged and skipped, not fatal; only successfully-written prices are recorded in local state, so a failed entry is retried next run.
 
-Each scraped product is serialized to deterministic JSON (keys sorted) and hashed with MD5, producing a new in-memory `{ product_id → MD5_hash }` map.
-
-### Step 3 – Diff (local)
-
-Old and new hash maps are compared:
-
-| Condition | Action |
-|-----------|--------|
-| Hash missing or different | **write** (`set`) to Firestore |
-| ID no longer present | **delete** from Firestore |
-| Hash identical | **skip** — no Firestore operation |
-
-If nothing has changed, the run prints "Nothing changed – skipping Firestore writes." and exits after a single metadata refresh.
-
-### Step 4 – Batched writes with retry
-
-Writes and deletes are committed in **batches of up to 500 ops** (the Firestore per-batch limit):
-
-- Failed commits are retried up to **5 times** with exponential back-off: 5 s, 10 s, 20 s, 40 s, 80 s.
-- A **1.5 s cooldown** is applied between each successful batch to reduce rate-limit risk.
-- **After each successful batch**, the metadata document is updated immediately (see Resumability).
-
-Writes (new/changed) are processed before deletes (removed).
-
-### Step 5 – Finalize metadata
-
-After all batches complete, the metadata document is written one final time with the fully up-to-date hash map as a consistency safety net.
-
-## Resumability
-
-The metadata document is updated **after every individual batch**, not only at the end. If a run is interrupted mid-way (e.g. by a `429 Quota exceeded` timeout):
-
-- The metadata already reflects all batches that succeeded.
-- The next run's diff sees those products as unchanged and skips them.
-- The run resumes from the first uncommitted batch rather than starting over.
+If nothing changed (no writes, deletes, or price-history entries), the run prints "Nothing changed – skipping Firestore writes." and only refreshes the local state file.
 
 ## Quota Impact
 
-A typical daily run where ~10% of prices change costs roughly:
-- **4 reads** (1 metadata doc per supermarket)
-- **N writes** (only new/changed products)
-- **1 metadata write per committed batch)
-
-If nothing changes between runs, **zero product documents are written**.
-
-## Migration from Per-Supermarket Collections
-
-The previous layout used separate collections (`billa_products`, `spar_products`, etc.) and metadata keys like `billa_products`. The current layout uses a single `products` collection with metadata keyed by supermarket name (`billa`, `spar`, etc.). If migrating from the old layout, delete the old collections and the old `_sync_metadata` documents, then re-run the scraper to populate the new structure.
+Because the metadata is local, a sync performs **zero Firestore reads**. A typical daily run where ~10% of prices change costs roughly N writes (changed products) + M writes (price-history entries for the price-changed subset). If nothing changed, **zero Firestore operations** occur. The first full run (or a fresh `sync_state/`) writes every product plus a baseline price-history entry each.

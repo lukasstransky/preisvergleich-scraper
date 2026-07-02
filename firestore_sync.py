@@ -1,11 +1,17 @@
 """Diff-based Firestore sync.
 
 Instead of delete-all / rewrite-all, this module:
-1. Reads a single metadata document that stores MD5 hashes and last-known prices.
+1. Reads a local metadata file storing MD5 hashes and last-known prices per
+   product (one file per supermarket).
 2. Compares hashes locally to find new, changed, and removed products.
-3. Only writes the delta in batched commits (max 500 ops per batch).
-4. For products being written whose price changed, appends an entry to the
-   products/{id}/price_history/{YYYY-MM-DD} subcollection.
+3. Only writes the delta to Firestore in batched commits (max 500 ops/batch).
+4. For products whose price changed (or that have no recorded price yet),
+   appends an entry to the products/{id}/price_history/{YYYY-MM-DD} subcollection.
+
+The sync metadata lives on disk rather than in Firestore because it holds one
+entry per product; as a single Firestore document it would breach the per-doc
+limits (40k index entries / 1 MiB). It is pure sync bookkeeping the app never
+reads, so a local file (per machine running the sync) is the natural home.
 
 This dramatically reduces Firestore read/write/delete quota usage.
 """
@@ -13,12 +19,43 @@ This dramatically reduces Firestore read/write/delete quota usage.
 import datetime
 import hashlib
 import json
+import os
 import time
 
 MAX_RETRIES = 5
 BATCH_COOLDOWN = 1.5
 FIRESTORE_BATCH_LIMIT = 500  # Firestore maximum ops per batch
-META_COLLECTION = "_sync_metadata"
+META_COLLECTION = "_sync_metadata"  # legacy; metadata is now stored on disk
+
+# Directory holding per-supermarket sync metadata files. Override via env var
+# (e.g. in tests) or absolute path if the working directory isn't stable.
+SYNC_STATE_DIR = os.environ.get("SYNC_STATE_DIR", "sync_state")
+
+
+def _meta_path(meta_key: str) -> str:
+    return os.path.join(SYNC_STATE_DIR, f"{meta_key}.json")
+
+
+def _load_meta(meta_key: str) -> dict:
+    """Load {"hashes": {...}, "prices": {...}} for a supermarket, or {}."""
+    path = _meta_path(meta_key)
+    if not os.path.exists(path):
+        return {}
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
+def _save_meta(meta_key: str, data: dict) -> None:
+    """Atomically write a supermarket's sync metadata to disk."""
+    os.makedirs(SYNC_STATE_DIR, exist_ok=True)
+    path = _meta_path(meta_key)
+    tmp = f"{path}.tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(data, f)
+    os.replace(tmp, path)
 
 # Firestore request counters – reset via reset_request_counters()
 _request_counts: dict[str, int] = {"reads": 0, "writes": 0, "deletes": 0}
@@ -104,10 +141,9 @@ def sync_products(db, products: list[dict], collection: str, meta_key: str | Non
         db: Firestore client.
         products: List of product dicts (each must have an ``"id"`` key).
         collection: Firestore collection name, e.g. ``"products"``.
-        meta_key: Key for the metadata document in the ``_sync_metadata``
-            collection.  Defaults to *collection* when not provided.  Use a
-            supermarket-specific key (e.g. ``"billa"``) when multiple
-            supermarkets share the same collection.
+        meta_key: Key for the local metadata file (``sync_state/{meta_key}.json``).
+            Defaults to *collection* when not provided.  Use a supermarket-specific
+            key (e.g. ``"billa"``) when multiple supermarkets share a collection.
 
     Returns:
         Total number of Firestore write/delete operations performed.
@@ -124,15 +160,12 @@ def sync_products(db, products: list[dict], collection: str, meta_key: str | Non
 
     col_ref = db.collection(collection)
 
-    # ── 1. Read existing hashes and last-known prices from metadata ─────
-    meta_ref = db.collection(META_COLLECTION).document(meta_key)
-    meta_doc = meta_ref.get()
-    _request_counts["reads"] += 1
-    meta_data = meta_doc.to_dict() if meta_doc.exists else {}
+    # ── 1. Read existing hashes and last-known prices from local state ──
+    meta_data = _load_meta(meta_key)
     existing_hashes: dict[str, str] = meta_data.get("hashes", {})
     # Last price for which a history entry was recorded, per product id.
     existing_prices: dict[str, float] = meta_data.get("prices", {})
-    print(f"  Existing products in Firestore: {len(existing_hashes)}")
+    print(f"  Known products (sync state): {len(existing_hashes)}")
 
     # ── 2. Compute hashes for freshly scraped products ───────────────────
     new_hashes: dict[str, str] = {}
@@ -169,10 +202,9 @@ def sync_products(db, products: list[dict], collection: str, meta_key: str | Non
 
     if not ids_to_write and not ids_to_delete and not products_for_history:
         print("  Nothing changed – skipping Firestore writes.")
-        # Still update metadata in case the doc doesn't exist yet
-        meta_ref.set({"hashes": new_hashes, "prices": existing_prices})
-        _request_counts["writes"] += 1
-        return 1  # 1 metadata write
+        # Refresh local state (hashes may be identical, but keep the file current).
+        _save_meta(meta_key, {"hashes": new_hashes, "prices": existing_prices})
+        return 0  # no Firestore operations
 
     # ── 4. Batch-write new / changed products ────────────────────────────
     for i in range(0, len(ids_to_write), FIRESTORE_BATCH_LIMIT):
@@ -199,7 +231,7 @@ def sync_products(db, products: list[dict], collection: str, meta_key: str | Non
     written_history_ids = _write_price_history(db, collection, products_for_history)
     _request_counts["writes"] += len(written_history_ids)
 
-    # ── 7. Persist hashes + last-known prices ─────────────────────────────
+    # ── 7. Persist hashes + last-known prices to local state ─────────────
     # Carry prior prices forward, update only the ones whose history we just
     # wrote (so a failed history entry is retried next run instead of being
     # silently skipped), and drop deleted products.
@@ -210,9 +242,8 @@ def sync_products(db, products: list[dict], collection: str, meta_key: str | Non
     for pid in ids_to_delete:
         new_prices.pop(pid, None)
 
-    meta_ref.set({"hashes": new_hashes, "prices": new_prices})
-    _request_counts["writes"] += 1
+    _save_meta(meta_key, {"hashes": new_hashes, "prices": new_prices})
 
-    total_ops = len(ids_to_write) + len(ids_to_delete) + len(written_history_ids) + 1
+    total_ops = len(ids_to_write) + len(ids_to_delete) + len(written_history_ids)
     print(f"  Firestore operations: {total_ops}")
     return total_ops

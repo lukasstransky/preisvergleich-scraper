@@ -25,7 +25,7 @@ from firestore_sync import (
     reset_request_counters,
     get_request_counts,
     _product_hash,
-    META_COLLECTION,
+    _load_meta,
 )
 from firebase_store import upload_products, upload_all
 from tests.integration.fake_firestore import FakeFirestoreDB
@@ -52,7 +52,7 @@ def _write_products_without_metadata(db: FakeFirestoreDB, products: list, collec
     col = db.collection(collection)
     for p in products:
         col.document(p["id"]).set(p)
-    # Deliberately do NOT touch META_COLLECTION
+    # Deliberately do NOT write the local sync metadata file
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -89,18 +89,16 @@ class TestResumeAfterQuotaHit:
         docs = db.get_all_docs("products")
         assert len(docs) == 5
 
-        # Metadata was saved this time (keyed by supermarket)
-        meta = db.get_all_docs(META_COLLECTION)
-        assert "billa" in meta
-        hashes = meta["billa"]["hashes"]
+        # Metadata was saved this time (local file, keyed by supermarket)
+        hashes = _load_meta("billa")["hashes"]
         assert len(hashes) == 5
         for p in products:
             assert hashes[p["id"]] == _product_hash(p)
 
-        # At least: 1 read + 5 writes + 1 metadata write
+        # 5 product writes + 5 price history writes; metadata is local now
         counts = get_request_counts()
-        assert counts["reads"] == 1
-        assert counts["writes"] >= 6
+        assert counts["reads"] == 0
+        assert counts["writes"] == 10
         assert counts["deletes"] == 0
 
     # ------------------------------------------------------------------
@@ -124,8 +122,8 @@ class TestResumeAfterQuotaHit:
         upload_products(db, products, "spar")
 
         counts = get_request_counts()
-        assert counts["reads"] == 1
-        assert counts["writes"] == 1   # metadata-only write
+        assert counts["reads"] == 0
+        assert counts["writes"] == 0   # nothing changed; metadata is local
         assert counts["deletes"] == 0
 
     # ------------------------------------------------------------------
@@ -156,15 +154,14 @@ class TestResumeAfterQuotaHit:
         for p in remaining:
             assert p["id"] in docs, f"{p['id']} was not uploaded on Day-2"
 
-        # Metadata updated with all 5 hashes
-        meta = db.get_all_docs(META_COLLECTION)
-        hashes = meta["hofer"]["hashes"]
+        # Metadata updated with all 5 hashes (local file)
+        hashes = _load_meta("hofer")["hashes"]
         assert len(hashes) == 5
 
-        # Only the 2 new products + their history entries + metadata were written
+        # Only the 2 new products + their history entries were written
         counts = get_request_counts()
-        assert counts["reads"] == 1
-        assert counts["writes"] == 5   # 2 new products + 2 price history + 1 metadata
+        assert counts["reads"] == 0
+        assert counts["writes"] == 4   # 2 new products + 2 price history
         assert counts["deletes"] == 0
 
 
@@ -209,20 +206,19 @@ class TestMixedCompleteAndIncompleteCollections:
 
         counts = get_request_counts()
 
-        # penny: 1 read + 1 metadata write only (no product writes, no history)
-        # billa: 1 read + 4 product writes + 4 price history writes + 1 metadata write
-        assert counts["reads"] == 2            # 1 per supermarket
-        assert counts["writes"] == 10          # 4 billa products + 4 history + 2 metadata
+        # penny: nothing changed → 0 writes
+        # billa: 4 product writes + 4 price history writes
+        assert counts["reads"] == 0            # metadata is local
+        assert counts["writes"] == 8           # 4 billa products + 4 history
         assert counts["deletes"] == 0
 
         # All products present in the single products collection
         all_docs = db.get_all_docs("products")
         assert len(all_docs) == 7  # 3 penny + 4 billa
 
-        # Both metadata docs exist and are correct
-        meta = db.get_all_docs(META_COLLECTION)
-        assert len(meta["penny"]["hashes"]) == 3
-        assert len(meta["billa"]["hashes"]) == 4
+        # Both metadata files exist and are correct
+        assert len(_load_meta("penny")["hashes"]) == 3
+        assert len(_load_meta("billa")["hashes"]) == 4
 
     def test_day3_after_successful_day2_is_full_noop(self):
         """After Day-2 completes cleanly, Day-3 with unchanged data costs only
@@ -245,7 +241,7 @@ class TestMixedCompleteAndIncompleteCollections:
             upload_all({"penny": penny_products, "billa": billa_products})
 
         counts = get_request_counts()
-        # 2 reads + 2 metadata writes, zero product writes or deletes
-        assert counts["reads"] == 2
-        assert counts["writes"] == 2
+        # Everything already in sync → zero Firestore ops (metadata is local)
+        assert counts["reads"] == 0
+        assert counts["writes"] == 0
         assert counts["deletes"] == 0

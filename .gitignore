@@ -45,3 +45,7 @@ scraper-pi-log.txt
 logs/
 nohup.out
 debug_spar.png
+
+# local sync metadata (per-supermarket hashes + prices)
+sync_state/
+pi-run-logs.txt

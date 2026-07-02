@@ -7,7 +7,7 @@ Uses the in-memory ``FakeFirestoreDB`` to verify that products flow from
 import pytest
 from unittest.mock import patch
 
-from firestore_sync import reset_request_counters, get_request_counts, _product_hash
+from firestore_sync import reset_request_counters, get_request_counts, _product_hash, _load_meta
 from firebase_store import upload_products, upload_all
 from tests.integration.fake_firestore import FakeFirestoreDB
 from tests.integration.helpers import make_product
@@ -51,18 +51,16 @@ class TestFullSyncPipeline:
             assert p["id"] in docs
             assert docs[p["id"]] == p
 
-        # Metadata uses supermarket name as key
-        meta = db.get_all_docs("_sync_metadata")
-        assert "billa" in meta
-        hashes = meta["billa"]["hashes"]
+        # Metadata is stored locally, keyed by supermarket name
+        hashes = _load_meta("billa")["hashes"]
         assert len(hashes) == 5
         for p in products:
             assert hashes[p["id"]] == _product_hash(p)
 
-        # Request counters: 1 read + 5 product writes + 5 price history writes + 1 metadata
+        # Request counters: 5 product writes + 5 price history writes (metadata is local)
         counts = get_request_counts()
-        assert counts["reads"] == 1
-        assert counts["writes"] == 11  # 5 products + 5 history + 1 metadata
+        assert counts["reads"] == 0
+        assert counts["writes"] == 10  # 5 products + 5 history
         assert counts["deletes"] == 0
 
     def test_second_sync_no_changes(self):
@@ -79,10 +77,10 @@ class TestFullSyncPipeline:
         docs = db.get_all_docs("products")
         assert len(docs) == 3
 
-        # Only 1 read (metadata) + 1 write (metadata update) — no product writes
+        # Nothing changed → no Firestore reads or writes (metadata is local)
         counts = get_request_counts()
-        assert counts["reads"] == 1
-        assert counts["writes"] == 1  # metadata only
+        assert counts["reads"] == 0
+        assert counts["writes"] == 0
         assert counts["deletes"] == 0
 
     def test_sync_detects_changes_additions_and_removals(self):
@@ -116,8 +114,8 @@ class TestFullSyncPipeline:
         assert "spar_SKU-0005" in docs
 
         counts = get_request_counts()
-        assert counts["reads"] == 1
-        assert counts["writes"] >= 3  # 1 changed + 1 new + 1 metadata
+        assert counts["reads"] == 0
+        assert counts["writes"] == 4  # 1 changed + 1 new products + 2 price history
         assert counts["deletes"] == 1  # 1 removed
 
     def test_sync_with_empty_products_deletes_all(self):
@@ -154,12 +152,9 @@ class TestUploadAll:
         # Both supermarkets share the same products collection
         assert len(db.get_all_docs("products")) == 5  # 3 billa + 2 spar
 
-        # Metadata keyed by supermarket name
-        meta = db.get_all_docs("_sync_metadata")
-        assert "billa" in meta
-        assert "spar" in meta
-        assert len(meta["billa"]["hashes"]) == 3
-        assert len(meta["spar"]["hashes"]) == 2
+        # Metadata stored locally, keyed by supermarket name
+        assert len(_load_meta("billa")["hashes"]) == 3
+        assert len(_load_meta("spar")["hashes"]) == 2
 
     @patch("firebase_store.init_firebase")
     def test_upload_all_no_firebase_is_noop(self, mock_init):
