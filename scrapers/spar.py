@@ -382,7 +382,10 @@ async def _click_next_page(page_obj, expected_page_num):
     """
     next_btn = page_obj.locator('button[data-tosca="plp-pagination-next-btn"]')
     try:
-        await next_btn.wait_for(state="visible", timeout=5000)
+        # Generous timeout: on slow hardware the button may not be visible for
+        # several seconds mid-render, and a premature False is read as "no more
+        # pages", silently truncating the category.
+        await next_btn.wait_for(state="visible", timeout=15000)
     except Exception:
         return False
 
@@ -504,8 +507,14 @@ async def _scrape_category(browser, category, semaphore, error_log, cooldown_loc
                             click_error = e
                             break
                         if not navigated:
+                            # Button not visible / not found. We only ever click
+                            # to reach pages 2..total_pages, so the next button
+                            # should always exist here — a miss means a slow
+                            # render, not a real end. Retry instead of stopping.
                             no_next_button = True
-                            break
+                            await page_obj.wait_for_timeout(1000)
+                            continue
+                        no_next_button = False
                         # Poll for a few seconds so a mid-render read doesn't
                         # falsely report the wrong page.
                         actual_page = await _verify_page_num(page_obj, page_num)
@@ -519,7 +528,19 @@ async def _scrape_category(browser, category, semaphore, error_log, cooldown_loc
                         skipped_pages.append(page_num)
                         break
                     if no_next_button:
-                        print(f"  No next-page button on page {page_num - 1}, stopping pagination for {category}")
+                        # Still no next button after retries, before reaching the
+                        # known last page — a real stall, not a legitimate end.
+                        print(f"  No next-page button on page {page_num - 1} of {total_pages} after retries, stopping pagination for {category}")
+                        error_log.append({
+                            "type": "pagination_stalled",
+                            "category": category,
+                            "expected_page": page_num,
+                            "got_page": page_num - 1,
+                            "total_pages": total_pages,
+                            "lost_pages": total_pages - page_num + 1,
+                            "reason": "no_next_button",
+                        })
+                        skipped_pages.append(page_num)
                         break
                     if actual_page != page_num:
                         print(f"  Expected page {page_num} but got {actual_page} after retries, stopping pagination for {category}")
