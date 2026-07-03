@@ -1,6 +1,25 @@
+from unittest.mock import MagicMock
+
 import pytest
 
-from scrapers.hofer import _extract_brand, _parse_unit_info
+from scrapers.hofer import _extract_brand, _parse_unit_info, _parse_tiefpreis_product
+
+
+def _make_tiefpreis_container(text, image_url="https://img.example.com/x.jpg"):
+    """Build a fake Playwright element for a Tiefpreis-Aktionen tile."""
+    container = MagicMock()
+    container.inner_text.return_value = text
+
+    img = MagicMock()
+    img.get_attribute.side_effect = lambda a: image_url if a in ("data-src", "src") else None
+
+    def _query(selector):
+        if selector == "img":
+            return img
+        return None  # no explicit heading → name falls back to first text line
+
+    container.query_selector.side_effect = _query
+    return container
 
 
 # ---------------------------------------------------------------------------
@@ -106,3 +125,35 @@ class TestParseUnitInfo:
         assert unit_price == 3.00
         assert unit_label == "Meter"
         assert amount == "per Dose"
+
+
+# ---------------------------------------------------------------------------
+# _parse_tiefpreis_product — id generation (these tiles have no SKU)
+# ---------------------------------------------------------------------------
+
+class TestParseTiefpreisProduct:
+    def test_gets_stable_hash_id(self):
+        text = "SPAK Bio Apfel\n€ 2,49\nper Netz"
+        product = _parse_tiefpreis_product(_make_tiefpreis_container(text))
+        assert product is not None
+        # Must have a non-None id or the Firestore sync skips it entirely.
+        assert product["id"] is not None
+        assert product["id"].startswith("hofer_hash_")
+
+    def test_id_is_stable_across_runs(self):
+        text = "SPAK Bio Apfel\n€ 2,49\nper Netz"
+        a = _parse_tiefpreis_product(_make_tiefpreis_container(text))
+        b = _parse_tiefpreis_product(_make_tiefpreis_container(text))
+        assert a["id"] == b["id"]
+
+    def test_id_unchanged_when_only_price_changes(self):
+        """A price change must keep the same id so history/diff stay intact."""
+        cheap = _parse_tiefpreis_product(_make_tiefpreis_container("SPAK Bio Apfel\n€ 2,49\nper Netz"))
+        pricey = _parse_tiefpreis_product(_make_tiefpreis_container("SPAK Bio Apfel\n€ 3,99\nper Netz"))
+        assert cheap["id"] == pricey["id"]
+        assert cheap["price"] != pricey["price"]
+
+    def test_different_products_get_different_ids(self):
+        a = _parse_tiefpreis_product(_make_tiefpreis_container("SPAK Bio Apfel\n€ 2,49\nper Netz"))
+        b = _parse_tiefpreis_product(_make_tiefpreis_container("SPAK Bio Birne\n€ 2,49\nper Netz"))
+        assert a["id"] != b["id"]

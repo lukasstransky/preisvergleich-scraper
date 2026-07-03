@@ -1,3 +1,4 @@
+import hashlib
 import json
 import os
 import re
@@ -367,9 +368,18 @@ def _parse_tiefpreis_product(container):
     if not price:
         return None
 
+    display_name = name if brand else full_name
+
+    # These tiles have no SKU, so derive a stable id from identity fields
+    # (brand + name + amount, NOT price — a price change must keep the same id
+    # so the diff and price history stay intact). Without an id the sync skips
+    # the product entirely.
+    hash_input = f"{brand}|{display_name}|{amount}".lower()
+    product_id = f"hofer_hash_{hashlib.md5(hash_input.encode()).hexdigest()[:12]}"
+
     return {
-        "id": None,
-        "name": name if brand else full_name,
+        "id": product_id,
+        "name": display_name,
         "price": price,
         "originalPrice": original_price,
         "promotionText": "Tiefpreis Aktion",
@@ -385,7 +395,7 @@ def _parse_tiefpreis_product(container):
         "offerStart": None,
         "offerEnd": None,
         "supermarket": "hofer",
-        "nameTokens": tokenize_name(name if brand else full_name),
+        "nameTokens": tokenize_name(display_name),
         "normalizedCategory": normalize_category("tiefpreis-aktionen"),
     }
 
