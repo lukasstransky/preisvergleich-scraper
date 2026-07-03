@@ -176,7 +176,13 @@ def _dismiss_cookie_banner(page_obj):
 
 
 def _click_show_more(page_obj):
-    """Click 'Mehr anzeigen' button repeatedly until all products are loaded."""
+    """Click 'Mehr anzeigen' repeatedly until all products are loaded.
+
+    Each click triggers an AJAX load that appends more product tiles. On slow
+    hardware that can take several seconds, so after every click we poll for
+    the tile count to grow instead of assuming a fixed wait is enough — a
+    premature give-up leaves the category capped at the initial page (~100).
+    """
     max_clicks = 50
     for _ in range(max_clicks):
         btn = page_obj.query_selector("button#showMore")
@@ -185,20 +191,33 @@ def _click_show_more(page_obj):
 
         before_count = len(page_obj.query_selector_all("div.plp_product[data-productid]"))
 
+        # A lingering consent overlay can intercept the click (as seen on SPAR).
+        try:
+            page_obj.evaluate(
+                "document.querySelector('#onetrust-consent-sdk, #cmpwrapper')?.remove()"
+            )
+        except Exception:
+            pass
+
         try:
             btn.scroll_into_view_if_needed()
             btn.click()
-            page_obj.wait_for_timeout(1000)
         except Exception:
-            break
-
-        after_count = len(page_obj.query_selector_all("div.plp_product[data-productid]"))
-        if after_count <= before_count:
-            # Give it one more chance
-            page_obj.wait_for_timeout(1000)
-            after_count = len(page_obj.query_selector_all("div.plp_product[data-productid]"))
-            if after_count <= before_count:
+            # Fall back to invoking the button's own click handler directly.
+            try:
+                page_obj.evaluate("document.getElementById('showMore')?.click()")
+            except Exception:
                 break
+
+        # Poll up to ~10s for new tiles to be appended by the AJAX response.
+        loaded = False
+        for _ in range(10):
+            page_obj.wait_for_timeout(1000)
+            if len(page_obj.query_selector_all("div.plp_product[data-productid]")) > before_count:
+                loaded = True
+                break
+        if not loaded:
+            break
 
 
 def _take_screenshot(page_obj, category, label):
