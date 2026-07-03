@@ -49,3 +49,6 @@ debug_spar.png
 # local sync metadata (per-supermarket hashes + prices)
 sync_state/
 pi-run-logs.txt
+
+# ntfy notification topic (private)
+.ntfy_topic
