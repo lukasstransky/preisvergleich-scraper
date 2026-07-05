@@ -528,19 +528,13 @@ async def _scrape_category(browser, category, semaphore, error_log, cooldown_loc
                         skipped_pages.append(page_num)
                         break
                     if no_next_button:
-                        # Still no next button after retries, before reaching the
-                        # known last page — a real stall, not a legitimate end.
-                        print(f"  No next-page button on page {page_num - 1} of {total_pages} after retries, stopping pagination for {category}")
-                        error_log.append({
-                            "type": "pagination_stalled",
-                            "category": category,
-                            "expected_page": page_num,
-                            "got_page": page_num - 1,
-                            "total_pages": total_pages,
-                            "lost_pages": total_pages - page_num + 1,
-                            "reason": "no_next_button",
-                        })
-                        skipped_pages.append(page_num)
+                        # No next button after generous retries = the real last
+                        # page. total_pages is only a hint from the pagination
+                        # text and is sometimes over-counted (e.g. reads 288 when
+                        # there are really 57 pages), so do NOT treat this as an
+                        # error — the retries above already gave slow renders a
+                        # chance to produce the button.
+                        print(f"  Reached last page ({page_num - 1}) for {category} (total_pages hint was {total_pages})")
                         break
                     if actual_page != page_num:
                         print(f"  Expected page {page_num} but got {actual_page} after retries, stopping pagination for {category}")

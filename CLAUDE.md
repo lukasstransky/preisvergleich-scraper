@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## General rules
+
+- **Never commit automatically.** Only create git commits when the user explicitly asks for it.
+
 ## What this is
 
 Python scrapers that collect product prices from Austrian supermarkets (Billa, Penny, Lidl, SPAR, Hofer, MPreis) and sync them into a single Google Cloud Firestore `products` collection. A separate Flutter app (not in this repo) consumes that data for price comparison, price-change notifications, and shopping lists.
