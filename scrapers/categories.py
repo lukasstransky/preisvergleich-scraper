@@ -81,7 +81,7 @@ _EXACT: dict[str, str] = {
     "schnelle-kueche-to-go": FERTIGGERICHTE,
     "babynahrung": BABY_TIER,
 
-    # ── Hofer ─────────────────────────────────────────────────────────────
+    # ── Hofer (old URL-slug categories, kept for sync-state compatibility) ──
     "brot-und-backwaren": BROT_GEBAECK,
     "fleisch-und-fisch": FLEISCH_FISCH,
     "getraenke": GETRAENKE,
@@ -91,6 +91,28 @@ _EXACT: dict[str, str] = {
     "tiefpreis-aktionen": SONSTIGES,
     "vorratsschrank": GRUNDNAHRUNGSMITTEL,
     "angebote": SONSTIGES,
+
+    # ── Hofer (new API category names from asl.api.hofer.at) ─────────────
+    "Brot und Backwaren": BROT_GEBAECK,
+    "Süße Backwaren": BROT_GEBAECK,
+    "Brot und Gebäck": BROT_GEBAECK,
+    "BACKBOX": BROT_GEBAECK,
+    "Fisch und Meeresfrüchte": FLEISCH_FISCH,
+    "Fleisch und Wurstwaren": FLEISCH_FISCH,
+    "Geflügel": FLEISCH_FISCH,
+    "Schwein": FLEISCH_FISCH,
+    "Rind": FLEISCH_FISCH,
+    "Wurst und Wurstwaren": FLEISCH_FISCH,
+    "Würstel": FLEISCH_FISCH,
+    "Milchprodukte": MILCHPRODUKTE,
+    "Fruchtjoghurt und Desserts": MILCHPRODUKTE,
+    "Käse und Aufstriche": MILCHPRODUKTE,
+    "Schlagobers und Butter": MILCHPRODUKTE,
+    "Joghurt und Topfen": MILCHPRODUKTE,
+    "Milch und Milchgetränke": MILCHPRODUKTE,
+    "Grillen": FLEISCH_FISCH,
+    "HOFER PREISWOCHEN": SONSTIGES,
+    "HOFER Preis - Dauerhaft Günstiger": SONSTIGES,
 
     # ── MPreis ────────────────────────────────────────────────────────────
     "lebensmittel": SONSTIGES,

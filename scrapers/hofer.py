@@ -1,556 +1,172 @@
-import hashlib
 import json
-import os
 import re
-import time
-from datetime import date
-from playwright.sync_api import sync_playwright
 
-from scrapers.tokenizer import tokenize_name
+import requests
+
 from scrapers.categories import normalize_category
-from scrapers.browser import launch_kwargs
+from scrapers.tokenizer import tokenize_name
 
-SCREENSHOT_DIR = "screenshots"
+PRODUCT_SEARCH_URL = "https://asl.api.hofer.at/commerce/v3/product-search"
 
-BASE_URL = "https://www.hofer.at/de/sortiment/produktsortiment/{category}.html"
-OFFERS_URL = "https://www.hofer.at/de/angebote.html"
-TIEFPREIS_URL = "https://www.hofer.at/de/angebote/aktionen.html"
+_HEADERS = {
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Language": "de-AT",
+    "User-Agent": (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/131.0.0.0 Safari/537.36"
+    ),
+    "Referer": "https://www.hofer.at/",
+    "Origin": "https://www.hofer.at",
+    "sec-fetch-site": "same-site",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-dest": "empty",
+}
 
-CATEGORIES = [
-    "brot-und-backwaren",
-    "fleisch-und-fisch",
-    "getraenke",
-    "kuehlung",
-    "vorratsschrank",
-    "tiefkuehlung",
-    "suesses-und-salziges",
-    #"drogerie",
-]
+_BASE_PARAMS = {
+    "currency": "EUR",
+    "serviceType": "walk-in",
+    "limit": 60,
+    "sort": "relevance",
+}
 
-USER_AGENT = (
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-    "AppleWebKit/537.36 (KHTML, like Gecko) "
-    "Chrome/131.0.0.0 Safari/537.36"
-)
-
-
-def _extract_brand(name):
-    """Extract brand from product name by taking leading fully-uppercase words.
-
-    Examples:
-        'BACKBOX Butter-Briocheknopf'       → ('BACKBOX', 'Butter-Briocheknopf')
-        'ZURÜCK ZUM URSPRUNG BIO-Kornspitz' → ('ZURÜCK ZUM URSPRUNG', 'BIO-Kornspitz')
-        'DR. OETKER Backdekor'              → ('DR. OETKER', 'Backdekor')
-        'Börekstange Spinat-Käse'           → (None, 'Börekstange Spinat-Käse')
-    """
-    if not name:
-        return None, name
-    words = name.split()
-    brand_words = []
-    for word in words:
-        alpha_chars = [c for c in word if c.isalpha()]
-        if alpha_chars and all(c.isupper() for c in alpha_chars):
-            brand_words.append(word)
-        else:
-            break
-    if brand_words:
-        brand = " ".join(brand_words)
-        product_name = " ".join(words[len(brand_words):])
-        # Handle doubled brand prefix (e.g. "LACURA LACURA Sonnencreme")
-        if product_name.startswith(brand):
-            product_name = product_name[len(brand):].strip()
-            # Also strip trailing comma or separator left over
-            product_name = product_name.lstrip(",").strip()
-        if product_name:
-            return brand, product_name
-    return None, name
+_PROMO_CATEGORIES = {"HOFER PREISWOCHEN", "HOFER Preis - Dauerhaft Günstiger"}
 
 
-def _parse_unit_info(text):
-    """Parse unit info text into (unit_price, unit_label, amount).
-
-    Input examples:
-        'per Packung (1 per Kilogramm = € 1,72 )'
-        'per Stück'
-    """
-    if not text:
-        return None, None, None
-
-    # Extract selling unit like "per Packung", "per Stück"
-    amount_match = re.match(r"(per\s+\S+)", text)
-    amount = amount_match.group(1).strip() if amount_match else None
-
-    # Extract unit price like "(1 per Kilogramm = € 1,72)"
-    unit_map = {
-        "Kilogramm": "kg",
-        "Liter": "l",
-        "Stück": "Stk",
-        "100ml": "100ml",
-        "100g": "100g",
-    }
-    price_match = re.search(r"per\s+([\wäöüÄÖÜ]+)\s*=\s*€\s*([\d,.]+)", text)
-    if price_match:
-        unit_raw = price_match.group(1)
-        price_str = price_match.group(2).replace(",", ".")
-        unit_label = unit_map.get(unit_raw, unit_raw)
-        try:
-            unit_price = float(price_str)
-        except ValueError:
-            return None, None, amount
-        return unit_price, unit_label, amount
-
-    return None, None, amount
+def _parse_comparison_price(display: str | None) -> tuple[float | None, str | None]:
+    """Parse '(€ 1,88/1 kg)' → (1.88, 'kg')."""
+    if not display:
+        return None, None
+    m = re.search(r"€\s*([\d]+[,.][\d]+)\s*/\s*(?:\d+\s*)?([\w]+)", display)
+    if not m:
+        return None, None
+    try:
+        price = float(m.group(1).replace(",", "."))
+    except ValueError:
+        return None, None
+    return price, m.group(2).strip()
 
 
-def _parse_tile(tile, category):
-    """Parse a single product tile element into a product dict."""
-    sku = tile.get_attribute("data-productid")
+def _parse_was_price(display: str | None) -> float | None:
+    """Parse '€ 1,89' → 1.89."""
+    if not display:
+        return None
+    m = re.search(r"€\s*([\d]+[,.][\d]+)", display)
+    if not m:
+        return None
+    try:
+        return float(m.group(1).replace(",", "."))
+    except ValueError:
+        return None
 
-    name_el = tile.query_selector("h2.product-title")
-    price_el = tile.query_selector("span.at-product-price_lbl")
-    original_price_el = tile.query_selector(".price_before del")
-    unit_el = tile.query_selector("span.additional-product-info")
-    img_el = tile.query_selector("img.at-product-images_img")
 
-    full_name = name_el.inner_text().strip() if name_el else ""
-    brand, name = _extract_brand(full_name)
+def _image_url(assets: list) -> str | None:
+    """Build an image URL from the first API asset template."""
+    if not assets:
+        return None
+    url = assets[0].get("url", "")
+    if not url:
+        return None
+    display_name = assets[0].get("displayName") or assets[0].get("alt") or "product"
+    return url.replace("{width}", "300").replace("{slug}", display_name)
 
-    price = None
-    if price_el:
-        price_text = price_el.inner_text().strip().replace("€", "").replace(".", "").replace(",", ".").strip()
-        try:
-            price = float(re.sub(r"[^\d.]", "", price_text))
-        except ValueError:
-            price = None
 
-    original_price = None
-    if original_price_el:
-        op_text = original_price_el.inner_text().strip().replace("€", "").replace(".", "").replace(",", ".").strip()
-        try:
-            original_price = float(re.sub(r"[^\d.]", "", op_text))
-        except ValueError:
-            original_price = None
+def _parse_product(item: dict) -> dict:
+    sku = item["sku"]
+    name = item["name"]
+    brand = item.get("brandName") or None
 
-    unit_text = unit_el.inner_text().strip() if unit_el else None
-    unit_price, unit_label, amount = _parse_unit_info(unit_text)
+    price_data = item.get("price") or {}
+    amount_cents = price_data.get("amountRelevant")
+    price = amount_cents / 100 if amount_cents is not None else None
+    original_price = _parse_was_price(price_data.get("wasPriceDisplay"))
+    unit_price, unit_label = _parse_comparison_price(price_data.get("comparisonDisplay"))
 
-    image_url = None
-    if img_el:
-        image_url = img_el.get_attribute("data-src") or img_el.get_attribute("src")
+    amount = item.get("sellingSize") or None
+    categories = item.get("categories") or []
+    raw_category = categories[0]["name"] if categories else None
 
-    in_promotion = original_price is not None
+    in_promotion = (original_price is not None) or any(
+        c["name"] in _PROMO_CATEGORIES for c in categories
+    )
+
+    slug = item.get("urlSlugText", "")
+    product_url = f"https://www.hofer.at/produkt/{slug}-{sku}" if slug else None
+
+    normalized = normalize_category(raw_category)
+    if normalized == "Sonstiges" and not raw_category:
+        # API returned no categories for this product — try to infer from name
+        normalized = normalize_category(name)
 
     return {
-        "id": f"hofer_{sku}" if sku else None,
-        "name": name if brand else full_name,
+        "id": f"hofer_{sku}",
+        "name": name,
         "price": price,
         "originalPrice": original_price,
-        "promotionText": None,
+        "promotionText": "Preiswoche" if any(c["name"] == "HOFER PREISWOCHEN" for c in categories) else None,
         "unitPrice": unit_price,
         "unitLabel": unit_label,
-        "category": category,
+        "category": raw_category,
         "brand": brand,
         "amount": amount,
         "sku": sku,
         "inPromotion": in_promotion,
-        "imageUrl": image_url,
-        "productUrl": None,
+        "imageUrl": _image_url(item.get("assets") or []),
+        "productUrl": product_url,
         "offerStart": None,
         "offerEnd": None,
         "supermarket": "hofer",
-        "nameTokens": tokenize_name(name if brand else full_name),
-        "normalizedCategory": normalize_category(category),
-        "nameLength": len((name if brand else full_name) or ""),
+        "nameTokens": tokenize_name(name),
+        "normalizedCategory": normalized,
+        "nameLength": len(name or ""),
     }
 
 
-def _dismiss_cookie_banner(page_obj):
-    """Accept cookie consent if the banner appears."""
-    try:
-        btn = page_obj.query_selector("button#onetrust-accept-btn-handler")
-        if btn and btn.is_visible():
-            btn.click()
-            page_obj.wait_for_timeout(1000)
-    except Exception:
-        pass
-
-
-def _click_show_more(page_obj):
-    """Click 'Mehr anzeigen' repeatedly until all products are loaded.
-
-    Each click triggers an AJAX load that appends more product tiles. On slow
-    hardware that can take several seconds, so after every click we poll for
-    the tile count to grow instead of assuming a fixed wait is enough — a
-    premature give-up leaves the category capped at the initial page (~100).
-    """
-    max_clicks = 50
-    for _ in range(max_clicks):
-        btn = page_obj.query_selector("button#showMore")
-        if not btn or not btn.is_visible():
-            break
-
-        before_count = len(page_obj.query_selector_all("div.plp_product[data-productid]"))
-
-        # A lingering consent overlay can intercept the click (as seen on SPAR).
-        try:
-            page_obj.evaluate(
-                "document.querySelector('#onetrust-consent-sdk, #cmpwrapper')?.remove()"
-            )
-        except Exception:
-            pass
-
-        try:
-            btn.scroll_into_view_if_needed()
-            btn.click()
-        except Exception:
-            # Fall back to invoking the button's own click handler directly.
-            try:
-                page_obj.evaluate("document.getElementById('showMore')?.click()")
-            except Exception:
-                break
-
-        # Poll up to ~10s for new tiles to be appended by the AJAX response.
-        loaded = False
-        for _ in range(10):
-            page_obj.wait_for_timeout(1000)
-            if len(page_obj.query_selector_all("div.plp_product[data-productid]")) > before_count:
-                loaded = True
-                break
-        if not loaded:
-            break
-
-
-def _take_screenshot(page_obj, category, label):
-    """Save a screenshot to SCREENSHOT_DIR for debugging CI failures."""
-    os.makedirs(SCREENSHOT_DIR, exist_ok=True)
-    filename = os.path.join(SCREENSHOT_DIR, f"hofer_{category}_{label}.png")
-    try:
-        page_obj.screenshot(path=filename, full_page=True)
-        print(f"Screenshot saved: {filename}")
-    except Exception as e:
-        print(f"Failed to save screenshot: {e}")
-
-
-def _scrape_category(browser, category):
-    """Scrape all products for a single category."""
-    context = browser.new_context(user_agent=USER_AGENT)
-    page_obj = context.new_page()
-    products = []
-
-    try:
-        url = BASE_URL.format(category=category)
-        page_obj.goto(url, wait_until="domcontentloaded", timeout=30000)
-        page_obj.wait_for_selector("div.plp_product[data-productid]", timeout=30000)
-
-        _dismiss_cookie_banner(page_obj)
-        _click_show_more(page_obj)
-
-        tiles = page_obj.query_selector_all("div.plp_product[data-productid]")
-        for tile in tiles:
-            product = _parse_tile(tile, category)
-            products.append(product)
-
-        print(f"hofer {category}: {len(products)} products")
-
-    except Exception:
-        _take_screenshot(page_obj, category, "failure")
-        raise
-    finally:
-        context.close()
-
-    return products
-
-
-def _get_offer_date_links(page_obj):
-    """Extract date-based offer links from the offers page, filtered to today or earlier."""
-    today = date.today()
-    links = page_obj.query_selector_all("a[href*='/de/angebote/d.']")
-    valid_urls = []
-    seen = set()
-
-    for link in links:
-        href = link.get_attribute("href") or ""
-        # Extract date from URL pattern like /de/angebote/d.23-03-2026.html
-        match = re.search(r"/d\.(\d{2})-(\d{2})-(\d{4})\.html", href)
-        if not match:
-            continue
-
-        day, month, year = int(match.group(1)), int(match.group(2)), int(match.group(3))
-        offer_date = date(year, month, day)
-
-        if offer_date <= today and href not in seen:
-            full_url = href if href.startswith("http") else f"https://www.hofer.at{href}"
-            valid_urls.append((offer_date, full_url))
-            seen.add(href)
-
-    # Sort by date descending (newest first)
-    valid_urls.sort(key=lambda x: x[0], reverse=True)
-    print(f"  Found {len(valid_urls)} current/past offer dates (skipped future)")
-    for d, url in valid_urls:
-        print(f"    {d.strftime('%d.%m.%Y')}: {url}")
-    return valid_urls
-
-
-def _scrape_offer_page(browser, offer_date, url):
-    """Scrape all products from a single offer date page."""
-    context = browser.new_context(user_agent=USER_AGENT)
-    page_obj = context.new_page()
-    products = []
-
-    try:
-        page_obj.goto(url, wait_until="domcontentloaded", timeout=30000)
-        page_obj.wait_for_selector("div.plp_product[data-productid]", timeout=30000)
-
-        _dismiss_cookie_banner(page_obj)
-        _click_show_more(page_obj)
-
-        tiles = page_obj.query_selector_all("div.plp_product[data-productid]")
-        date_label = offer_date.strftime("%d.%m.%Y")
-        offer_start_iso = offer_date.isoformat()
-        for tile in tiles:
-            product = _parse_tile(tile, "angebote")
-            product["inPromotion"] = True
-            product["promotionText"] = f"ab {date_label}"
-            product["offerStart"] = offer_start_iso
-            products.append(product)
-
-        print(f"hofer offers {date_label}: {len(products)} products")
-
-    except Exception as e:
-        label = offer_date.strftime("%Y%m%d")
-        _take_screenshot(page_obj, f"offers_{label}", "failure")
-        print(f"Error scraping offers for {offer_date}: {e}")
-    finally:
-        context.close()
-
-    return products
-
-
-def _parse_tiefpreis_product(container):
-    """Parse a single product container from the TIEFPREIS AKTIONEN page."""
-    text = container.inner_text().strip()
-    if not text:
-        return None
-
-    # Try to get product name from heading
-    heading = container.query_selector("h3, h2, .product-title")
-    full_name = heading.inner_text().strip() if heading else ""
-    if not full_name:
-        lines = [l.strip() for l in text.split("\n") if l.strip()]
-        full_name = lines[0] if lines else ""
-    if not full_name:
-        return None
-
-    brand, name = _extract_brand(full_name)
-
-    # Extract price: "€ X,XX" pattern
-    price = None
-    price_match = re.search(r'€\s*([\d]+[.,]\d{2})', text)
-    if price_match:
-        try:
-            price = float(price_match.group(1).replace(',', '.'))
-        except ValueError:
-            pass
-
-    # Extract original price: "statt X,XX"
-    original_price = None
-    statt_match = re.search(r'statt\s*€?\s*([\d]+[.,]\d{2})', text)
-    if statt_match:
-        try:
-            original_price = float(statt_match.group(1).replace(',', '.'))
-        except ValueError:
-            pass
-
-    # Extract unit price: "X,XX/kg" etc.
-    unit_price = None
-    unit_label = None
-    unit_match = re.search(r'([\d]+[.,]\d{2})/(kg|100\s*g|Liter|100\s*ml|l)', text)
-    if unit_match:
-        try:
-            unit_price = float(unit_match.group(1).replace(',', '.'))
-        except ValueError:
-            pass
-        unit_label = unit_match.group(2).strip()
-
-    # Extract selling amount (e.g., "per Packung", "per kg", "per Netz")
-    amount = None
-    amount_match = re.search(r'(per\s+\S+)', text)
-    if amount_match:
-        amount = amount_match.group(1).strip()
-
-    # Try to get image
-    img = container.query_selector("img")
-    image_url = None
-    if img:
-        image_url = img.get_attribute("data-src") or img.get_attribute("src")
-
-    if not price:
-        return None
-
-    display_name = name if brand else full_name
-
-    # These tiles have no SKU, so derive a stable id from identity fields
-    # (brand + name + amount, NOT price — a price change must keep the same id
-    # so the diff and price history stay intact). Without an id the sync skips
-    # the product entirely.
-    hash_input = f"{brand}|{display_name}|{amount}".lower()
-    product_id = f"hofer_hash_{hashlib.md5(hash_input.encode()).hexdigest()[:12]}"
-
-    return {
-        "id": product_id,
-        "name": display_name,
-        "price": price,
-        "originalPrice": original_price,
-        "promotionText": "Tiefpreis Aktion",
-        "unitPrice": unit_price,
-        "unitLabel": unit_label,
-        "category": "tiefpreis-aktionen",
-        "brand": brand,
-        "amount": amount,
-        "sku": None,
-        "inPromotion": True,
-        "imageUrl": image_url,
-        "productUrl": None,
-        "offerStart": None,
-        "offerEnd": None,
-        "supermarket": "hofer",
-        "nameTokens": tokenize_name(display_name),
-        "normalizedCategory": normalize_category("tiefpreis-aktionen"),
-    }
-
-
-def _scrape_tiefpreis_aktionen(browser):
-    """Scrape the TIEFPREIS AKTIONEN page for weekly promotional products."""
-    context = browser.new_context(user_agent=USER_AGENT)
-    page_obj = context.new_page()
-    products = []
-
-    try:
-        page_obj.goto(TIEFPREIS_URL, wait_until="domcontentloaded", timeout=30000)
-        page_obj.wait_for_timeout(3000)
-        _dismiss_cookie_banner(page_obj)
-
-        # Try standard PLP product tiles first
-        tiles = page_obj.query_selector_all("div.plp_product[data-productid]")
-        if tiles:
-            _click_show_more(page_obj)
-            tiles = page_obj.query_selector_all("div.plp_product[data-productid]")
-            for tile in tiles:
-                product = _parse_tile(tile, "tiefpreis-aktionen")
-                product["inPromotion"] = True
-                product["promotionText"] = "Tiefpreis Aktion"
-                products.append(product)
-        else:
-            # The page uses a gallery/flyer-style layout — try various selectors
-            tile_selectors = [
-                ".gallery .item",
-                ".mod-teaser-product",
-                ".product-teaser",
-                ".offer-tile",
-                ".mod-offer-tile",
-                ".promotion-item",
-                ".swiper-slide:has(h3)",
-            ]
-            for selector in tile_selectors:
-                found = page_obj.query_selector_all(selector)
-                if found:
-                    print(f"  Using selector: {selector} ({len(found)} tiles)")
-                    for el in found:
-                        product = _parse_tiefpreis_product(el)
-                        if product:
-                            products.append(product)
-                    break
-
-        if not products:
-            _take_screenshot(page_obj, "tiefpreis_aktionen", "no_products")
-            print("  Warning: No products found on TIEFPREIS AKTIONEN page (screenshot saved)")
-
-        print(f"hofer tiefpreis aktionen: {len(products)} products")
-
-    except Exception as e:
-        _take_screenshot(page_obj, "tiefpreis_aktionen", "failure")
-        print(f"Error scraping tiefpreis aktionen: {e}")
-    finally:
-        context.close()
-
-    return products
-
-
-def _scrape_offers(browser):
-    """Scrape all current offer date pages and return a flat list of product dicts."""
-    context = browser.new_context(user_agent=USER_AGENT)
-    page_obj = context.new_page()
-    offer_links = []
-
-    try:
-        page_obj.goto(OFFERS_URL, wait_until="domcontentloaded", timeout=30000)
-        page_obj.wait_for_timeout(2000)
-        _dismiss_cookie_banner(page_obj)
-        offer_links = _get_offer_date_links(page_obj)
-    except Exception as e:
-        print(f"Error loading offers page: {e}")
-    finally:
-        context.close()
-
-    all_offer_products = []
-    for idx, (offer_date, url) in enumerate(offer_links):
-        products = _scrape_offer_page(browser, offer_date, url)
-        all_offer_products.extend(products)
-
-
-    return all_offer_products
-
-
-def scrape_hofer():
-    """Scrape all categories and return a flat list of product dicts."""
+def _fetch_all_products() -> list[dict]:
+    """Paginate through all Hofer products and return parsed product dicts."""
     all_products = []
+    offset = 0
 
-    with sync_playwright() as p:
-        browser = p.chromium.launch(**launch_kwargs())
-        try:
-            for category in CATEGORIES:
-                try:
-                    products = _scrape_category(browser, category)
-                    all_products.extend(products)
+    while True:
+        params = {**_BASE_PARAMS, "offset": offset}
+        response = requests.get(PRODUCT_SEARCH_URL, params=params, headers=_HEADERS, timeout=30)
+        response.raise_for_status()
+        data = response.json()
 
-                except Exception as e:
-                    print(f"Error scraping category '{category}': {e}")
+        items = data.get("data") or []
+        if not items:
+            break
 
-            # Scrape offers (date-based promotion pages)
-            print("\nScraping Hofer offers...")
-            try:
-                offer_products = _scrape_offers(browser)
-                all_products.extend(offer_products)
-                print(f"hofer offers total: {len(offer_products)} products")
-            except Exception as e:
-                print(f"Error scraping offers: {e}")
+        for item in items:
+            all_products.append(_parse_product(item))
 
-            # Scrape TIEFPREIS AKTIONEN (weekly promotional deals)
-            print("\nScraping Hofer Tiefpreis Aktionen...")
-            try:
-                tiefpreis_products = _scrape_tiefpreis_aktionen(browser)
-                all_products.extend(tiefpreis_products)
-                print(f"hofer tiefpreis total: {len(tiefpreis_products)} products")
-            except Exception as e:
-                print(f"Error scraping tiefpreis aktionen: {e}")
-        finally:
-            browser.close()
+        pagination = data["meta"]["pagination"]
+        offset += pagination["limit"]
+        if offset >= pagination["totalCount"]:
+            break
 
-    # Deduplicate products that appear in multiple categories (keep first)
-    seen_skus = set()
-    unique_products = []
-    for product in all_products:
-        sku = product["sku"]
-        if sku and sku in seen_skus:
-            continue
-        if sku:
-            seen_skus.add(sku)
-        unique_products.append(product)
+    return all_products
 
-    print(f"hofer total: {len(unique_products)} products ({len(all_products) - len(unique_products)} duplicates removed)")
-    
+
+def scrape_hofer() -> list[dict]:
+    """Scrape all Hofer products via the REST API and return a product list."""
+    print("Starting Hofer scraper...")
+
+    products = _fetch_all_products()
+
+    # Deduplicate by SKU (the API shouldn't return duplicates, but be safe)
+    seen = set()
+    unique = []
+    for p in products:
+        if p["sku"] not in seen:
+            seen.add(p["sku"])
+            unique.append(p)
+
+    duplicates = len(products) - len(unique)
+    print(f"hofer total: {len(unique)} products ({duplicates} duplicates removed)")
+
     with open("hofer.json", "w", encoding="utf-8") as f:
-        json.dump(unique_products, f, ensure_ascii=False, indent=2)
-    print(f"Saved {len(unique_products)} products to hofer.json")
-    
-    return unique_products
+        json.dump(unique, f, ensure_ascii=False, indent=2)
+    print(f"Saved {len(unique)} products to hofer.json")
+
+    return unique
