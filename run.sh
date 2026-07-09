@@ -24,6 +24,16 @@ export PYTHONUNBUFFERED=1
 # contexts peg the CPU and make pagination clicks flaky. Slower but reliable.
 export SPAR_MAX_CONCURRENT=1
 
+# Anthropic API key for the Hofer Flugblatt scraper (Claude vision extraction).
+# Put the key in a gitignored file next to this script:
+#   echo "sk-ant-..." > .anthropic_key
+# Without it, the Flugblatt scraper skips extraction (the rest of the run is
+# unaffected). The leaflet is re-extracted only when a new one is published
+# (~weekly), so this costs ~1 batch of Claude calls per week, not per run.
+if [ -f "$DIR/.anthropic_key" ]; then
+    export ANTHROPIC_API_KEY="$(cat "$DIR/.anthropic_key")"
+fi
+
 # Run the scrapers, capturing the exit status without aborting the script so
 # we can always send a notification and clean up afterwards.
 STATUS=0

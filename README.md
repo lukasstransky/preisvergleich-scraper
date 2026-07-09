@@ -36,16 +36,19 @@ Categories scraped (the slugs include a numeric category ID):
 ### Penny — API endpoints
 
 Penny uses the same API shape as Billa. It does not scrape regular product categories —
-instead it scrapes the **current weekly offer tabs** only:
+instead it scrapes the aggregate **"Alle Angebote"** category, which rolls up every offer
+tab (current week, upcoming weeks, and themed tabs like "Wochenstarter"):
 
-1. Fetch `https://www.penny.at/angebote` to discover active tab slugs (e.g. `angebote-ab-1903`).
-   Tabs older than 14 days or dated in the future are skipped.
-2. For each live tab, hit the products endpoint:
+1. Hit the products endpoint on the aggregate category, paginated:
    ```
-   GET https://www.penny.at/api/product-discovery/categories/angebote-ab-{DDMM}/products
+   GET https://www.penny.at/api/product-discovery/categories/alle-angebote-99000000/products
        ?sortBy=relevance&enableStatistics=false&enablePersonalization=false&pageSize=500&page=N
    ```
-   All products from these tabs are forced to `inPromotion: true`.
+2. Drop products whose offer has expired (per-product `validityEnd < today`); keep
+   currently-valid and upcoming ones. All are forced to `inPromotion: true`.
+
+This is more complete than the old approach of parsing individual dated tab slugs
+(e.g. `angebote-ab-1903`) out of the offers HTML — that missed themed and upcoming tabs.
 
 ### Lidl — API endpoints
 

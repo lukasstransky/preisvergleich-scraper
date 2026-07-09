@@ -1,5 +1,4 @@
 import json
-import re
 import requests
 import time
 from datetime import date
@@ -9,8 +8,12 @@ from scrapers.categories import normalize_category
 
 BASE_URL = "https://www.penny.at/api/product-discovery/categories/{category}/products"
 
-OFFERS_URL = "https://www.penny.at/angebote"
-MAX_OFFER_AGE_DAYS = 14
+# Aggregate "Alle Angebote" category. It rolls up every offer tab (current week,
+# upcoming weeks, and themed tabs like "Wochenstarter"), so it is far more
+# complete and more robust than parsing individual dated tab slugs out of the
+# offers HTML. Per-product `validityStart`/`validityEnd` is the source of truth
+# for when an offer is live.
+OFFERS_CATEGORY = "alle-angebote-99000000"
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0",
@@ -93,73 +96,26 @@ def _scrape_category(category):
     return products
 
 
-def _fetch_offer_tabs():
-    """Fetch the Penny offers page and extract tab slugs with their dates.
-
-    Returns a list of (date, api_slug) tuples, e.g.
-    (date(2026, 3, 19), 'angebote-ab-1903').
-    """
-    response = requests.get(OFFERS_URL, headers=HEADERS)
-    response.raise_for_status()
-    html = response.text
-
-    # Tab links look like: ?tab=angebote-ab-19-03
-    matches = re.findall(r'tab=angebote-ab-(\d{2})-(\d{2})', html)
-    today = date.today()
-    tabs = []
-    seen = set()
-
-    for day_str, month_str in matches:
-        key = f"{day_str}{month_str}"
-        if key in seen:
-            continue
-        seen.add(key)
-
-        day, month = int(day_str), int(month_str)
-        try:
-            offer_date = date(today.year, month, day)
-        except ValueError:
-            continue
-
-        api_slug = f"angebote-ab-{day_str}{month_str}"
-        tabs.append((offer_date, api_slug))
-
-    tabs.sort(key=lambda x: x[0], reverse=True)
-    return tabs
-
-
-def _get_live_offer_tabs():
-    """Return only offer tabs that are live: date <= today and not older than MAX_OFFER_AGE_DAYS."""
-    today = date.today()
-    all_tabs = _fetch_offer_tabs()
-    live = []
-    for d, slug in all_tabs:
-        if d > today:
-            print(f"  skipping future tab: {slug} ({d})")
-        elif (today - d).days > MAX_OFFER_AGE_DAYS:
-            print(f"  skipping stale tab:  {slug} ({d})")
-        else:
-            print(f"  live tab: {slug} ({d})")
-            live.append((d, slug))
-    return live
-
-
 def _scrape_offers():
-    """Scrape products from all live offer tabs."""
-    live_tabs = _get_live_offer_tabs()
-    all_offer_products = []
+    """Scrape all Penny offers from the aggregate "Alle Angebote" category.
 
-    for offer_date, slug in live_tabs:
-        try:
-            products = _scrape_category(slug)
-            for p in products:
-                p["inPromotion"] = True
-            all_offer_products.extend(products)
-            print(f"penny offers {slug}: {len(products)} products")
-        except Exception as e:
-            print(f"Error scraping offer tab '{slug}': {e}")
+    Expired offers (offerEnd < today) are dropped; currently-valid and upcoming
+    offers are kept. Products without an offer end date (e.g. permanent offers)
+    are always kept.
+    """
+    today = date.today().isoformat()
+    products = _scrape_category(OFFERS_CATEGORY)
 
-    return all_offer_products
+    live = []
+    for p in products:
+        offer_end = p.get("offerEnd")
+        if offer_end is not None and offer_end < today:
+            continue
+        p["inPromotion"] = True
+        live.append(p)
+
+    print(f"penny offers: {len(live)} live / {len(products)} total")
+    return live
 
 
 def scrape_penny():

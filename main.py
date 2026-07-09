@@ -5,6 +5,7 @@ import time
 from scrapers.billa import scrape_billa
 from scrapers.spar import scrape_spar, CATEGORIES as SPAR_CATEGORIES
 from scrapers.hofer import scrape_hofer
+from scrapers.hofer_flugblatt import scrape_hofer_flugblatt
 from scrapers.penny import scrape_penny
 from scrapers.lidl import scrape_lidl
 from scrapers.mpreis import scrape_mpreis
@@ -14,6 +15,7 @@ SCRAPERS = {
     "billa":  ("billa.json",  scrape_billa),
     "spar":   ("spar.json",   scrape_spar),
     "hofer":  ("hofer.json",  scrape_hofer),
+    "hofer_flugblatt": ("hofer_flugblatt.json", scrape_hofer_flugblatt),
     "penny":  ("penny.json",  scrape_penny),
     "lidl":   ("lidl.json",   scrape_lidl),
     #"mpreis": ("mpreis.json", scrape_mpreis), #run scraper first

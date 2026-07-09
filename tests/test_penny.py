@@ -7,8 +7,6 @@ import pytest
 from scrapers.penny import (
     _parse_product,
     _scrape_category,
-    _fetch_offer_tabs,
-    _get_live_offer_tabs,
     _scrape_offers,
     scrape_penny,
 )
@@ -171,77 +169,53 @@ class TestScrapeCategory:
 
 
 # ---------------------------------------------------------------------------
-# _fetch_offer_tabs / _get_live_offer_tabs
+# _scrape_offers
 # ---------------------------------------------------------------------------
 
-class TestFetchOfferTabs:
-    @patch("scrapers.penny.requests.get")
+def _offer_product(sku, offer_end):
+    """Build a raw API product with the given offer end date."""
+    return {
+        "sku": sku,
+        "name": sku,
+        "price": {
+            "regular": {"value": 100},
+            "validityEnd": offer_end,
+        },
+    }
+
+
+class TestScrapeOffers:
+    @patch("scrapers.penny._scrape_category")
     @patch("scrapers.penny.date")
-    def test_extracts_tabs_from_html(self, mock_date, mock_get):
-        mock_date.today.return_value = date(2026, 3, 24)
+    def test_drops_expired_keeps_current_and_upcoming(self, mock_date, mock_scrape):
+        mock_date.today.return_value = date(2026, 7, 7)
         mock_date.side_effect = lambda *a, **kw: date(*a, **kw)
 
-        mock_response = MagicMock()
-        mock_response.text = '''
-        <a href="/angebote?tab=angebote-ab-19-03">Ab 19.03</a>
-        <a href="/angebote?tab=angebote-ab-26-03">Ab 26.03</a>
-        <a href="/angebote?tab=angebote-ab-19-03">duplicate</a>
-        '''
-        mock_response.raise_for_status = MagicMock()
-        mock_get.return_value = mock_response
-
-        tabs = _fetch_offer_tabs()
-        assert len(tabs) == 2
-        # Sorted descending by date
-        assert tabs[0] == (date(2026, 3, 26), "angebote-ab-2603")
-        assert tabs[1] == (date(2026, 3, 19), "angebote-ab-1903")
-
-    @patch("scrapers.penny.requests.get")
-    @patch("scrapers.penny.date")
-    def test_no_tabs_found(self, mock_date, mock_get):
-        mock_date.today.return_value = date(2026, 3, 24)
-        mock_date.side_effect = lambda *a, **kw: date(*a, **kw)
-
-        mock_response = MagicMock()
-        mock_response.text = '<html>no tabs here</html>'
-        mock_response.raise_for_status = MagicMock()
-        mock_get.return_value = mock_response
-
-        tabs = _fetch_offer_tabs()
-        assert tabs == []
-
-
-class TestGetLiveOfferTabs:
-    @patch("scrapers.penny._fetch_offer_tabs")
-    @patch("scrapers.penny.date")
-    def test_filters_future_and_stale_tabs(self, mock_date, mock_fetch):
-        mock_date.today.return_value = date(2026, 3, 24)
-        mock_date.side_effect = lambda *a, **kw: date(*a, **kw)
-
-        mock_fetch.return_value = [
-            (date(2026, 3, 26), "angebote-ab-2603"),  # future → skip
-            (date(2026, 3, 19), "angebote-ab-1903"),  # live (5 days old)
-            (date(2026, 11, 4), "angebote-ab-0411"),  # future → skip
+        mock_scrape.return_value = [
+            _parse_product(_offer_product("78-1", "2026-07-01")),  # expired → drop
+            _parse_product(_offer_product("78-2", "2026-07-08")),  # current → keep
+            _parse_product(_offer_product("78-3", "2026-07-15")),  # upcoming → keep
+            _parse_product(_offer_product("78-4", None)),          # no end → keep
         ]
 
-        live = _get_live_offer_tabs()
-        assert len(live) == 1
-        assert live[0] == (date(2026, 3, 19), "angebote-ab-1903")
+        live = _scrape_offers()
+        skus = {p["sku"] for p in live}
+        assert skus == {"78-2", "78-3", "78-4"}
+        assert all(p["inPromotion"] is True for p in live)
+        mock_scrape.assert_called_once_with("alle-angebote-99000000")
 
-    @patch("scrapers.penny._fetch_offer_tabs")
+    @patch("scrapers.penny._scrape_category")
     @patch("scrapers.penny.date")
-    def test_skips_stale_tabs(self, mock_date, mock_fetch):
-        mock_date.today.return_value = date(2026, 3, 24)
+    def test_keeps_offer_ending_today(self, mock_date, mock_scrape):
+        mock_date.today.return_value = date(2026, 7, 7)
         mock_date.side_effect = lambda *a, **kw: date(*a, **kw)
 
-        mock_fetch.return_value = [
-            (date(2026, 3, 19), "angebote-ab-1903"),  # 5 days old → live
-            (date(2026, 3, 1), "angebote-ab-0103"),   # 23 days old → stale
+        mock_scrape.return_value = [
+            _parse_product(_offer_product("78-9", "2026-07-07")),  # ends today → keep
         ]
 
-        live = _get_live_offer_tabs()
+        live = _scrape_offers()
         assert len(live) == 1
-        assert live[0][1] == "angebote-ab-1903"
 
 
 # ---------------------------------------------------------------------------

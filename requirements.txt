@@ -3,3 +3,5 @@ playwright
 pytest
 pytest-asyncio
 firebase-admin
+anthropic
+pymupdf

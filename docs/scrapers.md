@@ -68,9 +68,9 @@ Uses the **Billa REST API** directly. Iterates over a predefined list of categor
 
 ## Penny (`scrapers/penny.py`)
 
-Also uses a **REST API** (same structure as Billa). In addition to regular categories, it scrapes **live offer tabs**: it fetches the offers HTML page, extracts tab slugs with dates (e.g. `angebote-ab-1903`), filters to currently active tabs (date ≤ today, not older than 14 days), and scrapes those via the same API.
+Uses a **REST API** (same structure as Billa). It scrapes **only offers**, via the aggregate `alle-angebote-99000000` ("Alle Angebote") category — this rolls up every offer tab (current week, upcoming weeks, and themed tabs like "Wochenstarter"), so it is far more complete and more robust than parsing individual dated tab slugs (e.g. `angebote-ab-1903`) out of the offers HTML. Each product carries its own `validityStart`/`validityEnd`; expired offers (`offerEnd < today`) are dropped, currently-valid and upcoming ones are kept, and all get `inPromotion: true`.
 
-**Flow:** fetch offer tab dates → filter live tabs → paginated GET requests per tab → parse JSON → write `penny.json`
+**Flow:** paginated GET requests on `alle-angebote-99000000` → parse JSON → drop expired by per-product `offerEnd` → write `penny.json`
 
 ## Spar (`scrapers/spar.py`)
 
@@ -109,6 +109,17 @@ Uses **Playwright (sync)** to scrape Hofer's product pages in three passes:
 SKU-based deduplication removes products that appear in more than one pass.
 
 **Flow:** launch headless Chromium → scrape categories (click "show more" to load all) → scrape offer date pages → scrape Tiefpreis Aktionen → deduplicate by SKU → write `hofer.json`
+
+## Hofer Flugblatt (`scrapers/hofer_flugblatt.py`)
+
+The Hofer online API only covers the orderable online assortment. The weekly in-store *Aktionen* live only in the printed leaflet, published as a **Publitas flipbook** at `https://katalog.hofer.at/`. That flipbook has **no structured product data** (its hotspots are only external links — newsletter, contests, travel), but the downloadable PDF has clean page images. This scraper renders each PDF page to an image and uses **Claude vision** (structured JSON output) to extract products (name, price, crossed-out `originalPrice`, `amount`, `unitPrice`, and a `category` chosen from the unified set in `categories.py` — so leaflet products get a real `normalizedCategory` instead of falling back to "Sonstiges"). The prompt restricts extraction to **grocery/drugstore assortment**: non-food leaflet items (clothing, toys, tools, electronics, mobile tariffs, travel) are skipped. The model defaults to the cheapest capable option, `claude-haiku-4-5` (OCR from clean leaflet images doesn't need more), and is overridable via the `HOFER_FLUGBLATT_MODEL` env var (e.g. `claude-sonnet-4-6` if dense small-print pages come out unreliable). Since extraction is cached per leaflet, cost is a few cents per week, not per run.
+
+- **Discovery:** `katalog.hofer.at` redirects to the current flipbook (e.g. `flipbook_kw28_26_2`); the flipbook HTML embeds the Publitas PDF URL. Offer validity is parsed from the leaflet's first page ("MO. 6.7. BIS DO. 9.7.").
+- **Caching:** results are cached per flipbook slug in `flugblatt_cache/{slug}.json` (gitignored), so the LLM only runs when a **new** leaflet is published (~weekly), not on every daily cron.
+- **Credentials:** requires `ANTHROPIC_API_KEY`. Without it (and without a cache hit), extraction is skipped and an empty list is written — the daily run still succeeds.
+- **IDs:** flugblatt products have no SKU, so a stable id is generated as `hofer_fb_<md5(brand|name|amount)>` — it can't collide with the online API's `hofer_<sku>` ids. Products carry `supermarket: "hofer"` (shown as Hofer in the app) but sync under their own `hofer_flugblatt` metadata bucket, so the two Hofer sources never delete each other's products.
+
+**Flow:** discover current flipbook + PDF URL → (cache hit? return cached) → download PDF → render pages to PNG → Claude vision per page → parse JSON → build/dedupe products → cache → write `hofer_flugblatt.json`
 
 ## MPreis (`scrapers/mpreis.py`)
 

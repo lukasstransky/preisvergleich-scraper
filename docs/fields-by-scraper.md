@@ -20,7 +20,7 @@ Overview of which product fields are populated by each scraper. ✓ = always set
 - Kein Gültigkeitszeitraum in der API → `offerStart`/`offerEnd` bleiben null
 
 **Penny**
-- Scraped **nur** Angebotsseiten (aktuelle Wochenflugblatt-Tabs) → alle Produkte haben `inPromotion: true`
+- Scraped **nur** Angebote, über die Sammelkategorie `alle-angebote-99000000` ("Alle Angebote"; enthält aktuelle + kommende Wochen + Themen-Tabs), abgelaufene per `offerEnd < heute` verworfen → alle Produkte haben `inPromotion: true`
 - `offerStart`/`offerEnd` kommen als ISO-Strings direkt aus der API (`price.validityStart`, `price.validityEnd`)
 
 **Lidl**

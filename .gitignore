@@ -50,5 +50,11 @@ debug_spar.png
 sync_state/
 pi-run-logs.txt
 
+# cached Hofer Flugblatt extractions (per flipbook slug)
+flugblatt_cache/
+
 # ntfy notification topic (private)
 .ntfy_topic
+
+# Anthropic API key for the Hofer Flugblatt scraper (private)
+.anthropic_key
