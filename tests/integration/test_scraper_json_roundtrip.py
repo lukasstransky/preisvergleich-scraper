@@ -14,14 +14,13 @@ from tests.conftest import REQUIRED_PRODUCT_KEYS, OPTIONAL_PRODUCT_KEYS
 from tests.integration.helpers import (
     SAMPLE_BILLA_PRODUCTS,
     SAMPLE_SPAR_TILES,
-    SAMPLE_HOFER_TILES,
+    SAMPLE_HOFER_API_ITEMS,
     make_billa_api_response,
     make_billa_api_product,
     make_penny_offers_html,
     make_spar_mock_page,
     make_spar_mock_browser,
-    make_hofer_mock_page,
-    make_hofer_mock_browser,
+    make_hofer_api_response,
 )
 
 pytestmark = pytest.mark.integration
@@ -196,20 +195,12 @@ class TestSparJsonRoundtrip:
 # ──────────────────────────────────────────────────────────────────────────────
 
 class TestHoferJsonRoundtrip:
-    @patch("scrapers.hofer.CATEGORIES", ["brot-und-backwaren"])
-    @patch("scrapers.hofer.sync_playwright")
-    def test_hofer_writes_valid_json(self, mock_pw, tmp_workdir):
-        cat_page = make_hofer_mock_page(SAMPLE_HOFER_TILES)
-        offers_page = make_hofer_mock_page([], offer_links=[])
-
-        browser = make_hofer_mock_browser([cat_page, offers_page])
-
-        ctx = MagicMock()
-        ctx.__enter__ = MagicMock(return_value=MagicMock(chromium=MagicMock(
-            launch=MagicMock(return_value=browser)
-        )))
-        ctx.__exit__ = MagicMock(return_value=False)
-        mock_pw.return_value = ctx
+    @patch("scrapers.hofer.requests.get")
+    def test_hofer_writes_valid_json(self, mock_get, tmp_workdir):
+        resp = MagicMock()
+        resp.json.return_value = make_hofer_api_response(SAMPLE_HOFER_API_ITEMS)
+        resp.raise_for_status = MagicMock()
+        mock_get.return_value = resp
 
         from scrapers.hofer import scrape_hofer
         products = scrape_hofer()

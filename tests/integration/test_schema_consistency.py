@@ -13,13 +13,12 @@ from tests.conftest import REQUIRED_PRODUCT_KEYS, OPTIONAL_PRODUCT_KEYS
 from tests.integration.helpers import (
     SAMPLE_BILLA_PRODUCTS,
     SAMPLE_SPAR_TILES,
-    SAMPLE_HOFER_TILES,
+    SAMPLE_HOFER_API_ITEMS,
     make_billa_api_response,
     make_penny_offers_html,
     make_spar_mock_page,
     make_spar_mock_browser,
-    make_hofer_mock_page,
-    make_hofer_mock_browser,
+    make_hofer_api_response,
 )
 
 pytestmark = pytest.mark.integration
@@ -139,26 +138,17 @@ class TestSparSchema:
 # ──────────────────────────────────────────────────────────────────────────────
 
 class TestHoferSchema:
-    @patch("scrapers.hofer.CATEGORIES", ["brot-und-backwaren"])
-    @patch("scrapers.hofer.sync_playwright")
-    def test_hofer_product_schema(self, mock_pw, tmp_workdir):
-        # Category page with tiles, then offers page with no date links
-        cat_page = make_hofer_mock_page(SAMPLE_HOFER_TILES)
-        offers_page = make_hofer_mock_page([], offer_links=[])
-
-        browser = make_hofer_mock_browser([cat_page, offers_page])
-
-        ctx = MagicMock()
-        ctx.__enter__ = MagicMock(return_value=MagicMock(chromium=MagicMock(
-            launch=MagicMock(return_value=browser)
-        )))
-        ctx.__exit__ = MagicMock(return_value=False)
-        mock_pw.return_value = ctx
+    @patch("scrapers.hofer.requests.get")
+    def test_hofer_product_schema(self, mock_get, tmp_workdir):
+        resp = MagicMock()
+        resp.json.return_value = make_hofer_api_response(SAMPLE_HOFER_API_ITEMS)
+        resp.raise_for_status = MagicMock()
+        mock_get.return_value = resp
 
         from scrapers.hofer import scrape_hofer
         products = scrape_hofer()
 
-        assert len(products) >= 1
+        assert len(products) == len(SAMPLE_HOFER_API_ITEMS)
         for p in products:
             _validate_product(p, "hofer")
             assert "amount" in p  # hofer-specific extra key
@@ -182,21 +172,31 @@ class TestCrossScraperConsistency:
         return scrape_billa()
 
     def test_all_scrapers_share_required_keys(self):
-        """All 4 scrapers must produce every key in REQUIRED_PRODUCT_KEYS."""
+        """Every scraper must produce each key in REQUIRED_PRODUCT_KEYS."""
         # Instead of running all scrapers (complex mock setup), verify by
         # constructing one product per scraper from the parse functions directly.
-        from scrapers.billa import _parse_product
+        from scrapers.billa import _parse_product as _billa_parse
         from scrapers.penny import _parse_product as _penny_parse
-        from scrapers.spar import _parse_unit_price_text  # tile parsing is async
-        from scrapers.hofer import _parse_unit_info
+        from scrapers.hofer import _parse_product as _hofer_parse
+        from scrapers.hofer_flugblatt import _build_product as _flugblatt_build
 
-        billa_p = _parse_product(SAMPLE_BILLA_PRODUCTS[0])
-        penny_p = _penny_parse(SAMPLE_BILLA_PRODUCTS[0])
-        # Fix penny supermarket (parse_product uses "penny")
-        assert billa_p is not None
-        assert penny_p is not None
+        products = {
+            # Billa and Penny share the same product-discovery API shape.
+            "billa": _billa_parse(SAMPLE_BILLA_PRODUCTS[0]),
+            "penny": _penny_parse(SAMPLE_BILLA_PRODUCTS[0]),
+            "hofer": _hofer_parse(SAMPLE_HOFER_API_ITEMS[0]),
+            "hofer_flugblatt": _flugblatt_build(
+                {
+                    "name": "Emmentaler Scheiben", "brand": "Milsani",
+                    "price": 4.99, "originalPrice": 7.49, "amount": "250 g",
+                    "unitPrice": 19.96, "unitLabel": "kg",
+                    "promotionText": "-33%", "category": "Milchprodukte",
+                },
+                "2026-07-10", "2026-07-16",
+            ),
+        }
 
-        for label, product in [("billa", billa_p), ("penny", penny_p)]:
-            keys = set(product.keys())
-            missing = REQUIRED_PRODUCT_KEYS - keys
+        for label, product in products.items():
+            assert product is not None, f"{label} parse returned None"
+            missing = REQUIRED_PRODUCT_KEYS - set(product)
             assert not missing, f"{label} missing keys: {missing}"

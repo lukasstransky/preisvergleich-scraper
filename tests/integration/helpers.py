@@ -200,116 +200,54 @@ def make_spar_mock_browser(pages):
 
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Hofer Playwright mock helpers
+# Hofer product-search API mock helpers
 # ──────────────────────────────────────────────────────────────────────────────
 
-def _make_sync_element(text="", attrs=None):
-    """Create a sync MagicMock element with inner_text() and get_attribute()."""
-    el = MagicMock()
-    el.inner_text = MagicMock(return_value=text)
-    attrs = attrs or {}
-    el.get_attribute = MagicMock(side_effect=lambda k: attrs.get(k))
-    el.is_visible = MagicMock(return_value=True)
-    return el
+def make_hofer_api_item(sku="000000000000101899", name="AMERICAN Sandwich",
+                        brand="AMERICAN", amount_relevant=129,
+                        was_price_display=None,
+                        comparison_display="(€ 1,72/1 kg)",
+                        selling_size="750 g", category="Brot und Backwaren",
+                        slug="american-sandwich"):
+    """Return a raw item dict as returned by Hofer's product-search API."""
+    item = {
+        "sku": sku,
+        "name": name,
+        "brandName": brand,
+        "price": {"amountRelevant": amount_relevant},
+        "sellingSize": selling_size,
+        "categories": [{"name": category}],
+        "urlSlugText": slug,
+        "assets": [{
+            "url": "https://s7g10.scene7.com/is/image/aldi/{slug}?w={width}",
+            "displayName": slug,
+        }],
+    }
+    if was_price_display:
+        item["price"]["wasPriceDisplay"] = was_price_display
+    if comparison_display:
+        item["price"]["comparisonDisplay"] = comparison_display
+    return item
 
 
-def make_hofer_tile(sku="000000000000101899", full_name="AMERICAN Sandwich",
-                    price_text="1,29", original_price_text=None,
-                    unit_text="per Packung (1 per Kilogramm = € 1,72 )",
-                    image_url="https://s7g10.scene7.com/is/image/aldi/202501280009"):
-    """Return a MagicMock mimicking a ``div.plp_product[data-productid]`` element."""
-    tile = MagicMock()
-    tile.get_attribute = MagicMock(side_effect=lambda k: {
-        "data-productid": sku,
-    }.get(k))
-
-    name_el = _make_sync_element(full_name)
-    price_el = _make_sync_element(price_text)
-    original_el = _make_sync_element(original_price_text) if original_price_text else None
-    unit_el = _make_sync_element(unit_text) if unit_text else None
-    img_el = _make_sync_element(attrs={"data-src": image_url, "src": None})
-
-    tile.query_selector = MagicMock(side_effect=lambda sel: {
-        "h2.product-title": name_el,
-        "span.at-product-price_lbl": price_el,
-        ".price_before del": original_el,
-        "span.additional-product-info": unit_el,
-        "img.at-product-images_img": img_el,
-    }.get(sel))
-
-    return tile
-
-
-SAMPLE_HOFER_TILES = [
-    make_hofer_tile("000000000000101899", "AMERICAN Sandwich", "1,29", "1,89",
-                    "per Packung (1 per Kilogramm = € 1,72 )"),
-    make_hofer_tile("000000000000101900", "BACKBOX Butter-Briocheknopf", "0,99",
-                    unit_text="per Stück"),
-    make_hofer_tile("000000000000101901", "Vollkornbrot", "2,49",
-                    unit_text="per Packung (1 per Kilogramm = € 4,98 )"),
+SAMPLE_HOFER_API_ITEMS = [
+    make_hofer_api_item("000000000000101899", "AMERICAN Sandwich", "AMERICAN",
+                        129, was_price_display="€ 1,89",
+                        comparison_display="(€ 1,72/1 kg)"),
+    make_hofer_api_item("000000000000101900", "BACKBOX Butter-Briocheknopf",
+                        "BACKBOX", 99, comparison_display=None,
+                        selling_size="Stück"),
+    make_hofer_api_item("000000000000101901", "Vollkornbrot", None, 249,
+                        comparison_display="(€ 4,98/1 kg)", selling_size="500 g"),
 ]
 
 
-def make_hofer_mock_page(tiles, offer_links=None):
-    """Return a sync MagicMock Playwright page suitable for hofer scraping.
-
-    ``offer_links`` is a list of (href, visible) tuples for the offers page.
-    If None, the page behaves as a category page.
-    """
-    page = MagicMock()
-
-    page.goto = MagicMock()
-    page.wait_for_selector = MagicMock()
-    page.wait_for_timeout = MagicMock()
-
-    # Cookie banner — visible and clickable
-    cookie_btn = MagicMock()
-    cookie_btn.is_visible = MagicMock(return_value=True)
-    cookie_btn.click = MagicMock()
-
-    def qs(sel):
-        if sel == "button#onetrust-accept-btn-handler":
-            return cookie_btn
-        if sel == "button#showMore":
-            return None  # no "load more" button
-        return None
-
-    page.query_selector = MagicMock(side_effect=qs)
-    page.query_selector_all = MagicMock(return_value=tiles)
-    page.screenshot = MagicMock()
-
-    if offer_links is not None:
-        # For the offers index page: return link elements
-        link_els = []
-        for href in offer_links:
-            link_el = MagicMock()
-            link_el.get_attribute = MagicMock(return_value=href)
-            link_els.append(link_el)
-
-        def qsa(sel):
-            if "angebote/d." in sel:
-                return link_els
-            if "plp_product" in sel:
-                return tiles
-            return []
-
-        page.query_selector_all = MagicMock(side_effect=qsa)
-
-    return page
-
-
-def make_hofer_mock_browser(pages):
-    """Return a sync mock browser that creates contexts yielding the given pages."""
-    browser = MagicMock()
-    ctx_mocks = []
-    for pg in pages:
-        ctx = MagicMock()
-        ctx.new_page = MagicMock(return_value=pg)
-        ctx.close = MagicMock()
-        ctx_mocks.append(ctx)
-    browser.new_context = MagicMock(side_effect=ctx_mocks)
-    browser.close = MagicMock()
-    return browser
+def make_hofer_api_response(items, total=None, limit=60):
+    """Return a product-search API payload wrapping ``items``."""
+    return {
+        "data": items,
+        "meta": {"pagination": {"limit": limit, "totalCount": total if total is not None else len(items)}},
+    }
 
 
 # ──────────────────────────────────────────────────────────────────────────────
