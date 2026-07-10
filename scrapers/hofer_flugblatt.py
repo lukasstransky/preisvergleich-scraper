@@ -31,6 +31,10 @@ from scrapers.tokenizer import tokenize_name
 
 KATALOG_URL = "https://katalog.hofer.at/"
 CACHE_DIR = os.environ.get("FLUGBLATT_CACHE_DIR", "flugblatt_cache")
+# Anthropic credentials, resolved like firebase_store does: env var first, then a
+# local gitignored file. This way extraction works whether main.py is invoked
+# directly or through run.sh.
+ANTHROPIC_KEY_FILE = ".anthropic_key"
 # Vision model for leaflet extraction. Haiku is plenty for OCR-style extraction
 # from clean, high-contrast leaflet images and is the cheapest option; bump to
 # claude-sonnet-4-6 (or claude-opus-4-8) via HOFER_FLUGBLATT_MODEL if dense
@@ -119,6 +123,17 @@ _EXTRACT_PROMPT = (
 # Discovery
 # ---------------------------------------------------------------------------
 
+def _resolve_api_key():
+    """Resolve the Anthropic API key: ``ANTHROPIC_API_KEY`` env var, then ``.anthropic_key``."""
+    key = os.environ.get("ANTHROPIC_API_KEY")
+    if key:
+        return key.strip()
+    if os.path.exists(ANTHROPIC_KEY_FILE):
+        with open(ANTHROPIC_KEY_FILE, "r", encoding="utf-8") as f:
+            return f.read().strip() or None
+    return None
+
+
 def _discover_flugblatt():
     """Resolve the current flipbook and its PDF URL.
 
@@ -148,18 +163,27 @@ def _discover_flugblatt():
     return slug, pdf_url
 
 
-def _parse_validity(page_text):
-    """Best-effort parse of an offer window from the leaflet's first page.
+_WEEKDAY = r"(?:MO|DI|MI|DO|FR|SA|SO)\.?\s*"
 
-    Hofer prints e.g. 'MO. 6. 7. BIS DO. 9. 7.'. Returns ``(offerStart, offerEnd)``
-    as ISO date strings, or ``(None, None)`` if it can't be parsed.
+# Anchored on the leaflet's own statement of its validity, e.g.
+# "Flugblatt gültig ab FR. 10.7. bis DO. 16.7.". Page 1 also carries unrelated
+# date ranges (coupon validity, a single product's "PROBIERPREIS VON 10.7. BIS
+# 6.8."), so a generic "<date> bis <date>" match picks the wrong pair.
+_VALIDITY_RE = re.compile(
+    r"Flugblatt\s+gültig\s+ab\s+" + _WEEKDAY + r"?(\d{1,2})\s*\.\s*(\d{1,2})\s*\."
+    r"\s*bis\s+" + _WEEKDAY + r"?(\d{1,2})\s*\.\s*(\d{1,2})\s*\.",
+    re.IGNORECASE,
+)
+
+
+def _parse_validity(page_text):
+    """Parse the leaflet's offer window from its first page.
+
+    Returns ``(offerStart, offerEnd)`` as ISO date strings, or ``(None, None)``
+    if the validity line is absent. We deliberately return nothing rather than
+    guess — a wrong window is worse than no window for the app.
     """
-    # Two 'day. month.' groups separated by 'BIS'.
-    m = re.search(
-        r"(\d{1,2})\s*\.\s*(\d{1,2})\s*\.?\s*BIS\s*(?:\w{2,3}\.?\s*)?(\d{1,2})\s*\.\s*(\d{1,2})\s*\.",
-        page_text,
-        re.IGNORECASE,
-    )
+    m = _VALIDITY_RE.search(page_text)
     if not m:
         return None, None
     year = date.today().year
@@ -168,6 +192,12 @@ def _parse_validity(page_text):
         end = date(year, int(m.group(4)), int(m.group(3)))
     except ValueError:
         return None, None
+    if end < start:
+        # Leaflet spans a year boundary (e.g. "ab 27.12. bis 2.1.").
+        try:
+            end = date(year + 1, int(m.group(4)), int(m.group(3)))
+        except ValueError:
+            return None, None
     return start.isoformat(), end.isoformat()
 
 
@@ -293,11 +323,11 @@ def _save_cache(slug, products):
 # Entry point
 # ---------------------------------------------------------------------------
 
-def _extract_flugblatt(pdf_bytes):
+def _extract_flugblatt(pdf_bytes, api_key=None):
     """Render the PDF and run vision extraction over every page."""
     import anthropic
 
-    client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY from env
+    client = anthropic.Anthropic(api_key=api_key or _resolve_api_key())
     images, first_text = _render_pages(pdf_bytes)
     offer_start, offer_end = _parse_validity(first_text)
 
@@ -337,16 +367,20 @@ def scrape_hofer_flugblatt():
         print("hofer flugblatt: no current leaflet found, skipping")
     else:
         cached = _load_cache(slug)
+        api_key = _resolve_api_key()
         if cached is not None:
             print(f"hofer flugblatt: using cached extraction for {slug} ({len(cached)} products)")
             products = cached
-        elif not os.environ.get("ANTHROPIC_API_KEY"):
-            print("hofer flugblatt: ANTHROPIC_API_KEY not set, skipping vision extraction")
+        elif not api_key:
+            print(
+                f"hofer flugblatt: no Anthropic API key (set ANTHROPIC_API_KEY or create "
+                f"{ANTHROPIC_KEY_FILE}), skipping vision extraction for {slug}"
+            )
         else:
             print(f"hofer flugblatt: extracting {slug} via {MODEL}...")
             pdf = requests.get(pdf_url, headers=_HEADERS, timeout=120)
             pdf.raise_for_status()
-            products = _extract_flugblatt(pdf.content)
+            products = _extract_flugblatt(pdf.content, api_key)
             # Only cache a successful extraction. An empty result means the run
             # failed (API down, rate limit, all pages errored) — don't poison the
             # cache with it, so the next daily run retries instead of returning

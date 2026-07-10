@@ -7,20 +7,77 @@ from scrapers import hofer_flugblatt as hf
 
 
 # ---------------------------------------------------------------------------
+# _resolve_api_key
+# ---------------------------------------------------------------------------
+
+class TestResolveApiKey:
+    def test_prefers_env_var(self, tmp_path, monkeypatch):
+        monkeypatch.chdir(tmp_path)
+        (tmp_path / hf.ANTHROPIC_KEY_FILE).write_text("sk-from-file")
+        monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-from-env")
+        assert hf._resolve_api_key() == "sk-from-env"
+
+    def test_falls_back_to_key_file(self, tmp_path, monkeypatch):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+        (tmp_path / hf.ANTHROPIC_KEY_FILE).write_text("sk-from-file\n")
+        assert hf._resolve_api_key() == "sk-from-file"
+
+    def test_returns_none_when_absent(self, tmp_path, monkeypatch):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+        assert hf._resolve_api_key() is None
+
+    def test_empty_key_file_is_none(self, tmp_path, monkeypatch):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+        (tmp_path / hf.ANTHROPIC_KEY_FILE).write_text("  \n")
+        assert hf._resolve_api_key() is None
+
+
+# ---------------------------------------------------------------------------
 # _parse_validity
 # ---------------------------------------------------------------------------
 
 class TestParseValidity:
-    def test_parses_hofer_window(self):
-        start, end = hf._parse_validity("MO. 6 . 7. BIS DO.\xa09. 7.\n-50% WOCHEN-START!")
+    def test_parses_leaflet_window(self):
+        start, end = hf._parse_validity("Flugblatt gültig ab FR. 10.7. bis DO. 16.7.\n")
+        assert (start, end) == ("2026-07-10", "2026-07-16")
+
+    def test_ignores_coupon_and_probierpreis_ranges(self):
+        # Real page-1 text: the leaflet window is the LAST range, preceded by
+        # a product trial-price window and the coupon validity.
+        text = (
+            "PROBIERPREIS VON 10.7. BIS 6.8.2026\n"
+            "Gültig in allen HOFER Filialen von 29.6. bis 19.7.2026\n"
+            "Flugblatt gültig ab FR. 10.7. bis DO. 16.7.\n"
+        )
+        assert hf._parse_validity(text) == ("2026-07-10", "2026-07-16")
+
+    def test_ignores_section_header_range(self):
+        # KW28: the "WOCHEN-START" header (MO. 6.7. BIS DO. 9.7.) is not the
+        # leaflet window, which actually starts on 3.7.
+        text = "MO. 6.7. BIS DO. 9.7.\nFlugblatt gültig ab FR. 3.7. bis DO. 9.7.\n"
+        assert hf._parse_validity(text) == ("2026-07-03", "2026-07-09")
+
+    def test_handles_spaces_inside_dates(self):
+        start, end = hf._parse_validity("Flugblatt gültig ab MO. 6 . 7. bis DO.\xa09. 7.")
         assert (start, end) == ("2026-07-06", "2026-07-09")
+
+    def test_handles_year_rollover(self):
+        start, end = hf._parse_validity("Flugblatt gültig ab FR. 27.12. bis DO. 2.1.")
+        assert start == "2026-12-27"
+        assert end == "2027-01-02"
 
     def test_returns_none_when_absent(self):
         assert hf._parse_validity("kein Datum hier") == (None, None)
 
+    def test_returns_none_without_anchor_phrase(self):
+        # A bare date range must NOT be treated as the leaflet window.
+        assert hf._parse_validity("MO. 6.7. BIS DO. 9.7.") == (None, None)
+
     def test_returns_none_on_invalid_date(self):
-        # month 13 is invalid
-        assert hf._parse_validity("MO. 6. 13. BIS DO. 9. 13.") == (None, None)
+        assert hf._parse_validity("Flugblatt gültig ab MO. 6.13. bis DO. 9.13.") == (None, None)
 
 
 # ---------------------------------------------------------------------------
